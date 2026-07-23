@@ -247,6 +247,17 @@ open class MathLabel: MathLabelView {
     }
 
     #if canImport(UIKit) && !os(watchOS)
+    /// Aligns with surrounding UILabel text when used in baseline-aligned stacks.
+    public override var firstBaselineOffsetFromTop: CGFloat {
+        let ascent = displayList?.ascent ?? max(mathFont.size * 0.8, 12)
+        return contentInsets.top + ascent
+    }
+
+    public override var lastBaselineOffsetFromBottom: CGFloat {
+        let descent = displayList?.descent ?? max(mathFont.size * 0.2, 4)
+        return contentInsets.bottom + descent
+    }
+
     public override var intrinsicContentSize: CGSize {
         sizeThatFitsMath(
             CGSize(
@@ -276,6 +287,17 @@ open class MathLabel: MathLabelView {
     }
 
     #elseif canImport(AppKit)
+    /// Aligns with surrounding NSTextField / labels in baseline-aligned Auto Layout.
+    public override var firstBaselineOffsetFromTop: CGFloat {
+        let ascent = displayList?.ascent ?? max(mathFont.size * 0.8, 12)
+        return contentInsets.top + ascent
+    }
+
+    public override var lastBaselineOffsetFromBottom: CGFloat {
+        let descent = displayList?.descent ?? max(mathFont.size * 0.2, 4)
+        return contentInsets.bottom + descent
+    }
+
     public override var intrinsicContentSize: NSSize {
         sizeThatFitsMath(
             CGSize(

@@ -76,23 +76,42 @@ public struct Math: View {
 }
 
 /// Feeds the parent's proposed width into Core typesetting so `maxWidth` wrapping works.
+///
+/// Reports ``VerticalAlignment/firstTextBaseline`` / ``lastTextBaseline`` from the
+/// TeX box metrics (`ascent` from the top) so inline math aligns with surrounding `Text`.
 private struct MathProposalLayout: Layout {
+    struct Cache {
+        var width: CGFloat = 1
+        var height: CGFloat = 1
+        /// Distance from the top of the math box to the math baseline (TeX ascent).
+        var ascent: CGFloat = 0
+        /// Distance from the math baseline to the bottom of the box (TeX descent).
+        var descent: CGFloat = 0
+        var measuredWidth: CGFloat?
+    }
+
     let latex: String
     let font: MathFont
     let style: TypesettingStyle
     let fonts: any FontProviding
     let textFallbackFontName: String?
 
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        measure(proposedWidth: proposal.width)
+    func makeCache(subviews: Subviews) -> Cache {
+        Cache()
+    }
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout Cache) -> CGSize {
+        updateCache(proposedWidth: proposal.width, cache: &cache)
+        return CGSize(width: cache.width, height: cache.height)
     }
 
     func placeSubviews(
         in bounds: CGRect,
         proposal: ProposedViewSize,
         subviews: Subviews,
-        cache: inout ()
+        cache: inout Cache
     ) {
+        updateCache(proposedWidth: proposal.width, cache: &cache)
         guard let subview = subviews.first else { return }
         subview.place(
             at: bounds.origin,
@@ -100,13 +119,44 @@ private struct MathProposalLayout: Layout {
         )
     }
 
-    private func measure(proposedWidth: CGFloat?) -> CGSize {
+    func explicitAlignment(
+        of guide: VerticalAlignment,
+        in bounds: CGRect,
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout Cache
+    ) -> CGFloat? {
+        updateCache(proposedWidth: proposal.width, cache: &cache)
+        // Prefer metrics from the laid-out height when the parent stretches us.
+        let ascent: CGFloat
+        if cache.height > 0.5, bounds.height > 0.5, abs(bounds.height - cache.height) > 0.5 {
+            // Scale ascent if bounds differ from natural size (uncommon for fixedSize math).
+            ascent = cache.ascent * (bounds.height / cache.height)
+        } else {
+            ascent = cache.ascent
+        }
+        switch guide {
+        case .firstTextBaseline:
+            return bounds.minY + ascent
+        case .lastTextBaseline:
+            // Single TeX box: one reference baseline; multi-line wrap still uses outer metrics.
+            return bounds.minY + ascent
+        default:
+            return nil
+        }
+    }
+
+    private func updateCache(proposedWidth: CGFloat?, cache: inout Cache) {
         let width: CGFloat
         if let proposedWidth, proposedWidth.isFinite, proposedWidth > 0 {
             width = proposedWidth
         } else {
             width = 0
         }
+        if cache.measuredWidth == width, cache.height > 0.5 {
+            return
+        }
+        cache.measuredWidth = width
         switch DisplayProvider.display(
             for: latex,
             font: font,
@@ -116,13 +166,19 @@ private struct MathProposalLayout: Layout {
             textFallbackFontName: textFallbackFontName
         ) {
         case .success(let display):
-            return CGSize(
-                width: max(display.width, 1),
-                height: max(display.ascent + display.descent, 1)
-            )
+            let ascent = max(display.ascent, 0)
+            let descent = max(display.descent, 0)
+            cache.ascent = ascent
+            cache.descent = descent
+            cache.width = max(display.width, 1)
+            cache.height = max(ascent + descent, 1)
         case .failure:
-            // Keep a readable error footprint for layout.
-            return CGSize(width: 120, height: 24)
+            // Keep a readable error footprint for layout; approximate body baseline.
+            let fallbackAscent = max(font.size * 0.8, 12)
+            cache.ascent = fallbackAscent
+            cache.descent = max(font.size * 0.2, 4)
+            cache.width = 120
+            cache.height = 24
         }
     }
 }
