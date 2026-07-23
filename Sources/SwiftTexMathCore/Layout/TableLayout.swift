@@ -17,17 +17,31 @@ enum TableLayout {
             cellEnv = env
         }
         let cells = table.rows.map { row in row.map { typeset($0, cellEnv) } }
-        let columnCount = max(cells.map(\.count).max() ?? 0, table.alignments.count)
-        guard columnCount > 0 else {
+        let columnCount = max(
+            cells.enumerated()
+                .filter { !table.fullWidthRows.contains($0.offset) }
+                .map(\.element.count).max() ?? 0,
+            table.alignments.count
+        )
+        guard columnCount > 0 || !cells.isEmpty else {
             return .list(DisplayList())
         }
+        let effectiveColumns = max(columnCount, 1)
 
-        var columnWidths = Array(repeating: CGFloat(0), count: columnCount)
+        var columnWidths = Array(repeating: CGFloat(0), count: effectiveColumns)
         var rowAscent = Array(repeating: CGFloat(0), count: cells.count)
         var rowDescent = Array(repeating: CGFloat(0), count: cells.count)
 
         for (r, row) in cells.enumerated() {
-            for (c, cell) in row.enumerated() {
+            if table.fullWidthRows.contains(r) {
+                // Full-width rows (intertext) only affect row height, not column metrics.
+                if let first = row.first {
+                    rowAscent[r] = max(rowAscent[r], first.ascent)
+                    rowDescent[r] = max(rowDescent[r], first.descent)
+                }
+                continue
+            }
+            for (c, cell) in row.enumerated() where c < effectiveColumns {
                 columnWidths[c] = max(columnWidths[c], cell.width)
                 rowAscent[r] = max(rowAscent[r], cell.ascent)
                 rowDescent[r] = max(rowDescent[r], cell.descent)
@@ -40,27 +54,29 @@ enum TableLayout {
         let vlineGap = metrics.mathUnit
         let hlinePad = metrics.mathUnit
 
+        let colCount = effectiveColumns
+
         var vlines = table.vlines
-        if vlines.count < columnCount + 1 {
-            vlines.append(contentsOf: Array(repeating: 0, count: columnCount + 1 - vlines.count))
-        } else if vlines.count > columnCount + 1 {
-            vlines = Array(vlines.prefix(columnCount + 1))
+        if vlines.count < colCount + 1 {
+            vlines.append(contentsOf: Array(repeating: 0, count: colCount + 1 - vlines.count))
+        } else if vlines.count > colCount + 1 {
+            vlines = Array(vlines.prefix(colCount + 1))
         }
 
         var inserts = table.columnInserts
-        if inserts.count < columnCount + 1 {
-            inserts.append(contentsOf: Array(repeating: MathList?.none, count: columnCount + 1 - inserts.count))
-        } else if inserts.count > columnCount + 1 {
-            inserts = Array(inserts.prefix(columnCount + 1))
+        if inserts.count < colCount + 1 {
+            inserts.append(contentsOf: Array(repeating: MathList?.none, count: colCount + 1 - inserts.count))
+        } else if inserts.count > colCount + 1 {
+            inserts = Array(inserts.prefix(colCount + 1))
         }
 
         // Typeset @{…} inserts once; empty lists suppress the default gap.
-        var insertDisplays: [DisplayList?] = Array(repeating: nil, count: columnCount + 1)
-        for b in 0...columnCount {
+        var insertDisplays: [DisplayList?] = Array(repeating: nil, count: colCount + 1)
+        for b in 0...colCount {
             if let list = inserts[b] {
                 let display = typeset(list, cellEnv)
                 insertDisplays[b] = display
-                for r in 0..<rowAscent.count {
+                for r in 0..<rowAscent.count where !table.fullWidthRows.contains(r) {
                     rowAscent[r] = max(rowAscent[r], display.ascent)
                     rowDescent[r] = max(rowDescent[r], display.descent)
                 }
@@ -84,21 +100,32 @@ enum TableLayout {
         }
 
         func boundaryExtraWidth(_ boundary: Int) -> CGFloat {
-            if let display = insertDisplays[boundary] {
+            if boundary < insertDisplays.count, let display = insertDisplays[boundary] {
                 return display.width
             }
-            // Default inter-column gap only between columns (boundaries 1..<columnCount).
-            if boundary > 0, boundary < columnCount {
+            // Default inter-column gap only between columns (boundaries 1..<colCount).
+            if boundary > 0, boundary < colCount {
                 return columnGap
             }
             return 0
         }
 
-        let contentWidth =
+        // Widen columns so full-width intertext rows fit.
+        var intertextMaxWidth: CGFloat = 0
+        for r in table.fullWidthRows where r < cells.count {
+            intertextMaxWidth = max(intertextMaxWidth, cells[r].first?.width ?? 0)
+        }
+
+        var contentWidth =
             columnWidths.reduce(0, +)
-            + (0...columnCount).reduce(CGFloat(0)) {
+            + (0...colCount).reduce(CGFloat(0)) {
                 $0 + vlineBandWidth(vlines[$1]) + boundaryExtraWidth($1)
             }
+        if intertextMaxWidth > contentWidth {
+            let extra = intertextMaxWidth - contentWidth
+            columnWidths[colCount - 1] += extra
+            contentWidth = intertextMaxWidth
+        }
 
         let hlineHeight = hlines.reduce(CGFloat(0)) { $0 + hlineBandHeight($1) }
         let totalHeight = zip(rowAscent, rowDescent).map(+).reduce(0, +)
@@ -166,37 +193,44 @@ enum TableLayout {
             y -= rowAscent[r]
             var x: CGFloat = 0
 
-            for c in 0..<columnCount {
-                appendVLines(vlines[c], x: &x)
-                if insertDisplays[c] != nil {
-                    appendInsert(c, x: &x, rowY: y)
+            if table.fullWidthRows.contains(r), let first = row.first {
+                // Span the full table width; left-align the text block.
+                var placed = first
+                placed.position = CGPoint(x: 0, y: y)
+                children.append(.list(placed))
+            } else {
+                for c in 0..<colCount {
+                    appendVLines(vlines[c], x: &x)
+                    if insertDisplays[c] != nil {
+                        appendInsert(c, x: &x, rowY: y)
+                    }
+
+                    if c < row.count {
+                        var placed = row[c]
+                        let align = table.alignments.indices.contains(c) ? table.alignments[c] : .center
+                        let cellX: CGFloat
+                        switch align {
+                        case .left: cellX = x
+                        case .right: cellX = x + columnWidths[c] - placed.width
+                        case .center: cellX = x + (columnWidths[c] - placed.width) / 2
+                        }
+                        placed.position = CGPoint(x: cellX, y: y)
+                        children.append(.list(placed))
+                    }
+                    x += columnWidths[c]
+
+                    // Default gap after the cell, unless the next boundary has an `@{…}` insert
+                    // (that insert is emitted at the start of the next column and replaces the gap).
+                    if c < colCount - 1 {
+                        if insertDisplays[c + 1] == nil {
+                            x += columnGap
+                        }
+                    }
                 }
 
-                if c < row.count {
-                    var placed = row[c]
-                    let align = table.alignments.indices.contains(c) ? table.alignments[c] : .center
-                    let cellX: CGFloat
-                    switch align {
-                    case .left: cellX = x
-                    case .right: cellX = x + columnWidths[c] - placed.width
-                    case .center: cellX = x + (columnWidths[c] - placed.width) / 2
-                    }
-                    placed.position = CGPoint(x: cellX, y: y)
-                    children.append(.list(placed))
-                }
-                x += columnWidths[c]
-
-                // Default gap after the cell, unless the next boundary has an `@{…}` insert
-                // (that insert is emitted at the start of the next column and replaces the gap).
-                if c < columnCount - 1 {
-                    if insertDisplays[c + 1] == nil {
-                        x += columnGap
-                    }
-                }
+                appendVLines(vlines[colCount], x: &x)
+                appendInsert(colCount, x: &x, rowY: y)
             }
-
-            appendVLines(vlines[columnCount], x: &x)
-            appendInsert(columnCount, x: &x, rowY: y)
 
             y -= rowDescent[r]
             if r < cells.count - 1 {

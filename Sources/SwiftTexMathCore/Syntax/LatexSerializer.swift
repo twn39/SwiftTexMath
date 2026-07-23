@@ -127,6 +127,9 @@ public enum LatexSerializer {
             return boxLatex(box)
         case .stack(let stack):
             return stackLatex(stack)
+        case .tag(let tag):
+            let cmd = tag.parenthesize ? "tag" : "tag*"
+            return "\\\(cmd){\(string(from: tag.contents))}"
         }
     }
 

@@ -1,7 +1,17 @@
 import Foundation
 
 /// Command / symbol tables for LaTeX math (ported from iosMath / SwiftUIMath).
+///
+/// Structure:
+/// - `aliases` / `delimiters` / `accents` — small static maps (lookup only)
+/// - `symbols` — bulk TeX control-sequence → atom table (generated at first use)
+/// - `addLatexSymbol` / custom store — runtime extensions
+///
+/// Prefer growing the **tuple tables inside `symbols`** over new parser branches for
+/// plain glyphs. Complex constructors stay in Parse `*Commands` modules.
 public enum AtomFactory {
+    // MARK: - Aliases & delimiters
+
     public static let aliases: [String: String] = [
         "lnot": "neg",
         "land": "wedge",

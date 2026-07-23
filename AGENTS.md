@@ -17,3 +17,10 @@ You MUST follow these rules when working in this codebase:
 3. **Keep Graph Sync'd**:
    - Whenever you create, delete, or modify code files, you **SHOULD** remind the user to run `codegraph build .` to rebuild the knowledge graph and keep it current.
    - When running the build command, exclude irrelevant or generated directories (e.g., third-party dependencies, build folders, or documentation) using the `-e`/`--exclude` flag to keep the graph focused and clean (e.g., `codegraph build . -e third_party/`).
+
+4. **Pipeline & payload discipline**:
+   - Pipeline order: parse → normalize → typeset → draw. Keep `MathRenderer` thin.
+   - Prefer lowering TeX sugar in `MathNormalizer` / Parse over new `MathAtom.Payload` cases.
+   - Before adding a payload case, follow [docs/PAYLOAD_CHECKLIST.md](docs/PAYLOAD_CHECKLIST.md).
+   - New LaTeX commands belong in Parse `*Commands` family modules + dispatch registration—not ad-hoc layout branches.
+   - Document approximate behavior in [docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md); update geometry notes in [docs/layout-geometry-status.md](docs/layout-geometry-status.md) when size goldens change.

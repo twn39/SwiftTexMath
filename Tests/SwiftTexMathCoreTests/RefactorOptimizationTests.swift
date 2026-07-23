@@ -238,15 +238,51 @@ private struct EmptyFontProvider: FontProviding {
     #expect(ord.atoms[0].kind == .ordinary)
 }
 
-@Test func tagMacroEmitsParenthesizedUpright() throws {
+@Test func tagMacroEmitsTagPayload() throws {
     let list = try MathParser.parse(#"x \tag{1}"#)
-    #expect(list.atoms.count >= 2)
     #expect(list.atoms.contains { atom in
-        if case .styled(let styled) = atom.payload {
-            return styled.variant == .upright
+        if case .tag(let tag) = atom.payload {
+            return tag.parenthesize
         }
         return false
     })
+}
+
+@Test func tagStarOmitsParenthesesFlag() throws {
+    let list = try MathParser.parse(#"x \tag*{1}"#)
+    #expect(list.atoms.contains { atom in
+        if case .tag(let tag) = atom.payload {
+            return !tag.parenthesize
+        }
+        return false
+    })
+}
+
+@Test func tagFlushesRightWhenMaxWidthSet() throws {
+    let env = MathEnvironment(
+        font: MathFont(name: .latinModern, size: 20),
+        style: .display,
+        maxWidth: 200
+    )
+    let display = try MathRenderer(environment: env).layout(latex: #"E=mc^2 \tag{1}"#)
+    #expect(abs(display.width - 200) <= 0.5)
+    // Last child should be the tag near the right edge.
+    let last = try #require(display.children.last)
+    #expect(last.position.x + last.width >= 200 - 1)
+}
+
+@Test func tagSerializesRoundTripShape() throws {
+    let list = try MathParser.parse(#"a \tag{n}"#)
+    let latex = LatexSerializer.string(from: list)
+    #expect(latex.contains(#"\tag{"#))
+    let again = try MathParser.parse(latex)
+    #expect(again.atoms.contains { if case .tag = $0.payload { return true }; return false })
+}
+
+@Test func pdfExportProducesNonEmptyData() throws {
+    let data = try MathPDF.render(latex: #"a^2+b^2=c^2"#)
+    #expect(data.count > 100)
+    #expect(String(data: data.prefix(5), encoding: .ascii) == "%PDF-")
 }
 
 @Test func braKetBraketBuildInners() throws {

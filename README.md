@@ -81,6 +81,26 @@ let cgImage = result.image          // pixel bitmap
 let pointSize = result.size         // logical size in points
 ```
 
+### Vector PDF export
+
+```swift
+import SwiftTexMathCore
+
+let pdf = try MathPDF.render(latex: #"E = mc^2"#)
+// Write `pdf` to disk or share; media box is expression size + padding.
+```
+
+### Vector SVG export
+
+```swift
+import SwiftTexMathCore
+
+let svg = try MathSVG.render(latex: #"E = mc^2"#)
+// svg.svg is a full document string; svg.data is UTF-8.
+// Glyphs are outline paths (portable; no font embedding).
+try svg.data.write(to: URL(fileURLWithPath: "/tmp/math.svg"))
+```
+
 ## Feature matrix
 
 | Area | Status |
@@ -109,11 +129,19 @@ let pointSize = result.size         // logical size in points
 | Multi-integrals `\iint`…`\oiint`/`\oiiint`/`\fint`/… | Supported |
 | AMS aliases (`\lt`/`\gt`/`\therefore`/`\impliedby`/`\dotsc`/…) | Supported |
 | Custom symbols (`AtomFactory.addLatexSymbol`) | Supported |
-| `MathList.latexString` / `LatexSerializer` | Supported (best-effort) |
+| `MathList.latexString` / `LatexSerializer` | Supported (best-effort; see limitations) |
 | Auto line-breaking via `maxWidth` | Supported (rel/binop/space; mid-word as last resort) |
 | Bundled MATH fonts (LM, XITS, Asana, …) | 12 fonts |
+| Vector PDF export (`MathPDF`) | Supported |
+| Vector SVG export (`MathSVG`) | Supported (glyph outlines) |
+| User macros `\newcommand` / `\def` (0–9 args) | Supported (per-parse session) |
+| `\intertext` in align/gather-style envs | Supported (full-width upright row) |
 
 Delimiters `$…$` / `$$…$$` / `\(...\)` / `\[…\]` are stripped at parse time and inject an implied style atom when present.
+
+### Known limitations
+
+See **[docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md)** for wrap/`\tag`/serializer caveats, and **[docs/layout-geometry-status.md](docs/layout-geometry-status.md)** for numeric geometry goldens. Payload changes: **[docs/PAYLOAD_CHECKLIST.md](docs/PAYLOAD_CHECKLIST.md)**.
 
 ### Accent commands
 
@@ -168,6 +196,13 @@ Parse failures throw `ParseError` with a stable `Code` (`mismatchedBraces`, `inv
 
 ```bash
 swift test
+```
+
+Headless demo (print metrics; optional PNG path):
+
+```bash
+swift run SwiftTexMathDemo
+swift run SwiftTexMathDemo 'E=mc^2' /tmp/math.png
 ```
 
 Core tests include goldens (`Tests/SwiftTexMathCoreTests/Goldens`), layout fingerprints, architecture hardening (table/delimiter failure modes), and a tex2math corpus. UI tests stay thin and exercise the SwiftTexMath façade.

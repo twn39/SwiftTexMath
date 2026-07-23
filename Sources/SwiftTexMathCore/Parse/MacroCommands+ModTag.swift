@@ -62,23 +62,17 @@ extension MacroCommands {
         prev = atom
     }
 
-    /// `\tag{…}` / `\tag*{…}` — consume argument; emit a parenthesized tag for layout visibility.
+    /// `\tag{…}` / `\tag*{…}` — upright label; flush-right when `maxWidth > 0` (see Typesetter).
     static func appendTag(
         parser: inout MathParser,
         list: inout MathList,
-        prev: inout MathAtom?
+        prev: inout MathAtom?,
+        parenthesize: Bool
     ) throws {
         let contents = try parser.readArgument(allowSpaces: true)
-        list.append(MathAtom.space(mu: 18))
-        var tagged = MathList()
-        tagged.append(MathAtom.ordinary("("))
-        for atom in contents.atoms {
-            tagged.append(atom)
-        }
-        tagged.append(MathAtom.ordinary(")"))
         let atom = MathAtom(
             kind: .ordinary,
-            payload: .styled(.init(variant: .upright, contents: tagged))
+            payload: .tag(.init(contents: contents, parenthesize: parenthesize))
         )
         list.append(atom)
         prev = atom

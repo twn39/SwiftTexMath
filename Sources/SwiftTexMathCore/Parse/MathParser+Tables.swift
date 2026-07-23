@@ -50,10 +50,31 @@ extension MathParser {
         var rows: [[MathList]] = []
         var row: [MathList] = []
         var hlines: [Int] = []
+        var fullWidthRows: Set<Int> = []
         let allowsHLine = environment == "array"
+        let baseEnv = environment.hasSuffix("*") ? String(environment.dropLast()) : environment
+        let allowsIntertext = [
+            "align", "aligned", "alignedat", "gather", "gathered", "eqnarray", "split",
+        ].contains(baseEnv)
 
         while true {
             try consumeHLines(into: &hlines, at: rows.count, allowed: allowsHLine)
+
+            // `\intertext{…}` at a row boundary (amsmath): full-width text row.
+            if allowsIntertext, startsWithIntertext() {
+                _ = nextCharacter() // \
+                _ = readCommandName()
+                let text = try readArgument(allowSpaces: true)
+                let upright = MathAtom(
+                    kind: .ordinary,
+                    payload: .styled(.init(variant: .upright, contents: text))
+                )
+                fullWidthRows.insert(rows.count)
+                rows.append([MathList(atoms: [upright])])
+                row = []
+                continue
+            }
+
             let cell = try buildInternal(stop: .tableCell)
             row.append(cell)
             skipSpaces()
@@ -82,6 +103,30 @@ extension MathParser {
                     hlines[rows.count] += 1
                     continue
                 }
+                if cmd == "intertext" {
+                    guard allowsIntertext else {
+                        throw ParseError(
+                            code: .invalidCommand,
+                            message: "\\intertext is only valid in align/gather-style environments"
+                        )
+                    }
+                    // Finish current row if it has content, then full-width text row.
+                    let hasContent = row.contains { !$0.atoms.isEmpty }
+                    if hasContent {
+                        rows.append(row)
+                        row = []
+                    } else {
+                        row = []
+                    }
+                    let text = try readArgument(allowSpaces: true)
+                    let upright = MathAtom(
+                        kind: .ordinary,
+                        payload: .styled(.init(variant: .upright, contents: text))
+                    )
+                    fullWidthRows.insert(rows.count)
+                    rows.append([MathList(atoms: [upright])])
+                    continue
+                }
                 if cmd == "end" {
                     let name = try readBracedName()
                     guard name == environment else {
@@ -107,12 +152,21 @@ extension MathParser {
             hlines.append(0)
         }
 
-        return try TableEnvironment.finalize(
+        var table = try TableEnvironment.finalize(
             environment: environment,
             rows: rows,
             columnSpec: columnSpec,
             hlines: allowsHLine ? Array(hlines.prefix(rows.count + 1)) : []
         )
+        table.fullWidthRows = fullWidthRows
+        return table
+    }
+
+    func startsWithIntertext() -> Bool {
+        var i = index
+        guard i < string.endIndex, string[i] == "\\" else { return false }
+        i = string.index(after: i)
+        return peekCommandName(from: i) == "intertext"
     }
 
     /// Consume consecutive `\hline` markers at a row boundary.

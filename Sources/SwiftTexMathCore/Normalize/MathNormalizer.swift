@@ -124,6 +124,9 @@ public enum MathNormalizer {
             stack.over = stack.over.map { normalize($0, preserveBoundaries: false) }
             stack.under = stack.under.map { normalize($0, preserveBoundaries: false) }
             atom.payload = .stack(stack)
+        case .tag(var tag):
+            tag.contents = normalize(tag.contents, preserveBoundaries: false)
+            atom.payload = .tag(tag)
         case .none, .largeOperator, .space, .style:
             break
         }

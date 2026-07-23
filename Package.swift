@@ -44,5 +44,10 @@ let package = Package(
             name: "SwiftTexMathTests",
             dependencies: ["SwiftTexMath", "SwiftTexMathCore"]
         ),
+        .executableTarget(
+            name: "SwiftTexMathDemo",
+            dependencies: ["SwiftTexMathCore"],
+            path: "Examples/Demo"
+        ),
     ]
 )

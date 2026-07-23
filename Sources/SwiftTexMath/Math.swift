@@ -69,6 +69,9 @@ public struct Math: View {
                 }
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(latex.isEmpty ? "Empty math" : latex))
+        .accessibilityAddTraits(.isStaticText)
     }
 }
 

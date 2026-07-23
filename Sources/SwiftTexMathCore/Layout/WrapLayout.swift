@@ -23,6 +23,7 @@ enum WrapLayout {
         var env = env
         var items: [PlacedAtom] = []
         var prevKind: AtomKind?
+        var pendingTag: DisplayNode?
 
         for atom in list.atoms {
             if case .style(let style) = atom.payload {
@@ -51,6 +52,17 @@ enum WrapLayout {
             }
             if atom.kind == .boundary { continue }
 
+            // Defer tags to the last line (flush-right); do not participate in wrapping.
+            if case .tag = atom.payload {
+                var childEnv = env
+                childEnv.maxWidth = 0
+                pendingTag = makeNode(
+                    atom,
+                    LayoutContext(env: childEnv, metrics: styleMetrics, fonts: fonts)
+                )
+                continue
+            }
+
             let spacing: CGFloat
             if let prev = prevKind {
                 spacing = InterElementSpacing.space(
@@ -76,7 +88,17 @@ enum WrapLayout {
             prevKind = atom.kind
         }
 
-        guard !items.isEmpty else { return DisplayList() }
+        guard !items.isEmpty || pendingTag != nil else { return DisplayList() }
+        if items.isEmpty, let tag = pendingTag {
+            var placed = tag
+            placed.position = CGPoint(x: max(0, maxWidth - tag.width), y: 0)
+            return DisplayList(
+                ascent: tag.ascent,
+                descent: tag.descent,
+                width: maxWidth > 0 ? maxWidth : tag.width,
+                children: [placed]
+            )
+        }
 
         var lines: [[PlacedAtom]] = [[]]
         var lineWidth: CGFloat = 0
@@ -124,8 +146,10 @@ enum WrapLayout {
             lineWidth += add
         }
 
-        // Approximate TeX / SwiftMath line skip: ~1.5× font size between baselines.
-        let lineGap = max(styleFont.size * 0.35, styleMetrics.mathUnit * 2)
+        // TeX-like paragraph spacing: floor baselineskip ≈ 1.2× size, plus a small
+        // inter-line gap in mu (not full demerits / \baselineskip glue).
+        let minBaselineSkip = styleFont.size * 1.2
+        let interLineGap = max(styleFont.size * 0.25, styleMetrics.mathUnit * 3)
         var lineDisplays: [DisplayList] = []
         var totalAscent: CGFloat = 0
         var totalDescent: CGFloat = 0
@@ -140,7 +164,9 @@ enum WrapLayout {
                 totalDescent = display.descent
                 y = 0
             } else {
-                let step = lineDisplays[lineIndex - 1].descent + lineGap + display.ascent
+                let prev = lineDisplays[lineIndex - 1]
+                let natural = prev.descent + interLineGap + display.ascent
+                let step = max(natural, minBaselineSkip)
                 y -= step
                 totalDescent = -y + display.descent
             }
@@ -149,11 +175,35 @@ enum WrapLayout {
             lineDisplays.append(placed)
         }
 
+        // Flush-right tag on the last line when present.
+        if var tag = pendingTag, !lineDisplays.isEmpty {
+            let last = lineDisplays.count - 1
+            var lastLine = lineDisplays[last]
+            let gap = styleMetrics.mathUnit * 18
+            let tagX = max(lastLine.width + gap, maxWidth - tag.width)
+            tag.position = CGPoint(x: tagX, y: 0)
+            lastLine.children.append(tag)
+            lastLine.width = max(lastLine.width, tagX + tag.width)
+            lastLine.ascent = max(lastLine.ascent, tag.ascent)
+            lastLine.descent = max(lastLine.descent, tag.descent)
+            lineDisplays[last] = lastLine
+            totalWidth = max(totalWidth, lastLine.width)
+            totalAscent = max(totalAscent, lineDisplays[0].ascent)
+            totalDescent = max(totalDescent, -lineDisplays[last].position.y + lastLine.descent)
+        }
+
         let children = lineDisplays.map { DisplayNode.list($0) }
+        let finalWidth: CGFloat
+        if maxWidth > 0 {
+            // With a flush-right tag, occupy the full paragraph width.
+            finalWidth = pendingTag != nil ? max(totalWidth, maxWidth) : min(totalWidth, maxWidth)
+        } else {
+            finalWidth = totalWidth
+        }
         return DisplayList(
             ascent: totalAscent,
             descent: totalDescent,
-            width: min(totalWidth, maxWidth),
+            width: finalWidth,
             children: children
         )
     }
@@ -215,6 +265,9 @@ enum WrapLayout {
         previous: MathAtom?,
         allowMidWord: Bool = false
     ) -> Bool {
+        // Tags stay with the equation body (placed by Typesetter on single-line path).
+        if case .tag = atom.payload { return false }
+
         // Never break before trailing punctuation (keep "word," together).
         if atom.kind == .punctuation { return false }
 
@@ -243,6 +296,7 @@ enum WrapLayout {
             if case .colored = atom.payload { return previous.map(isGoodBreakAfter) ?? false }
             if case .styled = atom.payload { return previous.map(isGoodBreakAfter) ?? false }
             if case .box = atom.payload { return previous.map(isGoodBreakAfter) ?? false }
+            if case .tag = atom.payload { return false }
             return previous.map(isGoodBreakAfter) ?? false
         }
     }
@@ -265,22 +319,49 @@ enum WrapLayout {
         return ch.isLetter || ch.isNumber
     }
 
+    /// Higher score = better break (prefer end of line, relations over mid-word).
+    private static func breakScore(
+        at index: Int,
+        in line: [PlacedAtom],
+        allowMidWord: Bool
+    ) -> Int {
+        let atom = line[index].atom
+        let previous = line[index - 1].atom
+        guard canBreakBefore(atom, previous: previous, allowMidWord: allowMidWord) else {
+            return -1
+        }
+        // Prefer breaks closer to the end of the line (fill width).
+        let endBias = index
+        switch atom.kind {
+        case .relation:
+            return 400 + endBias
+        case .binaryOperator:
+            return 300 + endBias
+        case .space:
+            return 350 + endBias
+        case .fraction, .radical, .inner, .table, .largeOperator:
+            return 250 + endBias
+        default:
+            if case .space = previous.payload { return 350 + endBias }
+            if previous.kind == .close || previous.kind == .punctuation {
+                return 200 + endBias
+            }
+            // Mid-word rescue only when allowMidWord.
+            return allowMidWord ? 10 + endBias : -1
+        }
+    }
+
     private static func bestBreakIndex(in line: [PlacedAtom], allowMidWord: Bool = false) -> Int? {
         guard line.count > 1 else { return nil }
-        // Prefer relation / binary breaks closest to the end.
-        for i in stride(from: line.count - 1, through: 1, by: -1) {
-            let atom = line[i].atom
-            if atom.kind == .relation || atom.kind == .binaryOperator,
-               canBreakBefore(atom, previous: line[i - 1].atom, allowMidWord: allowMidWord)
-            {
-                return i
+        var bestIndex: Int?
+        var bestScore = -1
+        for i in 1..<line.count {
+            let score = breakScore(at: i, in: line, allowMidWord: allowMidWord)
+            if score > bestScore {
+                bestScore = score
+                bestIndex = i
             }
         }
-        for i in stride(from: line.count - 1, through: 1, by: -1) {
-            if canBreakBefore(line[i].atom, previous: line[i - 1].atom, allowMidWord: allowMidWord) {
-                return i
-            }
-        }
-        return nil
+        return bestScore >= 0 ? bestIndex : nil
     }
 }

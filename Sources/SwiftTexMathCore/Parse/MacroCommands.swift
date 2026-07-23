@@ -36,8 +36,10 @@ enum MacroCommands {
             try appendMathClass(parser: &parser, list: &list, prev: &prev, kind: .close)
         case "mathpunct":
             try appendMathClass(parser: &parser, list: &list, prev: &prev, kind: .punctuation)
-        case "tag", "tag*":
-            try appendTag(parser: &parser, list: &list, prev: &prev)
+        case "tag":
+            try appendTag(parser: &parser, list: &list, prev: &prev, parenthesize: true)
+        case "tag*":
+            try appendTag(parser: &parser, list: &list, prev: &prev, parenthesize: false)
         case "bra":
             try appendBraKet(
                 parser: &parser,

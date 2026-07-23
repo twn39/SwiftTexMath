@@ -87,6 +87,9 @@ open class MathLabel: MathLabelView {
     public private(set) var parseError: ParseError?
     public private(set) var displayList: DisplayList?
 
+    /// When true (default), the context menu / edit menu includes “Copy LaTeX”.
+    public var allowsCopyingLatex: Bool = true
+
     #if canImport(UIKit) && !os(watchOS)
     private let errorLabel = UILabel()
     #elseif canImport(AppKit)
@@ -108,6 +111,12 @@ open class MathLabel: MathLabelView {
         backgroundColor = .clear
         isOpaque = false
         contentMode = .redraw
+        isAccessibilityElement = true
+        accessibilityTraits = .staticText
+        isUserInteractionEnabled = true
+        addInteraction(UIEditMenuInteraction(delegate: self))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressForCopy(_:)))
+        addGestureRecognizer(longPress)
         errorLabel.textColor = .systemRed
         errorLabel.numberOfLines = 0
         errorLabel.font = .preferredFont(forTextStyle: .caption1)
@@ -116,6 +125,8 @@ open class MathLabel: MathLabelView {
         #elseif canImport(AppKit)
         wantsLayer = true
         layer?.backgroundColor = .clear
+        setAccessibilityElement(true)
+        setAccessibilityRole(.staticText)
         errorLabel.textColor = .systemRed
         errorLabel.isEditable = false
         errorLabel.isBordered = false
@@ -125,10 +136,46 @@ open class MathLabel: MathLabelView {
         errorLabel.isHidden = true
         addSubview(errorLabel)
         #endif
+        updateAccessibilityLabel()
+    }
+
+    /// Copy the source LaTeX string to the system pasteboard.
+    @discardableResult
+    public func copyLatexToPasteboard() -> Bool {
+        guard allowsCopyingLatex, !latex.isEmpty else { return false }
+        #if canImport(UIKit) && !os(watchOS)
+        UIPasteboard.general.string = latex
+        return true
+        #elseif canImport(AppKit)
+        let pb = NSPasteboard.general
+        pb.clearContents()
+        return pb.setString(latex, forType: .string)
+        #else
+        return false
+        #endif
+    }
+
+    private func updateAccessibilityLabel() {
+        let label: String
+        if let parseError {
+            label = parseError.message.isEmpty
+                ? "Math parse error"
+                : "Math parse error: \(parseError.message)"
+        } else if latex.isEmpty {
+            label = "Empty math"
+        } else {
+            label = latex
+        }
+        #if canImport(UIKit) && !os(watchOS)
+        accessibilityLabel = label
+        #elseif canImport(AppKit)
+        setAccessibilityLabel(label)
+        #endif
     }
 
     private func invalidateMath() {
         relayout()
+        updateAccessibilityLabel()
         invalidateIntrinsicContentSizePlatform()
         setNeedsDisplayPlatform()
     }
@@ -306,6 +353,70 @@ open class MathLabel: MathLabelView {
         invalidateIntrinsicContentSize()
         #endif
     }
+
+    #if canImport(UIKit) && !os(watchOS)
+    @objc private func handleLongPressForCopy(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began, allowsCopyingLatex, !latex.isEmpty else { return }
+        becomeFirstResponder()
+        let menu = UIMenuController.shared
+        menu.menuItems = [UIMenuItem(title: "Copy LaTeX", action: #selector(copyLatexAction))]
+        menu.showMenu(from: self, rect: bounds)
+    }
+
+    @objc private func copyLatexAction() {
+        _ = copyLatexToPasteboard()
+    }
+
+    public override var canBecomeFirstResponder: Bool { allowsCopyingLatex }
+
+    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(copy(_:)) || action == #selector(copyLatexAction) {
+            return allowsCopyingLatex && !latex.isEmpty
+        }
+        return super.canPerformAction(action, withSender: sender)
+    }
+
+    public override func copy(_ sender: Any?) {
+        _ = copyLatexToPasteboard()
+    }
+    #elseif canImport(AppKit)
+    public override func menu(for event: NSEvent) -> NSMenu? {
+        guard allowsCopyingLatex, !latex.isEmpty else { return super.menu(for: event) }
+        let menu = NSMenu()
+        menu.addItem(
+            withTitle: "Copy LaTeX",
+            action: #selector(copyLatexAction),
+            keyEquivalent: ""
+        )
+        return menu
+    }
+
+    @objc private func copyLatexAction() {
+        _ = copyLatexToPasteboard()
+    }
+
+    public override var acceptsFirstResponder: Bool { true }
+
+    @objc public func copy(_ sender: Any?) {
+        _ = copyLatexToPasteboard()
+    }
+    #endif
 }
+
+#if canImport(UIKit) && !os(watchOS)
+extension MathLabel: UIEditMenuInteractionDelegate {
+    public func editMenuInteraction(
+        _ interaction: UIEditMenuInteraction,
+        menuFor configuration: UIEditMenuConfiguration,
+        suggestedActions: [UIMenuElement]
+    ) -> UIMenu? {
+        guard allowsCopyingLatex, !latex.isEmpty else { return nil }
+        let copy = UIAction(title: "Copy LaTeX") { [weak self] _ in
+            _ = self?.copyLatexToPasteboard()
+        }
+        return UIMenu(children: [copy])
+    }
+}
+#endif
 
 #endif

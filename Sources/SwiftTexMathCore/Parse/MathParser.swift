@@ -5,11 +5,27 @@ public struct MathParser: Sendable {
     /// Maximum `buildInternal` nesting (groups / scripts / tables).
     /// Lower than iosMath's 150 to stay within typical Swift debug stack frames.
     static let maxRecursionDepth = 64
+    /// Cap recursive user-macro expansion (`\newcommand` bodies calling macros).
+    static let maxMacroExpansionDepth = 32
+
+    /// User macro registered by `\newcommand` / `\def` (parse-session scoped).
+    public struct UserMacro: Sendable, Hashable {
+        public var parameterCount: Int
+        public var replacement: String
+
+        public init(parameterCount: Int, replacement: String) {
+            self.parameterCount = parameterCount
+            self.replacement = replacement
+        }
+    }
 
     var string: String
     var index: String.Index
     var spacesAllowed = false
     var recursionDepth = 0
+    /// Macros defined in this parse (not process-global).
+    var userMacros: [String: UserMacro] = [:]
+    var macroExpansionDepth = 0
 
     public init(_ latex: String) {
         let stripped = Self.stripMathDelimiters(latex)

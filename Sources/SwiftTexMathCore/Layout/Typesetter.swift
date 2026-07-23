@@ -48,6 +48,8 @@ public enum Typesetter {
         var ascent: CGFloat = 0
         var descent: CGFloat = 0
         var prevKind: AtomKind?
+        /// Last `\tag` / `\tag*` on the line (amsmath: one label, flush-right when width known).
+        var pendingTag: DisplayNode?
 
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
@@ -64,6 +66,15 @@ public enum Typesetter {
             }
             // Defense in depth: Normalize drops bare boundaries; keep skip for safety.
             if atom.kind == .boundary {
+                continue
+            }
+
+            // Tags are not inter-element atoms; place after body (flush-right if maxWidth).
+            if case .tag = atom.payload {
+                pendingTag = makeNode(
+                    for: atom,
+                    ctx: LayoutContext(env: env, metrics: styleMetrics, fonts: fonts)
+                )
                 continue
             }
 
@@ -88,6 +99,24 @@ public enum Typesetter {
             ascent = max(ascent, placed.ascent)
             descent = max(descent, placed.descent)
             prevKind = atom.kind
+        }
+
+        if var tag = pendingTag {
+            let gap = styleMetrics.mathUnit * 18 // 1em thick-ish gap when flowing inline
+            let tagX: CGFloat
+            if env.maxWidth > 0 {
+                tagX = max(x + gap, env.maxWidth - tag.width)
+            } else {
+                tagX = x + gap
+            }
+            tag.position = CGPoint(x: tagX, y: 0)
+            children.append(tag)
+            x = max(x, tagX + tag.width)
+            if env.maxWidth > 0 {
+                x = max(x, env.maxWidth)
+            }
+            ascent = max(ascent, tag.ascent)
+            descent = max(descent, tag.descent)
         }
 
         return DisplayList(ascent: ascent, descent: descent, width: x, children: children)
@@ -172,6 +201,8 @@ public enum Typesetter {
             base = StackLayout.make(
                 stack, env: env, metrics: metrics, fonts: fonts, typeset: typesetChild
             )
+        case .tag(let tag):
+            base = .list(makeTagDisplay(tag, env: env, typeset: typesetChild))
         case .none, .space, .style:
             base = glyphNode(
                 for: atom, env: env, metrics: metrics, fonts: fonts, enlarge: false, centerOnAxis: false
@@ -249,6 +280,25 @@ public enum Typesetter {
                 italicCorrection: italic
             )
         )
+    }
+
+    /// Upright tag body, optionally parenthesized (`\tag` vs `\tag*`).
+    private static func makeTagDisplay(
+        _ tag: MathAtom.Tag,
+        env: MathEnvironment,
+        typeset: (MathList, MathEnvironment) -> DisplayList
+    ) -> DisplayList {
+        var body = MathList()
+        if tag.parenthesize {
+            body.append(MathAtom.ordinary("("))
+        }
+        for atom in tag.contents.atoms {
+            body.append(atom)
+        }
+        if tag.parenthesize {
+            body.append(MathAtom.ordinary(")"))
+        }
+        return typeset(body, env.with(variant: .upright))
     }
 
     private static func fallbackCTFont(named name: String?, size: CGFloat) -> CTFont {

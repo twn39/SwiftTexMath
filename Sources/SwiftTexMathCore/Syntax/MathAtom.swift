@@ -31,6 +31,20 @@ public struct MathAtom: Sendable, Hashable {
         case mathChoice(MathChoice)
         case box(Box)
         case stack(Stack)
+        /// Equation tag (`\tag` / `\tag*`) — laid out flush-right when `maxWidth > 0`.
+        case tag(Tag)
+    }
+
+    /// `\tag{…}` / `\tag*{…}` equation label.
+    public struct Tag: Sendable, Hashable {
+        public var contents: MathList
+        /// When true (`\tag`), wrap contents in parentheses; `\tag*` leaves bare.
+        public var parenthesize: Bool
+
+        public init(contents: MathList, parenthesize: Bool = true) {
+            self.contents = contents
+            self.parenthesize = parenthesize
+        }
     }
 
     /// Phantom / smash / lap / cancel family (iosMath `MTMathBox`).
@@ -259,6 +273,8 @@ public struct MathAtom: Sendable, Hashable {
         /// Optional `@{…}` inserts at each column boundary (length = columnCount + 1).
         /// Non-`nil` replaces the default inter-column gap at that boundary.
         public var columnInserts: [MathList?]
+        /// Row indices that span the full table width (amsmath `\intertext`); excluded from column metrics.
+        public var fullWidthRows: Set<Int>
 
         public enum ColumnAlignment: Sendable, Hashable {
             case left, center, right
@@ -272,7 +288,8 @@ public struct MathAtom: Sendable, Hashable {
             interRowAdditionalSpacing: CGFloat = 0,
             vlines: [Int] = [],
             hlines: [Int] = [],
-            columnInserts: [MathList?] = []
+            columnInserts: [MathList?] = [],
+            fullWidthRows: Set<Int> = []
         ) {
             self.environment = environment
             self.rows = rows
@@ -282,6 +299,7 @@ public struct MathAtom: Sendable, Hashable {
             self.vlines = vlines
             self.hlines = hlines
             self.columnInserts = columnInserts
+            self.fullWidthRows = fullWidthRows
         }
     }
 

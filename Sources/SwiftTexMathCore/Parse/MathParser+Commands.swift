@@ -17,6 +17,16 @@ extension MathParser {
             throw ParseError(code: .invalidCommand, message: "Missing command name")
         }
 
+        // User macros expand before built-in catalogs (session-local `\newcommand`).
+        if let macro = userMacros[command] {
+            try expandUserMacro(macro, into: &list, prev: &prev)
+            return .appended
+        }
+
+        if try MacroCommands.handleDefinition(command, parser: &self, list: &list, prev: &prev) {
+            return .appended
+        }
+
         switch try CommandHandlers.dispatch(
             command,
             parser: &self,
@@ -95,6 +105,141 @@ extension MathParser {
         list.append(atom)
         prev = atom
         return .appended
+    }
+
+    /// Expand a user macro: read parameters, substitute `#n`, re-parse into `list`.
+    mutating func expandUserMacro(
+        _ macro: UserMacro,
+        into list: inout MathList,
+        prev: inout MathAtom?
+    ) throws {
+        macroExpansionDepth += 1
+        defer { macroExpansionDepth -= 1 }
+        guard macroExpansionDepth <= Self.maxMacroExpansionDepth else {
+            throw ParseError(
+                code: .nestingTooDeep,
+                message: "User macro expansion exceeded \(Self.maxMacroExpansionDepth) levels"
+            )
+        }
+
+        var args: [String] = []
+        args.reserveCapacity(macro.parameterCount)
+        for _ in 0..<macro.parameterCount {
+            args.append(try readMacroArgumentRaw())
+        }
+        let body = Self.substituteMacroParameters(macro.replacement, arguments: args)
+
+        var nested = MathParser(body)
+        nested.userMacros = userMacros
+        nested.macroExpansionDepth = macroExpansionDepth
+        // Preserve space policy of the outer parse when expanding into text-like contexts.
+        nested.spacesAllowed = spacesAllowed
+        let fragment = try nested.buildInternal(stop: .eof)
+        nested.skipSpaces()
+        if nested.hasCharacters {
+            throw ParseError(
+                code: .mismatchedBraces,
+                message: "Unused characters after user macro expansion"
+            )
+        }
+        for atom in fragment.atoms {
+            list.append(atom)
+        }
+        prev = list.atoms.last
+    }
+
+    /// TeX-like `#1`…`#9` substitution; `##` becomes a literal `#`.
+    static func substituteMacroParameters(_ template: String, arguments: [String]) -> String {
+        var result = ""
+        var i = template.startIndex
+        while i < template.endIndex {
+            let ch = template[i]
+            if ch == "#" {
+                let next = template.index(after: i)
+                if next < template.endIndex {
+                    if template[next] == "#" {
+                        result.append("#")
+                        i = template.index(after: next)
+                        continue
+                    }
+                    if let digit = template[next].wholeNumberValue,
+                       digit >= 1, digit <= arguments.count
+                    {
+                        result += arguments[digit - 1]
+                        i = template.index(after: next)
+                        continue
+                    }
+                }
+            }
+            result.append(ch)
+            i = template.index(after: i)
+        }
+        return result
+    }
+
+    /// `\newcommand{\name}` → `name`; also accepts unbraced `\name` after optional spaces.
+    mutating func readMacroControlSequenceName() throws -> String {
+        skipSpaces()
+        if peek() == "{" {
+            let inner = try readBracedRaw().trimmingCharacters(in: .whitespacesAndNewlines)
+            guard inner.hasPrefix("\\") else {
+                throw ParseError(
+                    code: .invalidCommand,
+                    message: "\\newcommand name must be a control sequence (e.g. {\\foo})"
+                )
+            }
+            let name = String(inner.dropFirst())
+            guard !name.isEmpty, name.allSatisfy(\.isLetter) else {
+                throw ParseError(
+                    code: .invalidCommand,
+                    message: "Invalid control sequence in \\newcommand"
+                )
+            }
+            return name
+        }
+        guard peek() == "\\" else {
+            throw ParseError(code: .invalidCommand, message: "\\newcommand expects {\\name}")
+        }
+        _ = nextCharacter()
+        let name = readCommandName()
+        guard !name.isEmpty else {
+            throw ParseError(code: .invalidCommand, message: "\\newcommand missing control sequence")
+        }
+        return name
+    }
+
+    /// Optional `[n]` with `n` in 0…9 (0 means no parameters).
+    mutating func readOptionalMacroParameterCount() throws -> Int {
+        skipSpaces()
+        guard peek() == "[" else { return 0 }
+        _ = nextCharacter()
+        skipSpaces()
+        guard let ch = peek(), let digit = ch.wholeNumberValue, digit <= 9 else {
+            throw ParseError(code: .invalidCommand, message: "Invalid \\newcommand parameter count")
+        }
+        _ = nextCharacter()
+        skipSpaces()
+        guard hasCharacters, nextCharacter() == "]" else {
+            throw ParseError(code: .invalidCommand, message: "Unterminated [n] in \\newcommand")
+        }
+        return digit
+    }
+
+    /// Macro argument as raw LaTeX (braced group or single token).
+    mutating func readMacroArgumentRaw() throws -> String {
+        skipSpaces()
+        if peek() == "{" {
+            return try readBracedRaw()
+        }
+        if peek() == "\\" {
+            _ = nextCharacter()
+            let name = readCommandName()
+            return "\\" + name
+        }
+        guard hasCharacters else {
+            throw ParseError(code: .mismatchedBraces, message: "Missing macro argument")
+        }
+        return String(nextCharacter())
     }
 
     /// Build an accent atom from a free-form mark list (`\underaccent{\ast}{x}`).
