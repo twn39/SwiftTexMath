@@ -54,7 +54,7 @@ extension MathParser {
         let allowsHLine = environment == "array"
         let baseEnv = environment.hasSuffix("*") ? String(environment.dropLast()) : environment
         let allowsIntertext = [
-            "align", "aligned", "alignedat", "gather", "gathered", "eqnarray", "split",
+            "align", "aligned", "alignedat", "gather", "gathered", "eqnarray", "split"
         ].contains(baseEnv)
 
         while true {

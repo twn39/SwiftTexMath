@@ -317,12 +317,12 @@ import Testing
 @Test func layoutArrayDrawsRules() throws {
     let display = try MathRenderer().layout(latex: #"\begin{array}{c|c} a & b \end{array}"#)
     #expect(display.children.contains { if case .rule = $0 { return true }; return false }
-        || display.children.contains {
-            if case .list(let inner) = $0 {
-                return inner.children.contains { if case .rule = $0 { return true }; return false }
-            }
-            return false
-        })
+                || display.children.contains {
+                    if case .list(let inner) = $0 {
+                        return inner.children.contains { if case .rule = $0 { return true }; return false }
+                    }
+                    return false
+                })
 }
 
 @Test func parseAlignedEnvironment() throws {
@@ -507,4 +507,3 @@ import Testing
         #expect(metrics != nil, "failed to load \(name.rawValue)")
     }
 }
-

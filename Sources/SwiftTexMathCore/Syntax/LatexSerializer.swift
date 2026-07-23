@@ -89,21 +89,21 @@ public enum LatexSerializer {
                 name = AtomFactory.accents.first(where: {
                     $0.value == accent.accent && AtomFactory.belowAccents.contains($0.key)
                 })?.key
-                    ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
-                    ?? "utilde"
+                ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
+                ?? "utilde"
             } else if accent.stretchable {
                 name = AtomFactory.accents.first(where: {
                     $0.value == accent.accent && $0.key.hasPrefix("wide")
                 })?.key
-                    ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
-                    ?? "widehat"
+                ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
+                ?? "widehat"
             } else {
                 name = AtomFactory.accents.first(where: {
                     $0.value == accent.accent && !$0.key.hasPrefix("wide")
                         && !AtomFactory.belowAccents.contains($0.key)
                 })?.key
-                    ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
-                    ?? "hat"
+                ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
+                ?? "hat"
             }
             return "\\\(name){\(string(from: accent.base))}"
         case .overline(let list):

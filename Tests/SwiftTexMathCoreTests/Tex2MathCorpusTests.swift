@@ -27,7 +27,7 @@ struct Tex2MathCorpusTests {
             Bundle.module.url(forResource: "catalog", withExtension: "json"),
             Bundle.module.resourceURL?
                 .appendingPathComponent("Tex2MathCorpus")
-                .appendingPathComponent("catalog.json"),
+                .appendingPathComponent("catalog.json")
         ]
         guard let url = candidates.compactMap({ $0 }).first(where: {
             FileManager.default.fileExists(atPath: $0.path)

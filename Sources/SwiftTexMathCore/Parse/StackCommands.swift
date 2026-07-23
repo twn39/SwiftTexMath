@@ -11,7 +11,7 @@ enum StackCommands {
         "underleftarrow": (nil, "\u{2190}"),
         "underleftrightarrow": (nil, "\u{2194}"),
         "overbrace": ("\u{23DE}", nil),
-        "underbrace": (nil, "\u{23DF}"),
+        "underbrace": (nil, "\u{23DF}")
     ]
 
     private enum StackRole { case over, under }

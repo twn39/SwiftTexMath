@@ -56,7 +56,7 @@ public enum AtomFactory {
         "nprecapprox": "precnapprox",
         "nsuccapprox": "succnapprox",
         "nprecsim": "precnsim",
-        "nsuccsim": "succnsim",
+        "nsuccsim": "succnsim"
     ]
 
     public static let delimiters: [String: String] = [
@@ -93,7 +93,7 @@ public enum AtomFactory {
         "lceil": "\u{2308}",
         "rceil": "\u{2309}",
         "lfloor": "\u{230A}",
-        "rfloor": "\u{230B}",
+        "rfloor": "\u{230B}"
     ]
 
     public static let accents: [String: String] = [
@@ -113,12 +113,12 @@ public enum AtomFactory {
         "utilde": "\u{0330}",
         "underbar": "\u{0331}",
         "underrightarrow": "\u{20EF}",
-        "underleftarrow": "\u{20EE}",
+        "underleftarrow": "\u{20EE}"
     ]
 
     /// Accent commands that sit below the nucleus.
     public static let belowAccents: Set<String> = [
-        "utilde", "underbar", "underrightarrow", "underleftarrow",
+        "utilde", "underbar", "underrightarrow", "underleftarrow"
     ]
 
     public static let symbols: [String: MathAtom] = {
@@ -141,7 +141,7 @@ public enum AtomFactory {
             ("Gamma", "\u{0393}"), ("Delta", "\u{0394}"), ("Theta", "\u{0398}"),
             ("Lambda", "\u{039B}"), ("Xi", "\u{039E}"), ("Pi", "\u{03A0}"),
             ("Sigma", "\u{03A3}"), ("Upsilon", "\u{03A5}"), ("Phi", "\u{03A6}"),
-            ("Psi", "\u{03A8}"), ("Omega", "\u{03A9}"),
+            ("Psi", "\u{03A8}"), ("Omega", "\u{03A9}")
         ]
         for (name, nucleus) in greek {
             put(name, .variable(nucleus))
@@ -178,7 +178,7 @@ public enum AtomFactory {
             ("approx", "\u{2248}"), ("equiv", "\u{2261}"), ("gg", "\u{226B}"), ("ll", "\u{226A}"),
             ("subset", "\u{2282}"), ("supset", "\u{2283}"),
             ("subseteq", "\u{2286}"), ("supseteq", "\u{2287}"),
-            ("perp", "\u{27C2}"), ("implies", "\u{27F9}"),
+            ("perp", "\u{27C2}"), ("implies", "\u{27F9}")
         ]
         for (name, nucleus) in relations {
             put(name, .relation(nucleus))
@@ -191,7 +191,7 @@ public enum AtomFactory {
             ("bullet", "\u{2219}"), ("wedge", "\u{2227}"), ("vee", "\u{2228}"),
             ("cap", "\u{2229}"), ("cup", "\u{222A}"), ("oplus", "\u{2295}"),
             ("ominus", "\u{2296}"), ("otimes", "\u{2297}"), ("oslash", "\u{2298}"),
-            ("odot", "\u{2299}"), ("cdot", "\u{22C5}"), ("star", "\u{22C6}"),
+            ("odot", "\u{2299}"), ("cdot", "\u{22C5}"), ("star", "\u{22C6}")
         ]
         for (name, nucleus) in bins {
             put(name, .binaryOperator(nucleus))

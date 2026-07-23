@@ -161,7 +161,7 @@ enum AccentLayout {
             name + "flat",
             name + ".flat",
             name + "flattened",
-            "flat" + name,
+            "flat" + name
         ]
         for key in flatCandidates {
             let id = metrics.glyphID(named: key)
@@ -244,7 +244,7 @@ enum AccentLayout {
                 name.replacingOccurrences(of: "comb", with: "belowcmb"),
                 "tildebelowcmb",
                 "uni0330", // combining tilde below
-                name,
+                name
             ]
             // Unicode combining tilde (U+0303) often maps to tildecomb / tilde.
             if accent.accent == "\u{0303}" || accent.accent == "\u{0330}" {

@@ -30,7 +30,7 @@ enum BoxCommands {
         "bcancel": .init(keepWidth: true, keepHeight: true, keepDepth: true, drawChild: true, hAlign: .left, strike: .backward, acceptsTB: false, synthParen: false),
         "xcancel": .init(keepWidth: true, keepHeight: true, keepDepth: true, drawChild: true, hAlign: .left, strike: .cross, acceptsTB: false, synthParen: false),
         "sout": .init(keepWidth: true, keepHeight: true, keepDepth: true, drawChild: true, hAlign: .left, strike: .horizontal, acceptsTB: false, synthParen: false),
-        "boxed": .init(keepWidth: true, keepHeight: true, keepDepth: true, drawChild: true, hAlign: .left, strike: .frame, acceptsTB: false, synthParen: false),
+        "boxed": .init(keepWidth: true, keepHeight: true, keepDepth: true, drawChild: true, hAlign: .left, strike: .frame, acceptsTB: false, synthParen: false)
     ]
 
     /// Spacing commands that take a dimension argument (`true` = allow em; `false` = mu only).
@@ -40,7 +40,7 @@ enum BoxCommands {
         "hskip": true,
         "mkern": false,
         "mskip": false,
-        "mspace": false,
+        "mspace": false
     ]
 
     static func appendBox(

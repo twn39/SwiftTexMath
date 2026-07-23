@@ -7,7 +7,7 @@ import Testing
 struct InterElementSpacingTests {
     private let kinds: [AtomKind] = [
         .ordinary, .largeOperator, .binaryOperator, .relation,
-        .open, .close, .punctuation, .fraction, .radical,
+        .open, .close, .punctuation, .fraction, .radical
     ]
 
     /// Expected mu multipliers for text/display style (`mathUnit = 1`, default parameters).
@@ -22,7 +22,7 @@ struct InterElementSpacingTests {
         [0, 3, 4, 5, 0, 0, 0, 3], // close
         [3, 3, 0, 3, 3, 3, 3, 3], // punct
         [3, 3, 4, 5, 3, 0, 3, 3], // fraction
-        [4, 3, 4, 5, 0, 0, 0, 3], // radical (left)
+        [4, 3, 4, 5, 0, 0, 0, 3] // radical (left)
     ]
 
     @Test func textStyleFullMatrix() {
@@ -52,7 +52,7 @@ struct InterElementSpacingTests {
             (.ordinary, .relation, 0), // nsThick
             (.ordinary, .fraction, 0), // nsThin
             (.largeOperator, .ordinary, 3), // thin
-            (.open, .ordinary, 0),
+            (.open, .ordinary, 0)
         ]
         for (left, right, expected) in pairs {
             let space = InterElementSpacing.space(

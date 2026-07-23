@@ -9,7 +9,7 @@ enum DelimiterCommands {
         "big": 1.0, "Big": 1.4, "bigg": 1.8, "Bigg": 2.2,
         "bigl": 1.0, "Bigl": 1.4, "biggl": 1.8, "Biggl": 2.2,
         "bigr": 1.0, "Bigr": 1.4, "biggr": 1.8, "Biggr": 2.2,
-        "bigm": 1.0, "Bigm": 1.4, "biggm": 1.8, "Biggm": 2.2,
+        "bigm": 1.0, "Bigm": 1.4, "biggm": 1.8, "Biggm": 2.2
     ]
 
     static func appendSizedDelimiter(

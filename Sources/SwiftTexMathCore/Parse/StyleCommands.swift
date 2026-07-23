@@ -26,7 +26,7 @@ enum StyleCommands {
         "mathnormal": (.italic, false),
         "mathbfit": (.boldItalic, false),
         "bm": (.boldItalic, false),
-        "boldsymbol": (.boldItalic, false),
+        "boldsymbol": (.boldItalic, false)
     ]
 
     /// Common `\not` + relation combinations.
@@ -49,7 +49,7 @@ enum StyleCommands {
         "prec": "\u{2280}",
         "succ": "\u{2281}",
         "mid": "\u{2224}",
-        "parallel": "\u{2226}",
+        "parallel": "\u{2226}"
     ]
 
     static func handleLeaf(

@@ -23,7 +23,7 @@ enum TableEnvironment {
         "vmatrix*": ("|", "|"),
         "Vmatrix*": ("\u{2016}", "\u{2016}"),
         "Bmatrix*": ("{", "}"),
-        "matrix*": ("", ""),
+        "matrix*": ("", "")
     ]
 
     static func alignedAtSpec(pairs: Int) -> ColumnSpec {

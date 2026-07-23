@@ -155,7 +155,7 @@ private struct EmptyFontProvider: FontProviding {
     let list = MathList(atoms: [
         MathAtom.ordinary("a"),
         MathAtom.boundary("|"),
-        MathAtom.ordinary("b"),
+        MathAtom.ordinary("b")
     ])
     let normalized = MathNormalizer.normalize(list)
     #expect(normalized.atoms.count == 2)

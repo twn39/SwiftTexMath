@@ -84,8 +84,7 @@ enum CommandHandlers {
         if try FractionCommands.handleLeaf(command, parser: &parser, list: &list, prev: &prev)
             || StyleCommands.handleLeaf(command, parser: &parser, list: &list, prev: &prev)
             || StackCommands.handleLeaf(command, parser: &parser, list: &list, prev: &prev)
-            || MacroCommands.handleLeaf(command, parser: &parser, list: &list, prev: &prev)
-        {
+            || MacroCommands.handleLeaf(command, parser: &parser, list: &list, prev: &prev) {
             return .handled
         }
 

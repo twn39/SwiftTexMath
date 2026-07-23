@@ -55,7 +55,7 @@ struct ParserASTTests {
         Record(#"\sqrt[3]{x}"#, [.radical]),
         Record(#"\left(a\right)"#, [.inner]),
         Record(#"\sum_{i}"#, [.largeOperator], subscript: [.variable]),
-        Record(#"\int_0^1"#, [.largeOperator], superscript: [.number], subscript: [.number]),
+        Record(#"\int_0^1"#, [.largeOperator], superscript: [.number], subscript: [.number])
     ])
     func plainAndCommands(record: Record) throws {
         try assertRecord(record)
@@ -67,7 +67,7 @@ struct ParserASTTests {
         Record("x^{23}", [.variable], superscript: [.number, .number]),
         Record("x^{2^3}", [.variable], superscript: [.number], nestedSuperscript: [.number]),
         Record("{}^2", [.inner], superscript: [.number]),
-        Record("5{x}^2", [.number, .variable], superscript: []),
+        Record("5{x}^2", [.number, .variable], superscript: [])
     ])
     func superscripts(record: Record) throws {
         try assertRecord(record)
@@ -83,7 +83,7 @@ struct ParserASTTests {
         Record("x_{23}", [.variable], subscript: [.number, .number]),
         Record("x_{2_3}", [.variable], subscript: [.number]),
         Record("x^2_i", [.variable], superscript: [.number], subscript: [.variable]),
-        Record("x_i^2", [.variable], superscript: [.number], subscript: [.variable]),
+        Record("x_i^2", [.variable], superscript: [.number], subscript: [.variable])
     ])
     func subscripts(record: Record) throws {
         try assertRecord(record)
@@ -107,7 +107,7 @@ struct ParserASTTests {
     @Test func serializeRoundTripPreservesKinds() throws {
         let samples = [
             "x+2", #"\frac{a}{b}"#, #"\sqrt{x^2}"#, #"\left(\frac{1}{2}\right)"#,
-            #"E=mc^2"#, #"\sum_{i=1}^{n}"#, #"\mathrm{d}x"#,
+            #"E=mc^2"#, #"\sum_{i=1}^{n}"#, #"\mathrm{d}x"#
         ]
         for latex in samples {
             let list = try MathParser.parse(latex)

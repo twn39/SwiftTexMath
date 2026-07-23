@@ -25,7 +25,7 @@ struct ConcurrencyCoreTests {
     @Test func concurrentLayout() async throws {
         let samples = [
             #"E=mc^2"#, #"\frac{a}{b}"#, #"\sum_{i=1}^{n} x_i"#,
-            #"\sqrt{2}"#, #"\left(\frac{1}{2}\right)"#, #"\lim_{x\to 0} x"#,
+            #"\sqrt{2}"#, #"\left(\frac{1}{2}\right)"#, #"\lim_{x\to 0} x"#
         ]
         let renderer = MathRenderer(
             environment: MathEnvironment(font: MathFont(name: .latinModern, size: 20))

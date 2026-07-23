@@ -8,7 +8,7 @@ enum FractionCommands {
         "atop": (false, "", ""),
         "choose": (false, "(", ")"),
         "brack": (false, "[", "]"),
-        "brace": (false, "{", "}"),
+        "brace": (false, "{", "}")
     ]
 
     static func handleLeaf(

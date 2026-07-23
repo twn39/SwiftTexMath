@@ -163,8 +163,7 @@ extension MathParser {
                         continue
                     }
                     if let digit = template[next].wholeNumberValue,
-                       digit >= 1, digit <= arguments.count
-                    {
+                       digit >= 1, digit <= arguments.count {
                         result += arguments[digit - 1]
                         i = template.index(after: next)
                         continue
@@ -273,7 +272,7 @@ extension MathParser {
                 let stretchable = AtomFactory.accents.first(where: {
                     $0.value == only.nucleus && $0.key.hasPrefix("wide")
                 }) != nil
-                    || (isBelow && (only.nucleus == "\u{0303}" || only.nucleus == "\u{0330}"))
+                || (isBelow && (only.nucleus == "\u{0303}" || only.nucleus == "\u{0330}"))
                 return MathAtom(
                     kind: .accent,
                     nucleus: only.nucleus,

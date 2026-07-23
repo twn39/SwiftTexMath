@@ -9,7 +9,7 @@ let package = Package(
         .iOS(.v17),
         .tvOS(.v17),
         .watchOS(.v10),
-        .visionOS(.v1),
+        .visionOS(.v1)
     ],
     products: [
         .library(
@@ -19,7 +19,7 @@ let package = Package(
         .library(
             name: "SwiftTexMath",
             targets: ["SwiftTexMath"]
-        ),
+        )
     ],
     targets: [
         .target(
@@ -37,7 +37,7 @@ let package = Package(
             dependencies: ["SwiftTexMathCore"],
             resources: [
                 .copy("Goldens"),
-                .copy("Tex2MathCorpus"),
+                .copy("Tex2MathCorpus")
             ]
         ),
         .testTarget(
@@ -48,6 +48,6 @@ let package = Package(
             name: "SwiftTexMathDemo",
             dependencies: ["SwiftTexMathCore"],
             path: "Examples/Demo"
-        ),
+        )
     ]
 )

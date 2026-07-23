@@ -33,7 +33,7 @@ enum GoldenFixtures {
         .init(name: "primes", latex: #"f'(x)+g''(x)"#, style: .display, fontSize: 20, maxWidth: 0),
         .init(name: "oiint", latex: #"\oiint_S F\cdot dS"#, style: .display, fontSize: 20, maxWidth: 0),
         .init(name: "cfrac", latex: #"\cfrac[l]{1}{1+\cfrac{1}{x}}"#, style: .display, fontSize: 18, maxWidth: 0),
-        .init(name: "array_at", latex: #"\begin{array}{c@{\,}c} a & b \end{array}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "array_at", latex: #"\begin{array}{c@{\,}c} a & b \end{array}"#, style: .display, fontSize: 20, maxWidth: 0)
     ]
 
     static let renderOptions = MathImage.Options(
@@ -123,5 +123,5 @@ enum GoldenFixtures {
         return
     }
     #expect(MathImage.matches(image, decoded, maxDifferingFraction: 0, maxChannelDelta: 0)
-        || MathImage.matches(image, decoded, maxDifferingFraction: 0.001, maxChannelDelta: 2))
+                || MathImage.matches(image, decoded, maxDifferingFraction: 0.001, maxChannelDelta: 2))
 }

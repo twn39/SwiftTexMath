@@ -22,7 +22,7 @@ enum InterElementSpacing {
         [.none, .thin, .nsMedium, .nsThick, .none, .none, .none, .nsThin], // close
         [.nsThin, .nsThin, .invalid, .nsThin, .nsThin, .nsThin, .nsThin, .nsThin], // punct
         [.nsThin, .thin, .nsMedium, .nsThick, .nsThin, .none, .nsThin, .nsThin], // fraction
-        [.nsMedium, .nsThin, .nsMedium, .nsThick, .none, .none, .none, .nsThin], // radical (left)
+        [.nsMedium, .nsThin, .nsMedium, .nsThick, .none, .none, .none, .nsThin] // radical (left)
     ]
 
     static func space(

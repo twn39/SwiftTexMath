@@ -170,7 +170,7 @@ struct DelimiterRadicalAccentTests {
             let denTop = -frac.denominatorOffset + frac.denominator.ascent
             let denGap = (frac.ruleOffset - frac.ruleThickness / 2) - denTop
             #expect(denGap + 0.01 >= metrics.fractionDenominatorGapMin
-                || denGap + 0.01 >= metrics.fractionDenominatorDisplayStyleGapMin)
+                        || denGap + 0.01 >= metrics.fractionDenominatorDisplayStyleGapMin)
         }
     }
 

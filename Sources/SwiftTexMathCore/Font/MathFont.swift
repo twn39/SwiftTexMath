@@ -30,7 +30,7 @@ public struct MathFont: Hashable, Sendable {
         /// All bundled MATH fonts.
         public static let allBundled: [Name] = [
             .latinModern, .asana, .euler, .fira, .garamond, .kpLight, .kpSans,
-            .leteSans, .libertinus, .notoSans, .termes, .xits,
+            .leteSans, .libertinus, .notoSans, .termes, .xits
         ]
     }
 

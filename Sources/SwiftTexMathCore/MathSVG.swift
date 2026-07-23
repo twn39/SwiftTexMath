@@ -95,11 +95,9 @@ public enum MathSVG {
         if options.includeXMLDeclaration {
             svg += #"<?xml version="1.0" encoding="UTF-8"?>"# + "\n"
         }
-        svg += #"""
-        <svg xmlns="http://www.w3.org/2000/svg" width="\#(fmt(width, options))" height="\#(fmt(height, options))" viewBox="0 0 \#(fmt(width, options)) \#(fmt(height, options))">
-        \#(body)
-        </svg>
-        """#
+        svg += #"<svg xmlns="http://www.w3.org/2000/svg" width="\#(fmt(width, options))" height="\#(fmt(height, options))" viewBox="0 0 \#(fmt(width, options)) \#(fmt(height, options))">"# + "\n"
+        svg += body + "\n"
+        svg += "</svg>"
 
         return Result(svg: svg, size: size, display: display)
     }

@@ -186,7 +186,7 @@ public struct FontMetrics: Sendable {
             name,
             name + "cmb",
             name + "comb",
-            name.hasSuffix("cmb") ? String(name.dropLast(3)) : name,
+            name.hasSuffix("cmb") ? String(name.dropLast(3)) : name
         ]
         var seen = Set<String>()
         for key in candidates where seen.insert(key).inserted {
@@ -293,7 +293,7 @@ public struct FontMetrics: Sendable {
         for key in [
             name,
             name + "cmb",
-            name.hasSuffix("cmb") ? String(name.dropLast(3)) : name,
+            name.hasSuffix("cmb") ? String(name.dropLast(3)) : name
         ] where !key.isEmpty {
             if let parts = assemblyPartsIfPresent(table.hAssembly[key]), !parts.isEmpty {
                 return parts

@@ -149,7 +149,7 @@ struct LayoutFingerprint: Equatable {
         (#"a+b"#, 2000...6000, 800...2500),
         (#"\sqrt{2}"#, 1500...5000, 1500...4000),
         (#"\sum_{i=1}^{n} i"#, 3000...9000, 2500...7000),
-        (#"\left( \frac{a}{b} \middle| c \right)"#, 4000...12000, 2500...7000),
+        (#"\left( \frac{a}{b} \middle| c \right)"#, 4000...12000, 2500...7000)
     ]
     for (latex, widthBand, heightBand) in cases {
         let fp = try LayoutFingerprint.capture(latex: latex)

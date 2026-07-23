@@ -44,7 +44,7 @@ public enum MathColor {
         "olive": .init(red: 0.5, green: 0.5, blue: 0),
         "silver": .init(red: 0.75, green: 0.75, blue: 0.75),
         "aqua": .init(red: 0, green: 1, blue: 1),
-        "fuchsia": .init(red: 1, green: 0, blue: 1),
+        "fuchsia": .init(red: 1, green: 0, blue: 1)
     ]
 
     public static func components(from raw: String) -> Components? {

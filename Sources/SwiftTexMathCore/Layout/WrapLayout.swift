@@ -222,8 +222,7 @@ enum WrapLayout {
         let addAfterBreak =
             (lines[lines.count - 1].isEmpty ? 0 : item.spacingBefore) + item.node.width
         if lineWidth + addAfterBreak > maxWidth,
-           canBreakBefore(item.atom, previous: moved.last?.atom, allowMidWord: true)
-        {
+           canBreakBefore(item.atom, previous: moved.last?.atom, allowMidWord: true) {
             lines.append([item])
             lineWidth = item.node.width
         } else {

@@ -89,7 +89,7 @@ extension CGContext {
         case .cross:
             segments = [
                 (CGPoint(x: 0, y: bot), CGPoint(x: w, y: top)),
-                (CGPoint(x: 0, y: top), CGPoint(x: w, y: bot)),
+                (CGPoint(x: 0, y: top), CGPoint(x: w, y: bot))
             ]
         case .horizontal:
             let y = box.strikeVerticalOffset
