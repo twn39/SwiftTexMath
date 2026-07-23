@@ -47,6 +47,26 @@ enum TableLayout {
             vlines = Array(vlines.prefix(columnCount + 1))
         }
 
+        var inserts = table.columnInserts
+        if inserts.count < columnCount + 1 {
+            inserts.append(contentsOf: Array(repeating: MathList?.none, count: columnCount + 1 - inserts.count))
+        } else if inserts.count > columnCount + 1 {
+            inserts = Array(inserts.prefix(columnCount + 1))
+        }
+
+        // Typeset @{…} inserts once; empty lists suppress the default gap.
+        var insertDisplays: [DisplayList?] = Array(repeating: nil, count: columnCount + 1)
+        for b in 0...columnCount {
+            if let list = inserts[b] {
+                let display = typeset(list, cellEnv)
+                insertDisplays[b] = display
+                for r in 0..<rowAscent.count {
+                    rowAscent[r] = max(rowAscent[r], display.ascent)
+                    rowDescent[r] = max(rowDescent[r], display.descent)
+                }
+            }
+        }
+
         var hlines = table.hlines
         while hlines.count < cells.count + 1 { hlines.append(0) }
         hlines = Array(hlines.prefix(cells.count + 1))
@@ -63,10 +83,22 @@ enum TableLayout {
                 + 2 * hlinePad
         }
 
+        func boundaryExtraWidth(_ boundary: Int) -> CGFloat {
+            if let display = insertDisplays[boundary] {
+                return display.width
+            }
+            // Default inter-column gap only between columns (boundaries 1..<columnCount).
+            if boundary > 0, boundary < columnCount {
+                return columnGap
+            }
+            return 0
+        }
+
         let contentWidth =
             columnWidths.reduce(0, +)
-            + CGFloat(max(columnCount - 1, 0)) * columnGap
-            + (0...columnCount).reduce(CGFloat(0)) { $0 + vlineBandWidth(vlines[$1]) }
+            + (0...columnCount).reduce(CGFloat(0)) {
+                $0 + vlineBandWidth(vlines[$1]) + boundaryExtraWidth($1)
+            }
 
         let hlineHeight = hlines.reduce(CGFloat(0)) { $0 + hlineBandHeight($1) }
         let totalHeight = zip(rowAscent, rowDescent).map(+).reduce(0, +)
@@ -101,30 +133,43 @@ enum TableLayout {
             yCenter -= hlinePad
         }
 
+        func appendVLines(_ count: Int, x: inout CGFloat) {
+            guard count > 0 else { return }
+            for i in 0..<count {
+                if i > 0 { x += vlineGap }
+                children.append(
+                    .rule(
+                        RuleDisplay(
+                            thickness: ruleThickness,
+                            isVertical: true,
+                            ascent: totalAscent,
+                            descent: totalDescent,
+                            width: ruleThickness,
+                            position: CGPoint(x: x, y: 0)
+                        )
+                    )
+                )
+                x += ruleThickness
+            }
+        }
+
+        func appendInsert(_ boundary: Int, x: inout CGFloat, rowY: CGFloat) {
+            guard let display = insertDisplays[boundary] else { return }
+            var placed = display
+            placed.position = CGPoint(x: x, y: rowY)
+            children.append(.list(placed))
+            x += placed.width
+        }
+
         for (r, row) in cells.enumerated() {
             appendHLines(hlines[r], at: &y)
             y -= rowAscent[r]
             var x: CGFloat = 0
 
             for c in 0..<columnCount {
-                let before = vlines[c]
-                if before > 0 {
-                    for i in 0..<before {
-                        if i > 0 { x += vlineGap }
-                        children.append(
-                            .rule(
-                                RuleDisplay(
-                                    thickness: ruleThickness,
-                                    isVertical: true,
-                                    ascent: totalAscent,
-                                    descent: totalDescent,
-                                    width: ruleThickness,
-                                    position: CGPoint(x: x, y: 0)
-                                )
-                            )
-                        )
-                        x += ruleThickness
-                    }
+                appendVLines(vlines[c], x: &x)
+                if insertDisplays[c] != nil {
+                    appendInsert(c, x: &x, rowY: y)
                 }
 
                 if c < row.count {
@@ -140,30 +185,18 @@ enum TableLayout {
                     children.append(.list(placed))
                 }
                 x += columnWidths[c]
+
+                // Default gap after the cell, unless the next boundary has an `@{…}` insert
+                // (that insert is emitted at the start of the next column and replaces the gap).
                 if c < columnCount - 1 {
-                    x += columnGap
+                    if insertDisplays[c + 1] == nil {
+                        x += columnGap
+                    }
                 }
             }
 
-            let after = vlines[columnCount]
-            if after > 0 {
-                for i in 0..<after {
-                    if i > 0 { x += vlineGap }
-                    children.append(
-                        .rule(
-                            RuleDisplay(
-                                thickness: ruleThickness,
-                                isVertical: true,
-                                ascent: totalAscent,
-                                descent: totalDescent,
-                                width: ruleThickness,
-                                position: CGPoint(x: x, y: 0)
-                            )
-                        )
-                    )
-                    x += ruleThickness
-                }
-            }
+            appendVLines(vlines[columnCount], x: &x)
+            appendInsert(columnCount, x: &x, rowY: y)
 
             y -= rowDescent[r]
             if r < cells.count - 1 {

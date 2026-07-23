@@ -2,9 +2,14 @@ import Foundation
 
 /// Hand-written recursive-descent LaTeX math parser.
 public struct MathParser: Sendable {
+    /// Maximum `buildInternal` nesting (groups / scripts / tables).
+    /// Lower than iosMath's 150 to stay within typical Swift debug stack frames.
+    static let maxRecursionDepth = 64
+
     var string: String
     var index: String.Index
     var spacesAllowed = false
+    var recursionDepth = 0
 
     public init(_ latex: String) {
         let stripped = Self.stripMathDelimiters(latex)
@@ -91,6 +96,12 @@ public struct MathParser: Sendable {
     // MARK: - Core RD
 
     mutating func buildInternal(stop: Stop) throws -> MathList {
+        if recursionDepth >= Self.maxRecursionDepth {
+            throw ParseError(code: .nestingTooDeep, message: "LaTeX nesting too deep")
+        }
+        recursionDepth += 1
+        defer { recursionDepth -= 1 }
+
         var list = MathList()
         var prev: MathAtom?
 
@@ -126,6 +137,12 @@ public struct MathParser: Sendable {
                 }
                 list.atoms[list.atoms.count - 1] = base
                 prev = base
+                continue
+            }
+
+            // Prime shorthand: f' → f^{\prime}, f'' → f^{\prime\prime}, f'^2 → f^{\prime 2}
+            if ch == "'" {
+                try appendPrimes(into: &list, prev: &prev)
                 continue
             }
 
@@ -229,6 +246,30 @@ public struct MathParser: Sendable {
         return list
     }
 
+    /// Attach one or more primes as a superscript on `prev` (iosMath / TeX `'`).
+    private mutating func appendPrimes(into list: inout MathList, prev: inout MathAtom?) throws {
+        if prev == nil || prev?.superscript != nil || !(prev?.kind.allowsScripts ?? false) {
+            let empty = MathAtom.ordinary("")
+            list.append(empty)
+            prev = empty
+        }
+        var primes = MathList(atoms: [MathAtom.ordinary("\u{2032}")])
+        while peek() == "'" {
+            _ = nextCharacter()
+            primes.append(MathAtom.ordinary("\u{2032}"))
+        }
+        // Merge trailing ^: f'^2 → superscript = [′, 2]
+        if peek() == "^" {
+            _ = nextCharacter()
+            let tail = try readScript()
+            primes.atoms.append(contentsOf: tail.atoms)
+        }
+        var base = prev!
+        base.superscript = primes
+        list.atoms[list.atoms.count - 1] = base
+        prev = base
+    }
+
     func startsWithRightCommand() -> Bool {
         var i = index
         guard i < string.endIndex, string[i] == "\\" else { return false }
@@ -302,6 +343,12 @@ public struct MathParser: Sendable {
         }
         if ch == "\\" {
             try appendCommand(into: &list, prev: &prev, oneCharArgument: true)
+            return
+        }
+        if ch == "'" {
+            let atom = MathAtom.ordinary("\u{2032}")
+            list.append(atom)
+            prev = atom
             return
         }
         guard let atom = AtomFactory.atom(forCharacter: ch) else {

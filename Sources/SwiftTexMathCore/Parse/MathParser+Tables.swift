@@ -139,9 +139,32 @@ extension MathParser {
         }
     }
 
-    /// Reads `{c|cr}` after `\begin{array}`.
+    /// Reads `{c|cr}` / `{c@{\quad}c}` after `\begin{array}` (nested braces allowed).
     mutating func readColumnSpec() throws -> TableEnvironment.ColumnSpec {
-        let raw = try readBracedName()
+        skipSpaces()
+        guard peek() == "{" else {
+            throw ParseError(code: .missingEnvironment, message: "Expected {column spec}")
+        }
+        _ = nextCharacter()
+        var raw = ""
+        var depth = 1
+        while hasCharacters, depth > 0 {
+            let ch = nextCharacter()
+            if ch == "{" {
+                depth += 1
+                raw.append(ch)
+            } else if ch == "}" {
+                depth -= 1
+                if depth > 0 {
+                    raw.append(ch)
+                }
+            } else {
+                raw.append(ch)
+            }
+        }
+        guard depth == 0 else {
+            throw ParseError(code: .missingEnvironment, message: "Missing } after column specification")
+        }
         return try TableEnvironment.parseColumnSpec(raw)
     }
 }

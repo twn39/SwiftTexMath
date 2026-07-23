@@ -99,13 +99,19 @@ public struct MathAtom: Sendable, Hashable {
     }
 
     public struct Fraction: Sendable, Hashable {
+        public enum NumeratorAlignment: Sendable, Hashable {
+            case left, center, right
+        }
+
         public var numerator: MathList
         public var denominator: MathList
         public var hasRule: Bool
         public var leftDelimiter: String
         public var rightDelimiter: String
-        /// When set, overrides the surrounding style for this fraction (`\dfrac` / `\tfrac`).
+        /// When set, overrides the surrounding style for this fraction (`\dfrac` / `\tfrac` / `\cfrac`).
         public var forcedStyle: MathStyle?
+        /// Numerator horizontal alignment (`\cfrac[l|c|r]`; default center).
+        public var numeratorAlignment: NumeratorAlignment
 
         public init(
             numerator: MathList,
@@ -113,7 +119,8 @@ public struct MathAtom: Sendable, Hashable {
             hasRule: Bool = true,
             leftDelimiter: String = "",
             rightDelimiter: String = "",
-            forcedStyle: MathStyle? = nil
+            forcedStyle: MathStyle? = nil,
+            numeratorAlignment: NumeratorAlignment = .center
         ) {
             self.numerator = numerator
             self.denominator = denominator
@@ -121,6 +128,7 @@ public struct MathAtom: Sendable, Hashable {
             self.leftDelimiter = leftDelimiter
             self.rightDelimiter = rightDelimiter
             self.forcedStyle = forcedStyle
+            self.numeratorAlignment = numeratorAlignment
         }
     }
 
@@ -224,6 +232,9 @@ public struct MathAtom: Sendable, Hashable {
         public var vlines: [Int]
         /// Horizontal rule counts at each row boundary (length = rowCount + 1; `\hline` in `array`).
         public var hlines: [Int]
+        /// Optional `@{…}` inserts at each column boundary (length = columnCount + 1).
+        /// Non-`nil` replaces the default inter-column gap at that boundary.
+        public var columnInserts: [MathList?]
 
         public enum ColumnAlignment: Sendable, Hashable {
             case left, center, right
@@ -236,7 +247,8 @@ public struct MathAtom: Sendable, Hashable {
             interColumnSpacing: CGFloat = 18,
             interRowAdditionalSpacing: CGFloat = 0,
             vlines: [Int] = [],
-            hlines: [Int] = []
+            hlines: [Int] = [],
+            columnInserts: [MathList?] = []
         ) {
             self.environment = environment
             self.rows = rows
@@ -245,6 +257,7 @@ public struct MathAtom: Sendable, Hashable {
             self.interRowAdditionalSpacing = interRowAdditionalSpacing
             self.vlines = vlines
             self.hlines = hlines
+            self.columnInserts = columnInserts
         }
     }
 

@@ -99,7 +99,35 @@ extension MathParser {
         }
         // Column count filled in later by finalize; provide a single alignment to broadcast.
         _ = columnsHint
-        return TableEnvironment.ColumnSpec(alignments: [align], vlines: [0, 0])
+        return TableEnvironment.ColumnSpec(alignments: [align], vlines: [0, 0], inserts: [nil, nil])
+    }
+
+    /// Optional `[l|c|r]` numerator alignment for `\cfrac` (amsmath).
+    mutating func readOptionalCFracAlignment() throws -> MathAtom.Fraction.NumeratorAlignment {
+        skipSpaces()
+        guard peek() == "[" else { return .center }
+        _ = nextCharacter()
+        skipSpaces()
+        guard hasCharacters else {
+            throw ParseError(code: .invalidCommand, message: "Unterminated optional alignment for \\cfrac")
+        }
+        let letter = nextCharacter()
+        let alignment: MathAtom.Fraction.NumeratorAlignment
+        switch letter {
+        case "l": alignment = .left
+        case "c": alignment = .center
+        case "r": alignment = .right
+        default:
+            throw ParseError(
+                code: .invalidCommand,
+                message: "Invalid alignment for \\cfrac: '\(letter)' (expected l, c, or r)"
+            )
+        }
+        skipSpaces()
+        guard hasCharacters, nextCharacter() == "]" else {
+            throw ParseError(code: .invalidCommand, message: "Unterminated optional alignment for \\cfrac")
+        }
+        return alignment
     }
 
     mutating func readCommandName() -> String {

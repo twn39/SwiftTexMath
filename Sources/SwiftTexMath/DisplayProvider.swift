@@ -2,6 +2,10 @@ import SwiftUI
 import SwiftTexMathCore
 
 /// Caches parse + layout results for SwiftUI layout/draw passes.
+///
+/// Caching is only enabled when `fonts` is identity-equal to ``FontRegistry/shared``.
+/// Custom ``FontProviding`` injects bypass the cache so alternate metrics cannot
+/// poison shared entries (see README “Architecture invariants”).
 enum DisplayProvider {
     struct Key: Hashable, Sendable {
         var latex: String

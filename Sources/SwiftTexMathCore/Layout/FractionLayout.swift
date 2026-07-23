@@ -22,7 +22,14 @@ enum FractionLayout {
         var denominator = typeset(fraction.denominator, denEnv)
 
         let width = max(numerator.width, denominator.width)
-        numerator.position = CGPoint(x: (width - numerator.width) / 2, y: 0)
+        switch fraction.numeratorAlignment {
+        case .left:
+            numerator.position = .zero
+        case .center:
+            numerator.position = CGPoint(x: (width - numerator.width) / 2, y: 0)
+        case .right:
+            numerator.position = CGPoint(x: width - numerator.width, y: 0)
+        }
         denominator.position = CGPoint(x: (width - denominator.width) / 2, y: 0)
 
         let axis = metrics.axisHeight

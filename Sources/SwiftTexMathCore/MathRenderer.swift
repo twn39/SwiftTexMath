@@ -2,6 +2,11 @@ import CoreGraphics
 import Foundation
 
 /// Headless entry point: parse → normalize → typeset → draw.
+///
+/// Pipeline order is fixed: parse produces a `MathList`, layout always runs
+/// through `MathNormalizer` inside the typesetter, then builds a `DisplayList`.
+/// Inject ``fonts`` for tests or alternate MATH fonts; the default is
+/// ``FontRegistry/shared``.
 public struct MathRenderer: Sendable {
     public var environment: MathEnvironment
     public var fonts: any FontProviding

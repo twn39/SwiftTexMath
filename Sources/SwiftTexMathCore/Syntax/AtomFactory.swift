@@ -16,6 +16,21 @@ public enum AtomFactory {
         "to": "rightarrow",
         "iff": "Longleftrightarrow",
         "AA": "angstrom",
+        // iosMath / amssymb aliases
+        "restriction": "upharpoonright",
+        "impliedby": "Longleftarrow",
+        "dotsc": "ldots",
+        "dotsb": "cdots",
+        "dotsm": "cdots",
+        "dotsi": "ldots",
+        "square": "Box",
+        "vartriangle": "triangle",
+        "nsucccurlyeq": "nsucceq",
+        "npreccurlyeq": "npreceq",
+        "nprecapprox": "precnapprox",
+        "nsuccapprox": "succnapprox",
+        "nprecsim": "precnsim",
+        "nsuccsim": "succnsim",
     ]
 
     public static let delimiters: [String: String] = [
@@ -162,6 +177,11 @@ public enum AtomFactory {
         put("iint", .largeOperator("\u{222C}", limits: false))
         put("iiint", .largeOperator("\u{222D}", limits: false))
         put("oint", .largeOperator("\u{222E}", limits: false))
+        put("oiint", .largeOperator("\u{222F}", limits: false))
+        put("oiiint", .largeOperator("\u{2230}", limits: false))
+        put("fint", .largeOperator("\u{2A0F}", limits: false))
+        put("varointclockwise", .largeOperator("\u{2232}", limits: false))
+        put("ointctrclockwise", .largeOperator("\u{2233}", limits: false))
         put("bigcap", .largeOperator("\u{22C2}", limits: true))
         put("bigcup", .largeOperator("\u{22C3}", limits: true))
         put("bigvee", .largeOperator("\u{22C1}", limits: true))
@@ -212,7 +232,7 @@ public enum AtomFactory {
         put("qquad", .space(mu: 36))
 
         // Extended AMS / iosMath symbol parity
-put("varkappa", .ordinary("\u{03F0}"))
+        put("varkappa", .ordinary("\u{03F0}"))
         put("nwarrow", .relation("\u{2196}"))
         put("nearrow", .relation("\u{2197}"))
         put("searrow", .relation("\u{2198}"))
@@ -221,6 +241,40 @@ put("varkappa", .ordinary("\u{03F0}"))
         put("longmapsto", .relation("\u{27FC}"))
         put("hookrightarrow", .relation("\u{21AA}"))
         put("hookleftarrow", .relation("\u{21A9}"))
+        // Harpoons / extended arrows
+        put("rightleftharpoons", .relation("\u{21CC}"))
+        put("leftrightharpoons", .relation("\u{21CB}"))
+        put("upharpoonleft", .relation("\u{21BF}"))
+        put("upharpoonright", .relation("\u{21BE}"))
+        put("downharpoonleft", .relation("\u{21C3}"))
+        put("downharpoonright", .relation("\u{21C2}"))
+        put("rightharpoonup", .relation("\u{21C0}"))
+        put("leftharpoonup", .relation("\u{21BC}"))
+        put("rightharpoondown", .relation("\u{21C1}"))
+        put("leftharpoondown", .relation("\u{21BD}"))
+        put("twoheadleftarrow", .relation("\u{219E}"))
+        put("twoheadrightarrow", .relation("\u{21A0}"))
+        put("rightarrowtail", .relation("\u{21A3}"))
+        put("leftarrowtail", .relation("\u{21A2}"))
+        // Common relation aliases / AMS misc
+        put("lt", .relation("<"))
+        put("gt", .relation(">"))
+        put("therefore", .relation("\u{2234}"))
+        put("because", .relation("\u{2235}"))
+        put("frown", .relation("\u{2322}"))
+        put("smile", .relation("\u{2323}"))
+        put("preccurlyeq", .relation("\u{227C}"))
+        put("succcurlyeq", .relation("\u{227D}"))
+        put("curlyeqprec", .relation("\u{22DE}"))
+        put("curlyeqsucc", .relation("\u{22DF}"))
+        put("precsim", .relation("\u{227E}"))
+        put("succsim", .relation("\u{227F}"))
+        put("precapprox", .relation("\u{2AB7}"))
+        put("succapprox", .relation("\u{2AB8}"))
+        put("backsimeq", .relation("\u{22CD}"))
+        put("Bumpeq", .relation("\u{224E}"))
+        put("vartriangleleft", .relation("\u{22B2}"))
+        put("vartriangleright", .relation("\u{22B3}"))
         put("leqslant", .relation("\u{2A7D}"))
         put("geqslant", .relation("\u{2A7E}"))
         put("asymp", .relation("\u{224D}"))
@@ -343,9 +397,53 @@ put("varkappa", .ordinary("\u{03F0}"))
         put("top", .ordinary("\u{22A4}"))
         put("bot", .ordinary("\u{22A5}"))
         put("Box", .ordinary("\u{25A1}"))
+        put("complement", .ordinary("\u{2201}"))
+        put("lozenge", .ordinary("\u{25CA}"))
+        put("blacklozenge", .ordinary("\u{29EB}"))
+        put("surd", .ordinary("\u{221A}"))
+        put("flat", .ordinary("\u{266D}"))
+        put("natural", .ordinary("\u{266E}"))
+        put("sharp", .ordinary("\u{266F}"))
+        put("blacktriangle", .ordinary("\u{25B2}"))
+        put("blacktriangledown", .ordinary("\u{25BC}"))
+        put("blacktriangleleft", .ordinary("\u{25C0}"))
+        put("blacktriangleright", .ordinary("\u{25B6}"))
         put("imath", .ordinary("\u{1D6A4}"))
         put("jmath", .ordinary("\u{1D6A5}"))
         put("upquote", .ordinary("'"))
+        put("bigcirc", .binaryOperator("\u{25EF}"))
+        put("bigtriangleup", .binaryOperator("\u{25B3}"))
+        put("bigtriangledown", .binaryOperator("\u{25BD}"))
+        put("triangleleft", .binaryOperator("\u{25C1}"))
+        put("triangleright", .binaryOperator("\u{25B7}"))
+        // Remaining amssymb / iosMath parity
+        put("varsigma", .ordinary("\u{03C2}"))
+        put("Diamond", .ordinary("\u{25C7}"))
+        put("triangledown", .ordinary("\u{25BD}"))
+        put("clubsuit", .ordinary("\u{2663}"))
+        put("diamondsuit", .ordinary("\u{2662}"))
+        put("heartsuit", .ordinary("\u{2661}"))
+        put("spadesuit", .ordinary("\u{2660}"))
+        put("Subset", .relation("\u{22D0}"))
+        put("Supset", .relation("\u{22D1}"))
+        put("backsim", .relation("\u{223D}"))
+        put("bumpeq", .relation("\u{224F}"))
+        put("eqsim", .relation("\u{2242}"))
+        put("multimap", .relation("\u{22B8}"))
+        put("trianglelefteq", .relation("\u{22B4}"))
+        put("trianglerighteq", .relation("\u{22B5}"))
+        put("triangleq", .relation("\u{225C}"))
+        put("nequiv", .relation("\u{2262}"))
+        put("nsubset", .relation("\u{2284}"))
+        put("nsupset", .relation("\u{2285}"))
+        put("nleftarrow", .relation("\u{219A}"))
+        put("nrightarrow", .relation("\u{219B}"))
+        put("nleftrightarrow", .relation("\u{21AE}"))
+        put("nLeftarrow", .relation("\u{21CD}"))
+        put("nRightarrow", .relation("\u{21CF}"))
+        put("nLeftrightarrow", .relation("\u{21CE}"))
+        put("precneq", .relation("\u{2AB1}"))
+        put("succneq", .relation("\u{2AB2}"))
         put("arccot", .largeOperator("arccot", limits: false))
         put("arcsec", .largeOperator("arcsec", limits: false))
         put("arccsc", .largeOperator("arccsc", limits: false))
@@ -375,13 +473,100 @@ put("varkappa", .ordinary("\u{03F0}"))
         return table
     }()
 
+    /// Thread-safe overlay for runtime-registered symbols / aliases.
+    private final class CustomSymbolStore: @unchecked Sendable {
+        private let lock = NSLock()
+        private var symbols: [String: MathAtom] = [:]
+        private var aliases: [String: String] = [:]
+
+        func resolveAlias(_ command: String) -> String? {
+            lock.lock(); defer { lock.unlock() }
+            return aliases[command]
+        }
+
+        func atom(for name: String) -> MathAtom? {
+            lock.lock(); defer { lock.unlock() }
+            return symbols[name]
+        }
+
+        func addSymbol(_ name: String, atom: MathAtom) {
+            lock.lock(); defer { lock.unlock() }
+            symbols[name] = atom
+        }
+
+        func addAlias(_ name: String, target: String) {
+            lock.lock(); defer { lock.unlock() }
+            aliases[name] = target
+        }
+
+        func remove(_ name: String) {
+            lock.lock(); defer { lock.unlock() }
+            symbols.removeValue(forKey: name)
+            aliases.removeValue(forKey: name)
+        }
+
+        func reset() {
+            lock.lock(); defer { lock.unlock() }
+            symbols.removeAll()
+            aliases.removeAll()
+        }
+
+        func snapshotSymbols() -> [String: MathAtom] {
+            lock.lock(); defer { lock.unlock() }
+            return symbols
+        }
+    }
+
+    private static let customStore = CustomSymbolStore()
+
     public static func resolveAlias(_ command: String) -> String {
-        aliases[command] ?? command
+        customStore.resolveAlias(command) ?? aliases[command] ?? command
     }
 
     public static func atom(forCommand command: String) -> MathAtom? {
         let name = resolveAlias(command)
-        return symbols[name]
+        return customStore.atom(for: name) ?? symbols[name]
+    }
+
+    /// Register or replace a LaTeX command (iosMath `addLatexSymbol:`).
+    /// Prefer calling during app setup before concurrent parse/layout.
+    public static func addLatexSymbol(_ name: String, atom: MathAtom) {
+        precondition(!name.isEmpty, "Symbol name must be non-empty")
+        customStore.addSymbol(name, atom: atom)
+    }
+
+    /// Register a command alias (`name` → existing `target` command).
+    public static func addAlias(_ name: String, target: String) {
+        precondition(!name.isEmpty && !target.isEmpty)
+        customStore.addAlias(name, target: target)
+    }
+
+    /// Remove a previously registered custom symbol (builtin symbols are unaffected).
+    public static func removeLatexSymbol(_ name: String) {
+        customStore.remove(name)
+    }
+
+    /// Clear all custom symbols and aliases (useful in tests).
+    public static func resetCustomSymbols() {
+        customStore.reset()
+    }
+
+    /// Best-effort reverse lookup of a command name for a nucleus (for serialization).
+    public static func commandName(forNucleus nucleus: String, kind: AtomKind) -> String? {
+        let customs = customStore.snapshotSymbols()
+        for (name, atom) in customs where atom.nucleus == nucleus && atom.kind == kind {
+            return name
+        }
+        for (name, atom) in symbols where atom.nucleus == nucleus && atom.kind == kind {
+            return name
+        }
+        for (name, atom) in customs where atom.nucleus == nucleus {
+            return name
+        }
+        for (name, atom) in symbols where atom.nucleus == nucleus {
+            return name
+        }
+        return nil
     }
 
     public static func atom(forCharacter ch: Character) -> MathAtom? {

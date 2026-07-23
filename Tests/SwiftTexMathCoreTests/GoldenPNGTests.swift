@@ -24,6 +24,16 @@ enum GoldenFixtures {
         .init(name: "middle", latex: #"\left( a \middle| b \right)"#, style: .display, fontSize: 20, maxWidth: 0),
         .init(name: "operatorname", latex: #"\operatorname{Hom}(A,B)"#, style: .display, fontSize: 20, maxWidth: 0),
         .init(name: "wrapped", latex: #"a = b = c = d = e = f = g"#, style: .display, fontSize: 18, maxWidth: 70),
+        .init(name: "overset", latex: #"\overset{def}{=}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "cancel", latex: #"\cancel{abc}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "array_vlines", latex: #"\begin{array}{|c|c|} a & b \\ c & d \end{array}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "aligned", latex: #"\begin{aligned} a &= b \\ c &= d \end{aligned}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "big_delims", latex: #"\left( \frac{a}{b} \middle| \frac{c}{d} \right)"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "phantom_smash", latex: #"a\phantom{x}b\smash{y}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "primes", latex: #"f'(x)+g''(x)"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "oiint", latex: #"\oiint_S F\cdot dS"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "cfrac", latex: #"\cfrac[l]{1}{1+\cfrac{1}{x}}"#, style: .display, fontSize: 18, maxWidth: 0),
+        .init(name: "array_at", latex: #"\begin{array}{c@{\,}c} a & b \end{array}"#, style: .display, fontSize: 20, maxWidth: 0),
     ]
 
     static let renderOptions = MathImage.Options(

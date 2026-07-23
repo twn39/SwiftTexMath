@@ -17,6 +17,7 @@ public struct ParseError: Error, Sendable, Equatable, CustomStringConvertible {
         case invalidNumberOfColumns
         case invalidLimits
         case unexpectedEnd
+        case nestingTooDeep
         case internalError
     }
 

@@ -33,15 +33,15 @@ let display = try renderer.layout(latex: #"E = mc^2"#)
 
 | Area | Status |
 |---|---|
-| Fractions `\frac` / `\dfrac` / `\tfrac` / `\binom` | Supported |
+| Fractions `\frac` / `\dfrac` / `\tfrac` / `\cfrac[l\|c\|r]` / `\binom` | Supported |
 | Infix fractions `\over` / `\atop` / `\choose` / `\brack` / `\brace` | Supported |
 | Radicals `\sqrt`, `\sqrt[n]` | Supported (MATH `v_variants`) |
 | `\left` … `\right` stretchy delimiters | Supported (variants + `v_assembly`) |
-| Scripts `^` `_`, large ops + `\limits` | Supported |
+| Scripts `^` `_` / prime `'` / large ops + `\limits` | Supported |
 | Accents (`\hat`, `\vec`, …) | Supported (accent attachment points) |
-| Spacing `\,` `\;` `\!` `\quad` + `\kern`/`\hspace`/`\mkern` | Supported |
+| Spacing `\,` `\:` `\;` `\!` `\quad` + `\kern`/`\hspace`/`\mkern` | Supported |
 | Styles `\displaystyle` / `\textstyle` / … | Supported |
-| Font faces `\mathrm` `\mathbf` `\mathit` `\text` `\mathsf` `\mathtt` `\boldsymbol` | Supported |
+| Font faces `\mathrm` `\mathbf` `\mathit` `\text` `\mathsf`/`\textsf` `\mathtt`/`\texttt` `\boldsymbol` + `\bf`/`\rm`/`\mit` | Supported |
 | Matrices / `cases` / `pmatrix` / `array{c\|cr}` / starred `pmatrix*` | Supported |
 | `aligned` / `alignedat` / `split` / `gather` / `gathered` / `eqnarray` | Supported |
 | Italic correction on superscripts | Supported |
@@ -52,7 +52,12 @@ let display = try renderer.layout(latex: #"E = mc^2"#)
 | Box family `\phantom`/`\smash`/`\llap`/`\cancel`/`\sout`/… | Supported |
 | Stack `\overset`/`\underset`/`\stackrel` + stretchy arrows/braces | Supported |
 | `\substack`, `\not=` family | Supported |
-| Auto line-breaking via `maxWidth` | Supported (relations/binops/spaces; no mid-word) |
+| Multi-integrals `\iint`…`\oiint`/`\oiiint`/`\fint`/… | Supported |
+| AMS aliases (`\lt`/`\gt`/`\therefore`/`\impliedby`/`\dotsc`/…) | Supported |
+| Custom symbols (`AtomFactory.addLatexSymbol`) | Supported |
+| `MathList.latexString` serialization | Supported (best-effort) |
+| Auto line-breaking via `maxWidth` | Supported (rel/binop/space; mid-word as last resort) |
+| `array` `@{…}` column inserts | Supported |
 | Bundled MATH fonts (LM, XITS, Asana, …) | 12 fonts |
 
 ## Architecture
@@ -61,10 +66,16 @@ let display = try renderer.layout(latex: #"E = mc^2"#)
 LaTeX → MathParser → MathList (atoms)
                   → MathNormalizer
                   → Typesetter → DisplayList
-                  → CGContext / SwiftUI Canvas
+                  → CGContext / MathImage / SwiftUI Canvas
 ```
 
 Bundled fonts: Latin Modern Math plus Asana, Euler, Fira, Garamond, Kp Math, Lete Sans, Libertinus, Noto Sans, Termes, and XITS (`mathFonts.bundle`) with OpenType MATH constants, italic corrections, accent attachments, and glyph variants/assemblies.
+
+### Architecture invariants
+
+- **Normalize before Layout.** `MathNormalizer` owns TeX sugar cleanup (e.g. dropping bare `.boundary` atoms). Typesetter may still skip boundaries as defense-in-depth, but new semantic lowering belongs in Normalize / Parse—not ad-hoc layout branches.
+- **Payload growth discipline.** Prefer extending `MathAtom.Payload` only when a TeX construct needs a distinct layout shape. Register new commands in family modules (`FractionCommands`, `MacroCommands`, …) or `*Layout.swift` helpers; keep `CommandHandlers` and `Typesetter.makeNode` as thin routers.
+- **Font injection & SwiftUI cache.** `MathRenderer`, `MathImage`, and `.mathFonts(...)` accept any `FontProviding`. `DisplayProvider` caches layout only when the provider is `FontRegistry.shared` (identity check). Custom providers always recompute—do not expect cache hits.
 
 ## Develop
 

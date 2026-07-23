@@ -64,7 +64,8 @@ enum WrapLayout {
                 spacing = 0
             }
 
-            // Nested content uses remaining width when breaking.
+            // Nested content wraps to the full paragraph width; remaining-width
+            // reflow happens when the outer packer places the node on a line.
             var childEnv = env
             childEnv.maxWidth = max(0, maxWidth)
             let node = makeNode(
@@ -91,19 +92,31 @@ enum WrapLayout {
             }
 
             if wouldExceed, let breakAt = bestBreakIndex(in: lines[lines.count - 1]) {
-                let moved = Array(lines[lines.count - 1][breakAt...])
-                lines[lines.count - 1] = Array(lines[lines.count - 1][..<breakAt])
-                lines.append(moved)
-                lineWidth = lineWidthOf(moved)
-                let addAfterBreak =
-                    (lines[lines.count - 1].isEmpty ? 0 : item.spacingBefore) + item.node.width
-                if lineWidth + addAfterBreak > maxWidth, canBreakBefore(item.atom, previous: moved.last?.atom) {
-                    lines.append([item])
-                    lineWidth = item.node.width
-                } else {
-                    lines[lines.count - 1].append(item)
-                    lineWidth += addAfterBreak
-                }
+                appendByBreaking(
+                    item,
+                    breakAt: breakAt,
+                    lines: &lines,
+                    lineWidth: &lineWidth,
+                    maxWidth: maxWidth
+                )
+                continue
+            }
+
+            // Last resort: mid-word / letter breaks when no soft opportunity exists.
+            if wouldExceed, let breakAt = bestBreakIndex(in: lines[lines.count - 1], allowMidWord: true) {
+                appendByBreaking(
+                    item,
+                    breakAt: breakAt,
+                    lines: &lines,
+                    lineWidth: &lineWidth,
+                    maxWidth: maxWidth
+                )
+                continue
+            }
+
+            if wouldExceed, canBreakBefore(item.atom, previous: lines[lines.count - 1].last?.atom, allowMidWord: true) {
+                lines.append([item])
+                lineWidth = item.node.width
                 continue
             }
 
@@ -145,6 +158,30 @@ enum WrapLayout {
         )
     }
 
+    private static func appendByBreaking(
+        _ item: PlacedAtom,
+        breakAt: Int,
+        lines: inout [[PlacedAtom]],
+        lineWidth: inout CGFloat,
+        maxWidth: CGFloat
+    ) {
+        let moved = Array(lines[lines.count - 1][breakAt...])
+        lines[lines.count - 1] = Array(lines[lines.count - 1][..<breakAt])
+        lines.append(moved)
+        lineWidth = lineWidthOf(moved)
+        let addAfterBreak =
+            (lines[lines.count - 1].isEmpty ? 0 : item.spacingBefore) + item.node.width
+        if lineWidth + addAfterBreak > maxWidth,
+           canBreakBefore(item.atom, previous: moved.last?.atom, allowMidWord: true)
+        {
+            lines.append([item])
+            lineWidth = item.node.width
+        } else {
+            lines[lines.count - 1].append(item)
+            lineWidth += addAfterBreak
+        }
+    }
+
     private static func materializeLine(_ items: [PlacedAtom]) -> DisplayList {
         var children: [DisplayNode] = []
         var x: CGFloat = 0
@@ -171,20 +208,24 @@ enum WrapLayout {
         return w
     }
 
-    /// Prefer breaks before relations / binary ops / after spaces; avoid mid-word and before punctuation.
-    static func canBreakBefore(_ atom: MathAtom, previous: MathAtom?) -> Bool {
+    /// Prefer breaks before relations / binary ops / after spaces.
+    /// Mid-word letter breaks are opt-in (`allowMidWord`) for overflow rescue.
+    static func canBreakBefore(
+        _ atom: MathAtom,
+        previous: MathAtom?,
+        allowMidWord: Bool = false
+    ) -> Bool {
         // Never break before trailing punctuation (keep "word," together).
         if atom.kind == .punctuation { return false }
-
-        // Keep scripts attached: atoms with scripts shouldn't be orphaned from their base
-        // (handled by treating previous open / letter runs specially below).
 
         if let previous {
             if previous.kind == .open { return false }
             // Space is an explicit break opportunity (common inside `\text{…}`).
             if case .space = previous.payload { return true }
-            // Don't split a multi-letter text word across letters.
-            if isTextLetter(previous), isTextLetter(atom) { return false }
+            // Prefer keeping multi-letter text words intact.
+            if isTextLetter(previous), isTextLetter(atom) {
+                return allowMidWord
+            }
             // Don't break immediately after a binary/relation (avoid dangling op at EOL).
             // Breaks happen *before* the next atom instead.
         }
@@ -224,19 +265,19 @@ enum WrapLayout {
         return ch.isLetter || ch.isNumber
     }
 
-    private static func bestBreakIndex(in line: [PlacedAtom]) -> Int? {
+    private static func bestBreakIndex(in line: [PlacedAtom], allowMidWord: Bool = false) -> Int? {
         guard line.count > 1 else { return nil }
         // Prefer relation / binary breaks closest to the end.
         for i in stride(from: line.count - 1, through: 1, by: -1) {
             let atom = line[i].atom
             if atom.kind == .relation || atom.kind == .binaryOperator,
-               canBreakBefore(atom, previous: line[i - 1].atom)
+               canBreakBefore(atom, previous: line[i - 1].atom, allowMidWord: allowMidWord)
             {
                 return i
             }
         }
         for i in stride(from: line.count - 1, through: 1, by: -1) {
-            if canBreakBefore(line[i].atom, previous: line[i - 1].atom) {
+            if canBreakBefore(line[i].atom, previous: line[i - 1].atom, allowMidWord: allowMidWord) {
                 return i
             }
         }

@@ -5,6 +5,8 @@ enum TableEnvironment {
     struct ColumnSpec {
         var alignments: [MathAtom.Table.ColumnAlignment]
         var vlines: [Int] // length = alignments.count + 1
+        /// `@{…}` inserts at each boundary (parallel to `vlines`). `nil` = default gap.
+        var inserts: [MathList?]
     }
 
     /// Matrix environments that get stretchy fences in layout.
@@ -31,7 +33,8 @@ enum TableEnvironment {
             alignments.append(.left)
         }
         let vlines = Array(repeating: 0, count: alignments.count + 1)
-        return ColumnSpec(alignments: alignments, vlines: vlines)
+        let inserts = Array(repeating: MathList?.none, count: alignments.count + 1)
+        return ColumnSpec(alignments: alignments, vlines: vlines, inserts: inserts)
     }
 
     static func finalize(
@@ -54,6 +57,7 @@ enum TableEnvironment {
         }
 
         if let columnSpec, baseName == "array" {
+            let columns = max(columnCount, columnSpec.alignments.count)
             return withHLines(
                 MathAtom.Table(
                     environment: environment,
@@ -61,8 +65,9 @@ enum TableEnvironment {
                     alignments: padAlignments(columnSpec.alignments, to: columnCount),
                     interColumnSpacing: 18,
                     interRowAdditionalSpacing: 0,
-                    vlines: padVlines(columnSpec.vlines, columns: max(columnCount, columnSpec.alignments.count)),
-                    hlines: []
+                    vlines: padVlines(columnSpec.vlines, columns: columns),
+                    hlines: [],
+                    columnInserts: padInserts(columnSpec.inserts, columns: columns)
                 )
             )
         }
@@ -202,10 +207,11 @@ enum TableEnvironment {
         }
     }
 
-    /// Parse `{c|cr}` / `{|l|c|r|}` style specs.
+    /// Parse `{c|cr}` / `{|l|c|r|}` / `{c@{\quad}c}` style specs.
     static func parseColumnSpec(_ raw: String) throws -> ColumnSpec {
         var alignments: [MathAtom.Table.ColumnAlignment] = []
         var vlines: [Int] = [0]
+        var inserts: [MathList?] = [nil]
         var index = raw.startIndex
 
         while index < raw.endIndex {
@@ -215,32 +221,52 @@ enum TableEnvironment {
             case "l":
                 alignments.append(.left)
                 vlines.append(0)
+                inserts.append(nil)
             case "c":
                 alignments.append(.center)
                 vlines.append(0)
+                inserts.append(nil)
             case "r":
                 alignments.append(.right)
                 vlines.append(0)
+                inserts.append(nil)
             case "|":
                 if vlines.isEmpty {
                     vlines.append(1)
+                    inserts.append(nil)
                 } else {
                     vlines[vlines.count - 1] += 1
                 }
-            case " ", "\t", "\n":
+            case " ", "\t", "\n", "\r":
                 continue
             case "@":
-                // Skip @{…} spacing inserts for now.
-                if index < raw.endIndex, raw[index] == "{" {
-                    index = raw.index(after: index)
-                    var depth = 1
-                    while index < raw.endIndex, depth > 0 {
-                        let c = raw[index]
-                        index = raw.index(after: index)
-                        if c == "{" { depth += 1 }
-                        if c == "}" { depth -= 1 }
-                    }
+                guard index < raw.endIndex, raw[index] == "{" else {
+                    throw ParseError(
+                        code: .invalidEnvironment,
+                        message: "array @ expects a braced insert like @{…}"
+                    )
                 }
+                index = raw.index(after: index)
+                let contentStart = index
+                var depth = 1
+                while index < raw.endIndex, depth > 0 {
+                    let c = raw[index]
+                    index = raw.index(after: index)
+                    if c == "{" { depth += 1 }
+                    if c == "}" { depth -= 1 }
+                }
+                guard depth == 0 else {
+                    throw ParseError(
+                        code: .invalidEnvironment,
+                        message: "Unterminated @{…} in array column specification"
+                    )
+                }
+                let contentEnd = raw.index(before: index)
+                let content = String(raw[contentStart..<contentEnd])
+                let list = content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                    ? MathList()
+                    : try MathParser.parse(content)
+                inserts[inserts.count - 1] = list
             default:
                 throw ParseError(
                     code: .invalidEnvironment,
@@ -252,7 +278,7 @@ enum TableEnvironment {
         guard !alignments.isEmpty else {
             throw ParseError(code: .invalidEnvironment, message: "Empty array column specification")
         }
-        return ColumnSpec(alignments: alignments, vlines: vlines)
+        return ColumnSpec(alignments: alignments, vlines: vlines, inserts: inserts)
     }
 
     private static func padAlignments(
@@ -269,6 +295,15 @@ enum TableEnvironment {
         let needed = columns + 1
         if result.count < needed {
             result.append(contentsOf: Array(repeating: 0, count: needed - result.count))
+        }
+        return Array(result.prefix(needed))
+    }
+
+    private static func padInserts(_ inserts: [MathList?], columns: Int) -> [MathList?] {
+        var result = inserts
+        let needed = columns + 1
+        if result.count < needed {
+            result.append(contentsOf: Array(repeating: MathList?.none, count: needed - result.count))
         }
         return Array(result.prefix(needed))
     }

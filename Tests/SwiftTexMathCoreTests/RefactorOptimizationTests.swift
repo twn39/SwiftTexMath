@@ -99,6 +99,7 @@ import Testing
     let a = MathAtom.ordinary("a")
     let b = MathAtom.ordinary("b")
     #expect(!WrapLayout.canBreakBefore(b, previous: a))
+    #expect(WrapLayout.canBreakBefore(b, previous: a, allowMidWord: true))
     let space = MathAtom.space(mu: 3)
     #expect(WrapLayout.canBreakBefore(b, previous: space))
 }
@@ -114,6 +115,19 @@ import Testing
     }.count
     #expect(lineCount >= 2)
     #expect(narrow.width <= 60 + 1)
+}
+
+@Test func wrapBreaksLongTextWordAsLastResort() throws {
+    // No spaces — preferred soft breaks unavailable; mid-word rescue must kick in.
+    let latex = #"\text{abcdefghijklmnopqrstuvwxyz}"#
+    let wide = try MathRenderer(
+        environment: MathEnvironment(font: MathFont(name: .latinModern, size: 20), maxWidth: 0)
+    ).layout(latex: latex)
+    let narrow = try MathRenderer(
+        environment: MathEnvironment(font: MathFont(name: .latinModern, size: 20), maxWidth: 40)
+    ).layout(latex: latex)
+    #expect(narrow.width <= 40 + 1)
+    #expect(narrow.ascent + narrow.descent > wide.ascent + wide.descent + 1)
 }
 
 // MARK: - FontProviding injection
