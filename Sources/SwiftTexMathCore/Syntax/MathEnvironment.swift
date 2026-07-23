@@ -34,6 +34,9 @@ public struct MathEnvironment: Sendable, Hashable {
     public var parameters: MathParameters
     public var maxWidth: CGFloat
     public var variant: MathVariant
+    /// Optional text fallback font (PostScript name) for glyphs missing from the math font (CJK, emoji).
+    /// When nil, a platform UI font is used as last resort for missing glyphs.
+    public var textFallbackFontName: String?
 
     public init(
         font: MathFont = MathFont(name: .latinModern, size: 20),
@@ -41,7 +44,8 @@ public struct MathEnvironment: Sendable, Hashable {
         cramped: Bool = false,
         parameters: MathParameters = .default,
         maxWidth: CGFloat = 0,
-        variant: MathVariant = .italic
+        variant: MathVariant = .italic,
+        textFallbackFontName: String? = nil
     ) {
         self.font = font
         self.style = style
@@ -49,6 +53,7 @@ public struct MathEnvironment: Sendable, Hashable {
         self.parameters = parameters
         self.maxWidth = maxWidth
         self.variant = variant
+        self.textFallbackFontName = textFallbackFontName
     }
 
     public func with(

@@ -37,20 +37,33 @@ enum TableEnvironment {
     static func finalize(
         environment: String,
         rows: [[MathList]],
-        columnSpec: ColumnSpec?
+        columnSpec: ColumnSpec?,
+        hlines: [Int] = []
     ) throws -> MathAtom.Table {
         let columnCount = rows.map(\.count).max() ?? 0
         let starred = environment.hasSuffix("*")
         let baseName = starred ? String(environment.dropLast()) : environment
 
+        func withHLines(_ table: MathAtom.Table) -> MathAtom.Table {
+            guard !hlines.isEmpty else { return table }
+            var copy = table
+            var lines = hlines
+            while lines.count < rows.count + 1 { lines.append(0) }
+            copy.hlines = Array(lines.prefix(rows.count + 1))
+            return copy
+        }
+
         if let columnSpec, baseName == "array" {
-            return MathAtom.Table(
-                environment: environment,
-                rows: rows,
-                alignments: padAlignments(columnSpec.alignments, to: columnCount),
-                interColumnSpacing: 18,
-                interRowAdditionalSpacing: 0,
-                vlines: padVlines(columnSpec.vlines, columns: max(columnCount, columnSpec.alignments.count))
+            return withHLines(
+                MathAtom.Table(
+                    environment: environment,
+                    rows: rows,
+                    alignments: padAlignments(columnSpec.alignments, to: columnCount),
+                    interColumnSpacing: 18,
+                    interRowAdditionalSpacing: 0,
+                    vlines: padVlines(columnSpec.vlines, columns: max(columnCount, columnSpec.alignments.count)),
+                    hlines: []
+                )
             )
         }
 

@@ -2,8 +2,13 @@
 @preconcurrency import CoreText
 import Foundation
 
+/// Resolves `FontMetrics` for a math font (injectable for tests / alternate fonts).
+public protocol FontProviding: Sendable {
+    func metrics(for font: MathFont) -> FontMetrics?
+}
+
 /// Thread-safe loader for bundled math fonts + MATH plists.
-public final class FontRegistry: @unchecked Sendable {
+public final class FontRegistry: @unchecked Sendable, FontProviding {
     public static let shared = FontRegistry()
 
     private let lock = NSLock()

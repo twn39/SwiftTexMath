@@ -6,10 +6,11 @@ enum DelimiterLayout {
         _ inner: MathAtom.Inner,
         env: MathEnvironment,
         metrics: FontMetrics,
+        fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = FontRegistry.shared.metrics(for: styleFont) ?? metrics
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
 
         let segments = splitOnBoundaries(inner.contents)
         let spacedEnv = env

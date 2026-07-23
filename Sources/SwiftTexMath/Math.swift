@@ -19,6 +19,8 @@ public struct Math: View {
     @Environment(\.mathFont) private var font
     @Environment(\.mathTypesettingStyle) private var typesettingStyle
     @Environment(\.mathRenderingMode) private var renderingMode
+    @Environment(\.mathFonts) private var fonts
+    @Environment(\.mathTextFallbackFontName) private var textFallbackFontName
 
     private let latex: String
 
@@ -27,13 +29,21 @@ public struct Math: View {
     }
 
     public var body: some View {
-        MathProposalLayout(latex: latex, font: font, style: typesettingStyle) {
+        MathProposalLayout(
+            latex: latex,
+            font: font,
+            style: typesettingStyle,
+            fonts: fonts,
+            textFallbackFontName: textFallbackFontName
+        ) {
             Canvas { context, size in
                 switch DisplayProvider.display(
                     for: latex,
                     font: font,
                     style: typesettingStyle,
-                    proposedWidth: size.width
+                    proposedWidth: size.width,
+                    fonts: fonts,
+                    textFallbackFontName: textFallbackFontName
                 ) {
                 case .success(let display):
                     let color: Color = {
@@ -47,11 +57,12 @@ public struct Math: View {
                     context.draw(
                         display,
                         in: CGRect(origin: .zero, size: size),
-                        color: color
+                        color: color,
+                        fonts: fonts
                     )
                 case .failure(let error):
                     context.draw(
-                        Text("?\(error.code.rawValue)"),
+                        Text(error.message.isEmpty ? "?\(error.code.rawValue)" : error.message),
                         at: CGPoint(x: size.width / 2, y: size.height / 2),
                         anchor: .center
                     )
@@ -66,6 +77,8 @@ private struct MathProposalLayout: Layout {
     let latex: String
     let font: MathFont
     let style: TypesettingStyle
+    let fonts: any FontProviding
+    let textFallbackFontName: String?
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         measure(proposedWidth: proposal.width)
@@ -95,7 +108,9 @@ private struct MathProposalLayout: Layout {
             for: latex,
             font: font,
             style: style,
-            proposedWidth: width
+            proposedWidth: width,
+            fonts: fonts,
+            textFallbackFontName: textFallbackFontName
         ) {
         case .success(let display):
             return CGSize(
@@ -103,20 +118,26 @@ private struct MathProposalLayout: Layout {
                 height: max(display.ascent + display.descent, 1)
             )
         case .failure:
-            return CGSize(width: 24, height: 24)
+            // Keep a readable error footprint for layout.
+            return CGSize(width: 120, height: 24)
         }
     }
 }
 
 extension GraphicsContext {
-    fileprivate func draw(_ display: DisplayList, in rect: CGRect, color: Color) {
+    fileprivate func draw(
+        _ display: DisplayList,
+        in rect: CGRect,
+        color: Color,
+        fonts: any FontProviding
+    ) {
         withCGContext { cg in
             cg.saveGState()
             // SwiftUI Canvas is y-down; math display is y-up with baseline origin.
             cg.translateBy(x: rect.minX, y: rect.minY + display.ascent)
             cg.scaleBy(x: 1, y: -1)
             let cgColor = color.resolveCGColor()
-            cg.draw(display, at: .zero, foregroundColor: cgColor)
+            cg.draw(display, at: .zero, foregroundColor: cgColor, fonts: fonts)
             cg.restoreGState()
         }
     }

@@ -6,6 +6,7 @@ enum RadicalLayout {
         _ radical: MathAtom.Radical,
         env: MathEnvironment,
         metrics: FontMetrics,
+        fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
         let radicandEnv = env.with(cramped: true)
@@ -18,7 +19,7 @@ enum RadicalLayout {
         let extra = metrics.radicalExtraAscender
 
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = FontRegistry.shared.metrics(for: styleFont) ?? metrics
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
 
         let needed = radicand.ascent + radicand.descent + gap + rule
         let sized = styleMetrics.sizedRadical(height: needed)

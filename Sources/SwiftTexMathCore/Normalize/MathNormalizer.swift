@@ -1,13 +1,25 @@
 import Foundation
 
 /// TeX Appendix G Rules 5–6 and number fusion (iosMath `finalized` / preprocess).
+///
+/// Also drops bare `.boundary` atoms outside `\left...\right` (illegal `\middle`),
+/// while preserving boundaries nested inside `.inner` fences for delimiter layout.
 public enum MathNormalizer {
     /// Produce a layout-ready list: fuse numbers, reclassify Bin→Ord, recurse into nested lists.
     public static func normalize(_ list: MathList) -> MathList {
+        normalize(list, preserveBoundaries: false)
+    }
+
+    private static func normalize(_ list: MathList, preserveBoundaries: Bool) -> MathList {
         var result = MathList()
         var previous: MathAtom?
 
         for raw in list.atoms {
+            // `\middle` only belongs inside `\left...\right`; drop stray boundaries elsewhere.
+            if !preserveBoundaries, raw.kind == .boundary {
+                continue
+            }
+
             var atom = normalizeAtom(raw)
 
             switch atom.kind {
@@ -59,50 +71,51 @@ public enum MathNormalizer {
 
     private static func normalizeAtom(_ atom: MathAtom) -> MathAtom {
         var atom = atom
-        atom.superscript = atom.superscript.map(normalize)
-        atom.subscript = atom.subscript.map(normalize)
+        atom.superscript = atom.superscript.map { normalize($0, preserveBoundaries: false) }
+        atom.subscript = atom.subscript.map { normalize($0, preserveBoundaries: false) }
 
         switch atom.payload {
         case .fraction(var f):
-            f.numerator = normalize(f.numerator)
-            f.denominator = normalize(f.denominator)
+            f.numerator = normalize(f.numerator, preserveBoundaries: false)
+            f.denominator = normalize(f.denominator, preserveBoundaries: false)
             atom.payload = .fraction(f)
         case .radical(var r):
-            r.degree = r.degree.map(normalize)
-            r.radicand = normalize(r.radicand)
+            r.degree = r.degree.map { normalize($0, preserveBoundaries: false) }
+            r.radicand = normalize(r.radicand, preserveBoundaries: false)
             atom.payload = .radical(r)
         case .inner(var inner):
-            inner.contents = normalize(inner.contents)
+            // Keep `\middle` boundary atoms for DelimiterLayout.splitOnBoundaries.
+            inner.contents = normalize(inner.contents, preserveBoundaries: true)
             atom.payload = .inner(inner)
         case .accent(var accent):
-            accent.base = normalize(accent.base)
+            accent.base = normalize(accent.base, preserveBoundaries: false)
             atom.payload = .accent(accent)
         case .overline(let list):
-            atom.payload = .overline(normalize(list))
+            atom.payload = .overline(normalize(list, preserveBoundaries: false))
         case .underline(let list):
-            atom.payload = .underline(normalize(list))
+            atom.payload = .underline(normalize(list, preserveBoundaries: false))
         case .table(var table):
-            table.rows = table.rows.map { $0.map(normalize) }
+            table.rows = table.rows.map { $0.map { normalize($0, preserveBoundaries: false) } }
             atom.payload = .table(table)
         case .styled(var styled):
-            styled.contents = normalize(styled.contents)
+            styled.contents = normalize(styled.contents, preserveBoundaries: false)
             atom.payload = .styled(styled)
         case .colored(var colored):
-            colored.contents = normalize(colored.contents)
+            colored.contents = normalize(colored.contents, preserveBoundaries: false)
             atom.payload = .colored(colored)
         case .mathChoice(var choice):
-            choice.display = normalize(choice.display)
-            choice.text = normalize(choice.text)
-            choice.script = normalize(choice.script)
-            choice.scriptScript = normalize(choice.scriptScript)
+            choice.display = normalize(choice.display, preserveBoundaries: false)
+            choice.text = normalize(choice.text, preserveBoundaries: false)
+            choice.script = normalize(choice.script, preserveBoundaries: false)
+            choice.scriptScript = normalize(choice.scriptScript, preserveBoundaries: false)
             atom.payload = .mathChoice(choice)
         case .box(var box):
-            box.contents = normalize(box.contents)
+            box.contents = normalize(box.contents, preserveBoundaries: false)
             atom.payload = .box(box)
         case .stack(var stack):
-            stack.base = normalize(stack.base)
-            stack.over = stack.over.map(normalize)
-            stack.under = stack.under.map(normalize)
+            stack.base = normalize(stack.base, preserveBoundaries: false)
+            stack.over = stack.over.map { normalize($0, preserveBoundaries: false) }
+            stack.under = stack.under.map { normalize($0, preserveBoundaries: false) }
             atom.payload = .stack(stack)
         case .none, .largeOperator, .space, .style:
             break

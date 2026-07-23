@@ -6,11 +6,12 @@ enum AccentLayout {
         _ accent: MathAtom.Accent,
         env: MathEnvironment,
         metrics: FontMetrics,
+        fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
         let innerBase = typeset(accent.base, env.with(cramped: true))
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = FontRegistry.shared.metrics(for: styleFont) ?? metrics
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
 
         let accentGlyphID = styleMetrics.glyph(for: accent.accent)
         let measured = styleMetrics.measure(glyphs: [accentGlyphID])

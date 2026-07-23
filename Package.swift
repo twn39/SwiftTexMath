@@ -34,7 +34,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftTexMathCoreTests",
-            dependencies: ["SwiftTexMathCore"]
+            dependencies: ["SwiftTexMathCore"],
+            resources: [
+                .copy("Goldens")
+            ]
         ),
         .testTarget(
             name: "SwiftTexMathTests",

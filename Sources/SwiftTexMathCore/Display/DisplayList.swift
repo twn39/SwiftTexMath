@@ -156,6 +156,10 @@ public struct GlyphRun: Sendable, Hashable {
     public var shiftDown: CGFloat
     /// Italic correction of the (last) glyph; used when attaching superscripts.
     public var italicCorrection: CGFloat
+    /// PostScript / font name for CJK / missing-glyph fallback (nil = math font / system UI).
+    public var fallbackFontName: String?
+    /// When true and `fallbackFontName` is nil, draw with the platform UI font.
+    public var usesSystemFallback: Bool
 
     public init(
         text: String,
@@ -167,7 +171,9 @@ public struct GlyphRun: Sendable, Hashable {
         glyphIDs: [UInt16] = [],
         glyphOffsetsY: [CGFloat] = [],
         shiftDown: CGFloat = 0,
-        italicCorrection: CGFloat = 0
+        italicCorrection: CGFloat = 0,
+        fallbackFontName: String? = nil,
+        usesSystemFallback: Bool = false
     ) {
         self.text = text
         self.font = font
@@ -179,6 +185,8 @@ public struct GlyphRun: Sendable, Hashable {
         self.glyphOffsetsY = glyphOffsetsY
         self.shiftDown = shiftDown
         self.italicCorrection = italicCorrection
+        self.fallbackFontName = fallbackFontName
+        self.usesSystemFallback = usesSystemFallback
     }
 
     static func from(
@@ -335,7 +343,7 @@ public struct LargeOperatorDisplay: Sendable, Hashable {
     }
 }
 
-/// Display subtree drawn with an explicit foreground color (`\color`).
+/// Display subtree drawn with an explicit color (`\color` foreground or `\colorbox` background).
 public struct ColoredDisplay: Sendable, Hashable {
     public var inner: DisplayList
     /// sRGB components 0…1.
@@ -343,6 +351,8 @@ public struct ColoredDisplay: Sendable, Hashable {
     public var green: CGFloat
     public var blue: CGFloat
     public var alpha: CGFloat
+    /// When `true`, fill the inner bounds with this color and draw children in the ambient foreground.
+    public var fillsBackground: Bool
     public var position: CGPoint
 
     public var ascent: CGFloat { inner.ascent }
@@ -355,6 +365,7 @@ public struct ColoredDisplay: Sendable, Hashable {
         green: CGFloat,
         blue: CGFloat,
         alpha: CGFloat = 1,
+        fillsBackground: Bool = false,
         position: CGPoint = .zero
     ) {
         self.inner = inner
@@ -362,6 +373,7 @@ public struct ColoredDisplay: Sendable, Hashable {
         self.green = green
         self.blue = blue
         self.alpha = alpha
+        self.fillsBackground = fillsBackground
         self.position = position
     }
 

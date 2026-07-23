@@ -7,6 +7,7 @@ enum StackLayout {
         _ stack: MathAtom.Stack,
         env: MathEnvironment,
         metrics: FontMetrics,
+        fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
         let base = typeset(stack.base, env)
@@ -17,14 +18,18 @@ enum StackLayout {
         if let over = stack.over {
             overDisplay = typeset(over, scriptEnv)
         } else if let nucleus = stack.overNucleus {
-            overDisplay = stretchyOverlay(nucleus: nucleus, width: base.width, env: env, metrics: metrics)
+            overDisplay = stretchyOverlay(
+                nucleus: nucleus, width: base.width, env: env, metrics: metrics, fonts: fonts
+            )
         }
 
         var underDisplay: DisplayList?
         if let under = stack.under {
             underDisplay = typeset(under, scriptEnv)
         } else if let nucleus = stack.underNucleus {
-            underDisplay = stretchyOverlay(nucleus: nucleus, width: base.width, env: env, metrics: metrics)
+            underDisplay = stretchyOverlay(
+                nucleus: nucleus, width: base.width, env: env, metrics: metrics, fonts: fonts
+            )
         }
 
         let width = max(base.width, overDisplay?.width ?? 0, underDisplay?.width ?? 0)
@@ -70,10 +75,11 @@ enum StackLayout {
         nucleus: String,
         width: CGFloat,
         env: MathEnvironment,
-        metrics: FontMetrics
+        metrics: FontMetrics,
+        fonts: any FontProviding
     ) -> DisplayList {
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = FontRegistry.shared.metrics(for: styleFont) ?? metrics
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let glyph = styleMetrics.glyph(for: nucleus)
         let measured = styleMetrics.measure(glyphs: [glyph])
         let run = GlyphRun(

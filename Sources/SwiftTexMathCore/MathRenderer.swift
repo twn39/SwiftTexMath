@@ -1,12 +1,17 @@
-@preconcurrency import CoreGraphics
+import CoreGraphics
 import Foundation
 
 /// Headless entry point: parse → normalize → typeset → draw.
 public struct MathRenderer: Sendable {
     public var environment: MathEnvironment
+    public var fonts: any FontProviding
 
-    public init(environment: MathEnvironment = MathEnvironment()) {
+    public init(
+        environment: MathEnvironment = MathEnvironment(),
+        fonts: any FontProviding = FontRegistry.shared
+    ) {
         self.environment = environment
+        self.fonts = fonts
     }
 
     public func parse(_ latex: String) throws -> MathList {
@@ -14,7 +19,11 @@ public struct MathRenderer: Sendable {
     }
 
     public func layout(_ list: MathList, environment: MathEnvironment? = nil) -> DisplayList {
-        Typesetter.createDisplay(for: list, environment: environment ?? self.environment)
+        Typesetter.createDisplay(
+            for: list,
+            environment: environment ?? self.environment,
+            fonts: fonts
+        )
     }
 
     public func layout(latex: String, environment: MathEnvironment? = nil) throws -> DisplayList {
@@ -28,7 +37,7 @@ public struct MathRenderer: Sendable {
         at origin: CGPoint,
         foregroundColor: CGColor
     ) {
-        context.draw(display, at: origin, foregroundColor: foregroundColor)
+        context.draw(display, at: origin, foregroundColor: foregroundColor, fonts: fonts)
     }
 
     /// Convenience: parse + layout + draw.

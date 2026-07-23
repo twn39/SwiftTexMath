@@ -4,54 +4,71 @@ import Foundation
 
 extension CGContext {
     /// Draws a display list with the given foreground color (math y-up coordinates).
-    public func draw(_ display: DisplayList, at origin: CGPoint, foregroundColor: CGColor) {
+    public func draw(
+        _ display: DisplayList,
+        at origin: CGPoint,
+        foregroundColor: CGColor,
+        fonts: any FontProviding = FontRegistry.shared
+    ) {
         saveGState()
         translateBy(x: origin.x, y: origin.y)
-        draw(display, foregroundColor: foregroundColor)
+        draw(display, foregroundColor: foregroundColor, fonts: fonts)
         restoreGState()
     }
 
-    public func draw(_ display: DisplayList, foregroundColor: CGColor) {
+    public func draw(
+        _ display: DisplayList,
+        foregroundColor: CGColor,
+        fonts: any FontProviding = FontRegistry.shared
+    ) {
         saveGState()
         translateBy(x: display.position.x, y: display.position.y)
         for child in display.children {
-            draw(child, foregroundColor: foregroundColor)
+            draw(child, foregroundColor: foregroundColor, fonts: fonts)
         }
         restoreGState()
     }
 
-    public func draw(_ node: DisplayNode, foregroundColor: CGColor) {
+    public func draw(
+        _ node: DisplayNode,
+        foregroundColor: CGColor,
+        fonts: any FontProviding = FontRegistry.shared
+    ) {
         switch node {
         case .list(let list):
-            draw(list, foregroundColor: foregroundColor)
+            draw(list, foregroundColor: foregroundColor, fonts: fonts)
         case .glyphs(let run):
-            draw(run, foregroundColor: foregroundColor)
+            draw(run, foregroundColor: foregroundColor, fonts: fonts)
         case .fraction(let fraction):
-            draw(fraction, foregroundColor: foregroundColor)
+            draw(fraction, foregroundColor: foregroundColor, fonts: fonts)
         case .radical(let radical):
-            draw(radical, foregroundColor: foregroundColor)
+            draw(radical, foregroundColor: foregroundColor, fonts: fonts)
         case .line(let line):
-            draw(line, foregroundColor: foregroundColor)
+            draw(line, foregroundColor: foregroundColor, fonts: fonts)
         case .largeOperator(let op):
-            draw(op, foregroundColor: foregroundColor)
+            draw(op, foregroundColor: foregroundColor, fonts: fonts)
         case .colored(let colored):
-            draw(colored)
+            draw(colored, foregroundColor: foregroundColor, fonts: fonts)
         case .rule(let rule):
             draw(rule, foregroundColor: foregroundColor)
         case .box(let box):
-            draw(box, foregroundColor: foregroundColor)
+            draw(box, foregroundColor: foregroundColor, fonts: fonts)
         case .stack(let stack):
-            draw(stack, foregroundColor: foregroundColor)
+            draw(stack, foregroundColor: foregroundColor, fonts: fonts)
         }
     }
 
-    private func draw(_ box: BoxDisplay, foregroundColor: CGColor) {
+    private func draw(
+        _ box: BoxDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: box.position.x, y: box.position.y)
         if box.drawChild {
             var child = box.child
             child.position = CGPoint(x: box.childOffsetX, y: 0)
-            draw(child, foregroundColor: foregroundColor)
+            draw(child, foregroundColor: foregroundColor, fonts: fonts)
         }
         drawStrike(for: box, foregroundColor: foregroundColor)
         restoreGState()
@@ -87,23 +104,43 @@ extension CGContext {
         strokePath()
     }
 
-    private func draw(_ stack: StackDisplay, foregroundColor: CGColor) {
+    private func draw(
+        _ stack: StackDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: stack.position.x, y: stack.position.y)
-        draw(stack.base, foregroundColor: foregroundColor)
+        draw(stack.base, foregroundColor: foregroundColor, fonts: fonts)
         if let over = stack.over {
-            draw(over, foregroundColor: foregroundColor)
+            draw(over, foregroundColor: foregroundColor, fonts: fonts)
         }
         if let under = stack.under {
-            draw(under, foregroundColor: foregroundColor)
+            draw(under, foregroundColor: foregroundColor, fonts: fonts)
         }
         restoreGState()
     }
 
-    private func draw(_ colored: ColoredDisplay) {
+    private func draw(
+        _ colored: ColoredDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: colored.position.x, y: colored.position.y)
-        draw(colored.inner, foregroundColor: colored.cgColor)
+        if colored.fillsBackground {
+            let rect = CGRect(
+                x: 0,
+                y: -colored.descent,
+                width: colored.width,
+                height: colored.ascent + colored.descent
+            )
+            setFillColor(colored.cgColor)
+            fill(rect)
+            draw(colored.inner, foregroundColor: foregroundColor, fonts: fonts)
+        } else {
+            draw(colored.inner, foregroundColor: colored.cgColor, fonts: fonts)
+        }
         restoreGState()
     }
 
@@ -123,52 +160,69 @@ extension CGContext {
         restoreGState()
     }
 
-    private func draw(_ run: GlyphRun, foregroundColor: CGColor) {
-        guard let metrics = FontRegistry.shared.metrics(for: run.font) else { return }
+    private func draw(
+        _ run: GlyphRun,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
+        let ctFont: CTFont
+        if let name = run.fallbackFontName {
+            ctFont = CTFontCreateWithName(name as CFString, run.font.size, nil)
+        } else if run.usesSystemFallback {
+            ctFont = CTFontCreateUIFontForLanguage(.system, run.font.size, nil)
+                ?? CTFontCreateWithName("Helvetica" as CFString, run.font.size, nil)
+        } else {
+            guard let metrics = fonts.metrics(for: run.font) else { return }
+            ctFont = metrics.ctFont
+        }
+
         saveGState()
         translateBy(x: run.position.x, y: run.position.y - run.shiftDown)
         setFillColor(foregroundColor)
 
         let glyphs: [CGGlyph]
-        if !run.glyphIDs.isEmpty {
+        if !run.glyphIDs.isEmpty, !run.usesSystemFallback, run.fallbackFontName == nil {
             glyphs = run.glyphIDs.map { CGGlyph($0) }
         } else {
             var chars = Array(run.text.utf16)
             var resolved = [CGGlyph](repeating: 0, count: chars.count)
-            CTFontGetGlyphsForCharacters(metrics.ctFont, &chars, &resolved, chars.count)
+            CTFontGetGlyphsForCharacters(ctFont, &chars, &resolved, chars.count)
             glyphs = resolved
         }
 
         var positions = [CGPoint](repeating: .zero, count: glyphs.count)
         if !run.glyphOffsetsY.isEmpty, run.glyphOffsetsY.count == glyphs.count {
-            // Vertical assembly: stack parts at x = 0 with MATH-table offsets.
             for i in glyphs.indices {
                 positions[i] = CGPoint(x: 0, y: run.glyphOffsetsY[i])
             }
         } else {
             var advances = [CGSize](repeating: .zero, count: glyphs.count)
-            CTFontGetAdvancesForGlyphs(metrics.ctFont, .horizontal, glyphs, &advances, glyphs.count)
+            CTFontGetAdvancesForGlyphs(ctFont, .horizontal, glyphs, &advances, glyphs.count)
             var x: CGFloat = 0
             for i in glyphs.indices {
                 positions[i] = CGPoint(x: x, y: 0)
                 x += advances[i].width
             }
         }
-        CTFontDrawGlyphs(metrics.ctFont, glyphs, positions, glyphs.count, self)
+        CTFontDrawGlyphs(ctFont, glyphs, positions, glyphs.count, self)
         restoreGState()
     }
 
-    private func draw(_ fraction: FractionDisplay, foregroundColor: CGColor) {
+    private func draw(
+        _ fraction: FractionDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: fraction.position.x, y: fraction.position.y)
 
         var num = fraction.numerator
         num.position = CGPoint(x: num.position.x, y: fraction.numeratorOffset)
-        draw(num, foregroundColor: foregroundColor)
+        draw(num, foregroundColor: foregroundColor, fonts: fonts)
 
         var den = fraction.denominator
         den.position = CGPoint(x: den.position.x, y: -fraction.denominatorOffset)
-        draw(den, foregroundColor: foregroundColor)
+        draw(den, foregroundColor: foregroundColor, fonts: fonts)
 
         if fraction.ruleThickness > 0 {
             setStrokeColor(foregroundColor)
@@ -181,15 +235,19 @@ extension CGContext {
         restoreGState()
     }
 
-    private func draw(_ radical: RadicalDisplay, foregroundColor: CGColor) {
+    private func draw(
+        _ radical: RadicalDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: radical.position.x, y: radical.position.y)
 
         if let degree = radical.degree {
-            draw(degree, foregroundColor: foregroundColor)
+            draw(degree, foregroundColor: foregroundColor, fonts: fonts)
         }
-        draw(radical.radicalGlyph, foregroundColor: foregroundColor)
-        draw(radical.radicand, foregroundColor: foregroundColor)
+        draw(radical.radicalGlyph, foregroundColor: foregroundColor, fonts: fonts)
+        draw(radical.radicand, foregroundColor: foregroundColor, fonts: fonts)
 
         // Overbar
         let barY = radical.radicand.ascent + radical.ruleThickness
@@ -203,10 +261,14 @@ extension CGContext {
         restoreGState()
     }
 
-    private func draw(_ line: LineDisplay, foregroundColor: CGColor) {
+    private func draw(
+        _ line: LineDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: line.position.x, y: line.position.y)
-        draw(line.inner, foregroundColor: foregroundColor)
+        draw(line.inner, foregroundColor: foregroundColor, fonts: fonts)
         setStrokeColor(foregroundColor)
         setLineWidth(line.ruleThickness)
         if line.isOverline {
@@ -222,15 +284,19 @@ extension CGContext {
         restoreGState()
     }
 
-    private func draw(_ op: LargeOperatorDisplay, foregroundColor: CGColor) {
+    private func draw(
+        _ op: LargeOperatorDisplay,
+        foregroundColor: CGColor,
+        fonts: any FontProviding
+    ) {
         saveGState()
         translateBy(x: op.position.x, y: op.position.y)
-        draw(op.nucleus, foregroundColor: foregroundColor)
+        draw(op.nucleus, foregroundColor: foregroundColor, fonts: fonts)
         if let upper = op.upperLimit {
-            draw(upper, foregroundColor: foregroundColor)
+            draw(upper, foregroundColor: foregroundColor, fonts: fonts)
         }
         if let lower = op.lowerLimit {
-            draw(lower, foregroundColor: foregroundColor)
+            draw(lower, foregroundColor: foregroundColor, fonts: fonts)
         }
         restoreGState()
     }

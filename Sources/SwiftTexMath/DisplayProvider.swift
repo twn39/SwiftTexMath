@@ -8,6 +8,7 @@ enum DisplayProvider {
         var font: MathFont
         var style: TypesettingStyle
         var proposedWidth: CGFloat
+        var textFallbackFontName: String?
     }
 
     private final class CacheBox: @unchecked Sendable {
@@ -38,34 +39,50 @@ enum DisplayProvider {
 
     private static let cache = CacheBox()
 
+    /// Returns whether `fonts` is the process-wide shared registry (safe to cache).
+    private static func usesSharedRegistry(_ fonts: any FontProviding) -> Bool {
+        (fonts as AnyObject) === FontRegistry.shared
+    }
+
     static func display(
         for latex: String,
         font: MathFont,
         style: TypesettingStyle,
-        proposedWidth: CGFloat
+        proposedWidth: CGFloat,
+        fonts: any FontProviding = FontRegistry.shared,
+        textFallbackFontName: String? = nil
     ) -> Result<DisplayList, ParseError> {
         let key = Key(
             latex: latex,
             font: font,
             style: style,
-            proposedWidth: proposedWidth.rounded()
+            proposedWidth: proposedWidth.rounded(),
+            textFallbackFontName: textFallbackFontName
         )
-        if let cached = cache.get(key) {
+        let cacheable = usesSharedRegistry(fonts)
+        if cacheable, let cached = cache.get(key) {
             return cached
         }
 
-        let env = MathEnvironment(font: font, style: style.mathStyle, maxWidth: proposedWidth)
+        let env = MathEnvironment(
+            font: font,
+            style: style.mathStyle,
+            maxWidth: proposedWidth,
+            textFallbackFontName: textFallbackFontName
+        )
         let result: Result<DisplayList, ParseError>
         do {
             let list = try MathParser.parse(latex)
-            result = .success(Typesetter.createDisplay(for: list, environment: env))
+            result = .success(Typesetter.createDisplay(for: list, environment: env, fonts: fonts))
         } catch let error as ParseError {
             result = .failure(error)
         } catch {
             result = .failure(ParseError(code: .internalError, message: error.localizedDescription))
         }
 
-        cache.set(key, result)
+        if cacheable {
+            cache.set(key, result)
+        }
         return result
     }
 }

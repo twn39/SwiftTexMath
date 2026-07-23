@@ -6,6 +6,7 @@ enum TableLayout {
         _ table: MathAtom.Table,
         env: MathEnvironment,
         metrics: FontMetrics,
+        fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
         let cellEnv: MathEnvironment
@@ -37,6 +38,7 @@ enum TableLayout {
         let rowGap = (12 + 12 * table.interRowAdditionalSpacing) * metrics.mathUnit
         let ruleThickness = max(metrics.fractionRuleThickness, 0.4)
         let vlineGap = metrics.mathUnit
+        let hlinePad = metrics.mathUnit
 
         var vlines = table.vlines
         if vlines.count < columnCount + 1 {
@@ -45,9 +47,20 @@ enum TableLayout {
             vlines = Array(vlines.prefix(columnCount + 1))
         }
 
+        var hlines = table.hlines
+        while hlines.count < cells.count + 1 { hlines.append(0) }
+        hlines = Array(hlines.prefix(cells.count + 1))
+
         func vlineBandWidth(_ count: Int) -> CGFloat {
             guard count > 0 else { return 0 }
             return CGFloat(count) * ruleThickness + CGFloat(max(count - 1, 0)) * vlineGap
+        }
+
+        func hlineBandHeight(_ count: Int) -> CGFloat {
+            guard count > 0 else { return 0 }
+            return CGFloat(count) * ruleThickness
+                + CGFloat(max(count - 1, 0)) * vlineGap
+                + 2 * hlinePad
         }
 
         let contentWidth =
@@ -55,20 +68,45 @@ enum TableLayout {
             + CGFloat(max(columnCount - 1, 0)) * columnGap
             + (0...columnCount).reduce(CGFloat(0)) { $0 + vlineBandWidth(vlines[$1]) }
 
+        let hlineHeight = hlines.reduce(CGFloat(0)) { $0 + hlineBandHeight($1) }
         let totalHeight = zip(rowAscent, rowDescent).map(+).reduce(0, +)
             + CGFloat(max(cells.count - 1, 0)) * rowGap
+            + hlineHeight
         let totalAscent = totalHeight / 2
         let totalDescent = totalHeight / 2
 
         var children: [DisplayNode] = []
         var y = totalAscent
 
+        func appendHLines(_ count: Int, at yCenter: inout CGFloat) {
+            guard count > 0 else { return }
+            yCenter -= hlinePad
+            for i in 0..<count {
+                if i > 0 { yCenter -= vlineGap }
+                yCenter -= ruleThickness / 2
+                children.append(
+                    .rule(
+                        RuleDisplay(
+                            thickness: ruleThickness,
+                            isVertical: false,
+                            ascent: ruleThickness / 2,
+                            descent: ruleThickness / 2,
+                            width: contentWidth,
+                            position: CGPoint(x: 0, y: yCenter)
+                        )
+                    )
+                )
+                yCenter -= ruleThickness / 2
+            }
+            yCenter -= hlinePad
+        }
+
         for (r, row) in cells.enumerated() {
+            appendHLines(hlines[r], at: &y)
             y -= rowAscent[r]
             var x: CGFloat = 0
 
             for c in 0..<columnCount {
-                // Vertical rules before this column.
                 let before = vlines[c]
                 if before > 0 {
                     for i in 0..<before {
@@ -107,7 +145,6 @@ enum TableLayout {
                 }
             }
 
-            // Trailing vertical rules.
             let after = vlines[columnCount]
             if after > 0 {
                 for i in 0..<after {
@@ -128,10 +165,14 @@ enum TableLayout {
                 }
             }
 
-            y -= rowDescent[r] + rowGap
+            y -= rowDescent[r]
+            if r < cells.count - 1 {
+                y -= rowGap
+            }
         }
 
-        // Optional fences with stretchy delimiters.
+        appendHLines(hlines[cells.count], at: &y)
+
         var leftFence = ""
         var rightFence = ""
         switch table.environment {
@@ -156,7 +197,7 @@ enum TableLayout {
         }
 
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = FontRegistry.shared.metrics(for: styleFont) ?? metrics
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let glyphHeight = totalAscent + totalDescent
         let padding = styleMetrics.mathUnit * 2
 

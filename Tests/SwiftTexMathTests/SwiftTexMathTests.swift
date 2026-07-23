@@ -8,6 +8,7 @@ func mathViewConstructible() {
         .mathFont(MathFont(name: .latinModern, size: 22))
         .mathTypesettingStyle(.display)
         .mathRenderingMode(.monochrome)
+        .mathFonts(FontRegistry.shared)
     _ = view
 }
 

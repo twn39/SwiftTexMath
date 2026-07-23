@@ -169,10 +169,13 @@ public struct MathAtom: Sendable, Hashable {
         /// Named color or `#RGB` / `#RRGGBB`.
         public var color: String
         public var contents: MathList
+        /// `true` for `\colorbox` (background fill); `false` for `\color` / `\textcolor`.
+        public var fillsBackground: Bool
 
-        public init(color: String, contents: MathList) {
+        public init(color: String, contents: MathList, fillsBackground: Bool = false) {
             self.color = color
             self.contents = contents
+            self.fillsBackground = fillsBackground
         }
     }
 
@@ -219,6 +222,8 @@ public struct MathAtom: Sendable, Hashable {
         public var interRowAdditionalSpacing: CGFloat
         /// Vertical rule counts before column `i` (length = columnCount + 1; last = after final column).
         public var vlines: [Int]
+        /// Horizontal rule counts at each row boundary (length = rowCount + 1; `\hline` in `array`).
+        public var hlines: [Int]
 
         public enum ColumnAlignment: Sendable, Hashable {
             case left, center, right
@@ -230,7 +235,8 @@ public struct MathAtom: Sendable, Hashable {
             alignments: [ColumnAlignment] = [],
             interColumnSpacing: CGFloat = 18,
             interRowAdditionalSpacing: CGFloat = 0,
-            vlines: [Int] = []
+            vlines: [Int] = [],
+            hlines: [Int] = []
         ) {
             self.environment = environment
             self.rows = rows
@@ -238,6 +244,7 @@ public struct MathAtom: Sendable, Hashable {
             self.interColumnSpacing = interColumnSpacing
             self.interRowAdditionalSpacing = interRowAdditionalSpacing
             self.vlines = vlines
+            self.hlines = hlines
         }
     }
 

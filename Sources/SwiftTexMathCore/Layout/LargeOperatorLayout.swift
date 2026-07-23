@@ -6,10 +6,11 @@ enum LargeOperatorLayout {
         atom: MathAtom,
         env: MathEnvironment,
         metrics: FontMetrics,
+        fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = FontRegistry.shared.metrics(for: styleFont) ?? metrics
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         var glyphID = styleMetrics.glyph(for: atom.nucleus)
         if env.style == .display {
             glyphID = styleMetrics.largerGlyph(glyphID, forDisplayStyle: true)
