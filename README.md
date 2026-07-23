@@ -1,15 +1,41 @@
 # SwiftTexMath
 
-Native Swift LaTeX math rendering for Apple platforms: parse → normalize → typeset → draw, with an optional SwiftUI `Math` view.
+Native Swift LaTeX math rendering for Apple platforms: **parse → normalize → typeset → draw**, with an optional SwiftUI `Math` view and UIKit/AppKit `MathLabel`.
+
+**Platforms:** macOS 14+, iOS 17+, tvOS 17+, watchOS 10+, visionOS 1+ · **Swift tools:** 6.2+
+
+## Installation
+
+Add the package in Xcode (**File → Add Package Dependencies…**) or in `Package.swift`:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/twn39/SwiftTexMath.git", branch: "main"),
+],
+targets: [
+    .target(
+        name: "MyApp",
+        dependencies: [
+            .product(name: "SwiftTexMath", package: "SwiftTexMath"),
+            // Or Core only:
+            // .product(name: "SwiftTexMathCore", package: "SwiftTexMath"),
+        ]
+    ),
+]
+```
 
 ## Products
 
 | Target | Role |
 |---|---|
-| **SwiftTexMathCore** | Headless pipeline (`MathParser`, `Typesetter`, `MathRenderer`, CoreGraphics drawing) |
-| **SwiftTexMath** | SwiftUI façade (`Math` view, environment keys, layout cache) |
+| **SwiftTexMathCore** | Headless pipeline (`MathParser`, `Typesetter`, `MathRenderer`, `MathImage`, CoreGraphics drawing) |
+| **SwiftTexMath** | UI façade (`Math`, `MathLabel`, `HostedMathLabel`, environment keys, layout cache) |
+
+Dependency direction is one-way: **SwiftTexMath → SwiftTexMathCore**.
 
 ## Quick start
+
+### SwiftUI
 
 ```swift
 import SwiftTexMath
@@ -17,48 +43,77 @@ import SwiftTexMath
 Math(#"x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}"#)
     .mathFont(MathFont(name: .latinModern, size: 24))
     .mathTypesettingStyle(.display)
+    .mathRenderingMode(.monochrome)
 ```
 
-Headless:
+Useful environment modifiers: `.mathFont(_:)`, `.mathTypesettingStyle(_:)`, `.mathRenderingMode(_:)`, `.mathFonts(_:)`, `.mathTextFallbackFontName(_:)`.
+
+### UIKit / AppKit
+
+```swift
+import SwiftTexMath
+
+let label = MathLabel()
+label.latex = #"E = mc^2"#
+label.mathFont = MathFont(name: .latinModern, size: 24)
+label.preferredMaxLayoutWidth = 280
+```
+
+Or embed via SwiftUI: `HostedMathLabel(latex: …)`.
+
+### Headless layout + draw
 
 ```swift
 import SwiftTexMathCore
 
 let renderer = MathRenderer()
 let display = try renderer.layout(latex: #"E = mc^2"#)
-// draw with CGContext.draw(_:at:foregroundColor:)
+// CGContext.draw(display, at:origin, foregroundColor:fonts:)
+```
+
+### Raster export / snapshots
+
+```swift
+import SwiftTexMathCore
+
+let result = try MathImage.render(latex: #"a^2 + b^2 = c^2"#)
+let cgImage = result.image          // pixel bitmap
+let pointSize = result.size         // logical size in points
 ```
 
 ## Feature matrix
 
 | Area | Status |
 |---|---|
-| Fractions `\frac` / `\dfrac` / `\tfrac` / `\cfrac[l\|c\|r]` / `\binom` | Supported |
+| Fractions `\frac` / `\dfrac` / `\tfrac` / `\cfrac[l\|c\|r]` / `\binom` / `\genfrac` | Supported |
 | Infix fractions `\over` / `\atop` / `\choose` / `\brack` / `\brace` | Supported |
 | Radicals `\sqrt`, `\sqrt[n]` | Supported (MATH `v_variants`) |
 | `\left` … `\right` stretchy delimiters | Supported (variants + `v_assembly`) |
-| Scripts `^` `_` / prime `'` / large ops + `\limits` | Supported |
-| Accents (`\hat`, `\vec`, …) | Supported (accent attachment points) |
-| Spacing `\,` `\:` `\;` `\!` `\quad` + `\kern`/`\hspace`/`\mkern` | Supported |
+| Scripts `^` `_` / prime `'` / large ops + `\limits` / `\nolimits` | Supported |
+| Accents (`\hat`, `\vec`, `\widehat`, …) | Supported (accent attachment points) |
+| Spacing `\,` `\:` `\;` `\!` `\quad` + `\kern` / `\hspace` / `\mkern` | Supported |
 | Styles `\displaystyle` / `\textstyle` / … | Supported |
 | Font faces `\mathrm` `\mathbf` `\mathit` `\text` `\mathsf`/`\textsf` `\mathtt`/`\texttt` `\boldsymbol` + `\bf`/`\rm`/`\mit` | Supported |
 | Matrices / `cases` / `pmatrix` / `array{c\|cr}` / starred `pmatrix*` | Supported |
-| `aligned` / `alignedat` / `split` / `gather` / `gathered` / `eqnarray` | Supported |
+| `aligned` / `alignedat` / `split` / `gather` / `gathered` / `eqnarray` / `align` | Supported |
+| `array` `@{…}` column inserts + `\hline` / vlines | Supported |
 | Italic correction on superscripts | Supported |
 | `\middle`, `\big`/`\Big`/`\bigg`/`\Bigg` (+ l/r/m) | Supported |
-| `\color` / `\textcolor` (named + `#hex`) | Supported |
+| `\color` / `\textcolor` / `\colorbox` (named + `#hex`) | Supported |
 | `\mathchoice` | Supported |
 | `\mathcal` / `\mathscr` / `\mathfrak` / `\mathbb` | Supported |
-| Box family `\phantom`/`\smash`/`\llap`/`\cancel`/`\sout`/… | Supported |
+| Box family `\phantom`/`\smash`/`\llap`/`\cancel`/`\sout`/`\boxed`/… | Supported |
 | Stack `\overset`/`\underset`/`\stackrel` + stretchy arrows/braces | Supported |
 | `\substack`, `\not=` family | Supported |
+| Macros `\operatorname`/`\operatorname*`, `\pmod`/`\pod`/`\bmod`, `\bra`/`\ket`/`\braket`, `\mathbin`…`\mathpunct`, `\tag` | Supported |
 | Multi-integrals `\iint`…`\oiint`/`\oiiint`/`\fint`/… | Supported |
 | AMS aliases (`\lt`/`\gt`/`\therefore`/`\impliedby`/`\dotsc`/…) | Supported |
 | Custom symbols (`AtomFactory.addLatexSymbol`) | Supported |
-| `MathList.latexString` serialization | Supported (best-effort) |
+| `MathList.latexString` / `LatexSerializer` | Supported (best-effort) |
 | Auto line-breaking via `maxWidth` | Supported (rel/binop/space; mid-word as last resort) |
-| `array` `@{…}` column inserts | Supported |
 | Bundled MATH fonts (LM, XITS, Asana, …) | 12 fonts |
+
+Delimiters `$…$` / `$$…$$` / `\(...\)` / `\[…\]` are stripped at parse time and inject an implied style atom when present.
 
 ## Architecture
 
@@ -66,16 +121,35 @@ let display = try renderer.layout(latex: #"E = mc^2"#)
 LaTeX → MathParser → MathList (atoms)
                   → MathNormalizer
                   → Typesetter → DisplayList
-                  → CGContext / MathImage / SwiftUI Canvas
+                  → CGContext / MathImage / SwiftUI Canvas / MathLabel
 ```
 
-Bundled fonts: Latin Modern Math plus Asana, Euler, Fira, Garamond, Kp Math, Lete Sans, Libertinus, Noto Sans, Termes, and XITS (`mathFonts.bundle`) with OpenType MATH constants, italic corrections, accent attachments, and glyph variants/assemblies.
+### Package layout (Core)
+
+| Folder | Responsibility |
+|---|---|
+| `Parse/` | Recursive-descent parser + command families (`FractionCommands`, `DelimiterCommands`, `MacroCommands+*`, …) |
+| `Syntax/` | `MathAtom` / `MathList` / `AtomFactory` / serializers |
+| `Normalize/` | Pre-layout AST cleanup (number fusion, Bin→Ord, bare boundaries) |
+| `Layout/` | Appendix-G typesetting (`Typesetter`, `WrapLayout`, `TableLayout`, …) |
+| `Display/` | `DisplayList` + CoreGraphics drawing |
+| `Font/` | `MathFont`, `FontMetrics`, `FontRegistry` / `FontProviding` |
+
+Parser helpers live in extensions: `MathParser+Arguments`, `+Tables`, `+Scripts`, `+Commands`. Macro sugar is split by family (`MacroCommands+OperatorName`, `+BraKet`, `+ModTag`) behind a thin `MacroCommands` router. Keep `CommandHandlers` and `Typesetter` as dispatchers—not feature dumps.
+
+### Bundled fonts
+
+Latin Modern Math plus Asana, Euler, Fira, Garamond, Kp Math, Lete Sans, Libertinus, Noto Sans, Termes, and XITS (`mathFonts.bundle`), with OpenType MATH constants, italic corrections, accent attachments, and glyph variants/assemblies.
 
 ### Architecture invariants
 
-- **Normalize before Layout.** `MathNormalizer` owns TeX sugar cleanup (e.g. dropping bare `.boundary` atoms). Typesetter may still skip boundaries as defense-in-depth, but new semantic lowering belongs in Normalize / Parse—not ad-hoc layout branches.
-- **Payload growth discipline.** Prefer extending `MathAtom.Payload` only when a TeX construct needs a distinct layout shape. Register new commands in family modules (`FractionCommands`, `MacroCommands`, …) or `*Layout.swift` helpers; keep `CommandHandlers` and `Typesetter.makeNode` as thin routers.
-- **Font injection & SwiftUI cache.** `MathRenderer`, `MathImage`, and `.mathFonts(...)` accept any `FontProviding`. `DisplayProvider` caches layout only when the provider is `FontRegistry.shared` (identity check). Custom providers always recompute—do not expect cache hits.
+- **Normalize before Layout.** `MathNormalizer` owns TeX sugar cleanup (e.g. dropping bare `.boundary` atoms). Typesetter may still skip boundaries as defense-in-depth; new semantic lowering belongs in Normalize / Parse—not ad-hoc layout branches.
+- **Payload growth discipline.** Prefer extending `MathAtom.Payload` only when a construct needs a distinct layout shape. Register new commands in family modules or `*Layout.swift` helpers.
+- **Font injection & SwiftUI cache.** `MathRenderer`, `MathImage`, and `.mathFonts(...)` accept any `FontProviding`. `DisplayProvider` caches layout **only** when the provider is identity-equal to `FontRegistry.shared`. Custom providers always recompute.
+
+### Errors
+
+Parse failures throw `ParseError` with a stable `Code` (`mismatchedBraces`, `invalidEnvironment`, `missingEnd`, `invalidLimits`, …). UI surfaces (`Math`, `MathLabel`) can show inline error text instead of crashing.
 
 ## Develop
 
@@ -83,8 +157,13 @@ Bundled fonts: Latin Modern Math plus Asana, Euler, Fira, Garamond, Kp Math, Let
 swift test
 ```
 
-Rebuild the codegraph vault after structural edits:
+Core tests include goldens (`Tests/SwiftTexMathCoreTests/Goldens`), layout fingerprints, architecture hardening (table/delimiter failure modes), and a tex2math corpus. UI tests stay thin and exercise the SwiftTexMath façade.
+
+Project scan settings live in `.codegraphrc` (`Sources` + `Tests`). Rebuild the knowledge graph after structural edits:
 
 ```bash
-codegraph build . --exclude third_party --exclude .build
+codegraph build .
+# or: codegraph build . -e .build -e third_party
 ```
+
+Agent guidelines: see [`AGENTS.md`](AGENTS.md) and [`.codegraph/README.md`](.codegraph/README.md).
