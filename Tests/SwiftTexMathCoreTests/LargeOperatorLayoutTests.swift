@@ -126,8 +126,59 @@ struct LargeOperatorLayoutTests {
         let display = try displayRenderer().layout(latex: #"\lim_{x}"#)
         let op = try #require(firstLargeOp(display))
         let lower = try #require(op.lowerLimit)
-        // Gap between nucleus baseline and limit: nucleus.descent + gap + limit.ascent ≈ -lower.position.y
-        let gap = -lower.position.y - op.nucleus.descent - lower.ascent
+        // Visual nucleus bottom after axis shift.
+        let nucBottom = op.nucleus.descent + op.nucleus.shiftDown
+        let gap = -lower.position.y - nucBottom - lower.ascent
         #expect(gap > 0.5, "lower limit gap should use MATH metrics, got \(gap)")
+    }
+
+    /// Side-script large ops (`\int`, text `\sum`) center on the math axis.
+    @Test func sideScriptLargeOpCentersOnAxis() throws {
+        guard let metrics = FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)) else {
+            Issue.record("missing metrics")
+            return
+        }
+        let display = try displayRenderer().layout(latex: #"\int_0^1"#)
+        // First child should be a list (base + scripts) or bare glyphs.
+        func firstGlyphRun(_ node: DisplayNode) -> GlyphRun? {
+            switch node {
+            case .glyphs(let run): return run
+            case .list(let list):
+                for child in list.children {
+                    if let run = firstGlyphRun(child) { return run }
+                }
+                return nil
+            default: return nil
+            }
+        }
+        let run = try #require(firstGlyphRun(.list(display)))
+        let center = 0.5 * (run.ascent - run.descent) - run.shiftDown
+        #expect(abs(center - metrics.axisHeight) <= 0.05, "∫ center \(center) vs axis \(metrics.axisHeight)")
+        #expect(abs(run.shiftDown) > 0.01 || abs(0.5 * (run.ascent - run.descent) - metrics.axisHeight) <= 0.05)
+    }
+
+    @Test func textStyleSumSideScriptCentersOnAxis() throws {
+        guard let metrics = FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)) else {
+            Issue.record("missing metrics")
+            return
+        }
+        let display = try displayRenderer(style: .text).layout(latex: #"\sum_i"#)
+        #expect(firstLargeOp(display) == nil)
+        func firstGlyph(_ node: DisplayNode) -> GlyphRun? {
+            switch node {
+            case .glyphs(let r): return r
+            case .list(let list):
+                for c in list.children {
+                    if let r = firstGlyph(c) { return r }
+                }
+                return nil
+            default: return nil
+            }
+        }
+        let run = try #require(firstGlyph(.list(display)))
+        let visualTop = run.ascent - run.shiftDown
+        let visualBottom = run.descent + run.shiftDown
+        let center = (visualTop - visualBottom) / 2
+        #expect(abs(center - metrics.axisHeight) <= 0.05)
     }
 }

@@ -125,7 +125,15 @@ public enum Typesetter {
                 typeset: typesetChild
             )
         case .largeOperator:
-            base = glyphNode(for: atom, env: env, metrics: metrics, fonts: fonts, enlarge: env.style == .display)
+            // Side-script path (`\int_0^1`, text-style `\sum_i`): still center on axis.
+            base = glyphNode(
+                for: atom,
+                env: env,
+                metrics: metrics,
+                fonts: fonts,
+                enlarge: env.style == .display,
+                centerOnAxis: true
+            )
         case .overline(let list):
             base = LineLayout.makeOverline(list, env: env, metrics: metrics, typeset: typesetChild)
         case .underline(let list):
@@ -165,7 +173,9 @@ public enum Typesetter {
                 stack, env: env, metrics: metrics, fonts: fonts, typeset: typesetChild
             )
         case .none, .space, .style:
-            base = glyphNode(for: atom, env: env, metrics: metrics, fonts: fonts, enlarge: false)
+            base = glyphNode(
+                for: atom, env: env, metrics: metrics, fonts: fonts, enlarge: false, centerOnAxis: false
+            )
         }
 
         return ScriptLayout.attach(
@@ -183,7 +193,8 @@ public enum Typesetter {
         env: MathEnvironment,
         metrics: FontMetrics,
         fonts: any FontProviding,
-        enlarge: Bool
+        enlarge: Bool,
+        centerOnAxis: Bool
     ) -> DisplayNode {
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
@@ -220,6 +231,12 @@ public enum Typesetter {
         }
         let measured = styleMetrics.measure(glyphs: [glyphID])
         let italic = styleMetrics.italicCorrection(for: glyphID)
+        let shift: CGFloat
+        if centerOnAxis {
+            shift = 0.5 * (measured.ascent - measured.descent) - styleMetrics.axisHeight
+        } else {
+            shift = 0
+        }
         return .glyphs(
             GlyphRun(
                 text: text,
@@ -228,6 +245,7 @@ public enum Typesetter {
                 descent: measured.descent,
                 width: text.isEmpty ? 0 : measured.width,
                 glyphIDs: text.isEmpty ? [] : [UInt16(glyphID)],
+                shiftDown: shift,
                 italicCorrection: italic
             )
         )

@@ -17,6 +17,8 @@ enum LargeOperatorLayout {
         }
         let measured = styleMetrics.measure(glyphs: [glyphID])
         let italic = styleMetrics.italicCorrection(for: glyphID)
+        // Center the operator on the math axis (TeX large-op convention).
+        let axisShift = 0.5 * (measured.ascent - measured.descent) - styleMetrics.axisHeight
         let nucleus = GlyphRun(
             text: atom.nucleus,
             font: styleFont,
@@ -24,6 +26,7 @@ enum LargeOperatorLayout {
             descent: measured.descent,
             width: measured.width,
             glyphIDs: [UInt16(glyphID)],
+            shiftDown: axisShift,
             italicCorrection: italic
         )
 
@@ -35,18 +38,24 @@ enum LargeOperatorLayout {
         var nuc = nucleus
         nuc.position = CGPoint(x: (width - nucleus.width) / 2, y: 0)
 
-        var ascent = nuc.ascent
-        var descent = nuc.descent
+        // Visual extents after axis shift (glyph is drawn at y - shiftDown).
+        let nucTop = nuc.ascent - axisShift
+        let nucBottom = nuc.descent + axisShift
+        var ascent = nucTop
+        var descent = nucBottom
 
         if var u = upper {
-            let gap = max(metrics.upperLimitGapMin, metrics.upperLimitBaselineRiseMin)
-            u.position = CGPoint(x: (width - u.width) / 2, y: nuc.ascent + gap + u.descent)
+            // GapMin: clear the visual top of the nucleus; BaselineRiseMin: from math baseline.
+            let fromGap = nucTop + metrics.upperLimitGapMin + u.descent
+            let fromRise = metrics.upperLimitBaselineRiseMin
+            u.position = CGPoint(x: (width - u.width) / 2, y: max(fromGap, fromRise))
             ascent = u.position.y + u.ascent
             upper = u
         }
         if var l = lower {
-            let gap = max(metrics.lowerLimitGapMin, metrics.lowerLimitBaselineDropMin)
-            l.position = CGPoint(x: (width - l.width) / 2, y: -(nuc.descent + gap + l.ascent))
+            let fromGap = nucBottom + metrics.lowerLimitGapMin + l.ascent
+            let fromDrop = metrics.lowerLimitBaselineDropMin
+            l.position = CGPoint(x: (width - l.width) / 2, y: -max(fromGap, fromDrop))
             descent = -l.position.y + l.descent
             lower = l
         }

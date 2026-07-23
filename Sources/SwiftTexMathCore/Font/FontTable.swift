@@ -23,6 +23,7 @@ struct FontTable: Codable, Sendable {
         case hVariants = "h_variants"
         case vVariants = "v_variants"
         case vAssembly = "v_assembly"
+        case hAssembly = "h_assembly"
     }
 
     let version: String
@@ -32,4 +33,18 @@ struct FontTable: Codable, Sendable {
     let hVariants: [String: [String]]
     let vVariants: [String: [String]]
     let vAssembly: [String: Assembly]
+    /// Horizontal glyph constructions (stretchy arrows, braces, wide bars). Optional in some fonts.
+    let hAssembly: [String: Assembly]
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        version = try c.decode(String.self, forKey: .version)
+        accents = try c.decode([String: Int].self, forKey: .accents)
+        constants = try c.decode([String: Int].self, forKey: .constants)
+        italic = try c.decode([String: Int].self, forKey: .italic)
+        hVariants = try c.decode([String: [String]].self, forKey: .hVariants)
+        vVariants = try c.decode([String: [String]].self, forKey: .vVariants)
+        vAssembly = try c.decode([String: Assembly].self, forKey: .vAssembly)
+        hAssembly = try c.decodeIfPresent([String: Assembly].self, forKey: .hAssembly) ?? [:]
+    }
 }

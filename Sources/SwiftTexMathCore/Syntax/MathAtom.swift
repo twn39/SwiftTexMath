@@ -218,12 +218,29 @@ public struct MathAtom: Sendable, Hashable {
     }
 
     public struct Accent: Sendable, Hashable {
+        /// Combining mark / symbol nucleus for single-glyph accents (`\hat`, `\utilde`).
         public var accent: String
         public var base: MathList
+        /// When true (`\widehat`, `\widetilde`), pick MATH horizontal variants to cover the base.
+        public var stretchable: Bool
+        /// When true (`\utilde`, `\underaccent`), place the accent below the base.
+        public var isBelow: Bool
+        /// General accent content for `\accent{…}{…}` / `\underaccent{…}{…}` (script-sized mark).
+        /// When non-`nil` and non-empty, layout typesets this list instead of `accent` alone.
+        public var mark: MathList?
 
-        public init(accent: String, base: MathList) {
+        public init(
+            accent: String,
+            base: MathList,
+            stretchable: Bool = false,
+            isBelow: Bool = false,
+            mark: MathList? = nil
+        ) {
             self.accent = accent
             self.base = base
+            self.stretchable = stretchable
+            self.isBelow = isBelow
+            self.mark = mark
         }
     }
 

@@ -93,6 +93,9 @@ public enum MathNormalizer {
             atom.payload = .inner(inner)
         case .accent(var accent):
             accent.base = normalize(accent.base, preserveBoundaries: false)
+            if let mark = accent.mark {
+                accent.mark = normalize(mark, preserveBoundaries: false)
+            }
             atom.payload = .accent(accent)
         case .overline(let list):
             atom.payload = .overline(normalize(list, preserveBoundaries: false))

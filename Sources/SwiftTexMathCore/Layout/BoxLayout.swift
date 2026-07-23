@@ -20,7 +20,8 @@ enum BoxLayout {
                 hAlign: box.hAlign,
                 strike: box.strike,
                 strikeThickness: metrics.fractionRuleThickness,
-                strikeVerticalOffset: 0.55 * metrics.accentBaseHeight
+                // Horizontal strike (`\sout`) sits on the math axis.
+                strikeVerticalOffset: metrics.axisHeight
             )
         )
     }

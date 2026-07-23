@@ -50,9 +50,11 @@ enum DelimiterLayout {
                 centerOnAxis: true
             )
             glyph.position = CGPoint(x: x, y: 0)
-            ascent = max(ascent, glyph.ascent - glyph.shiftDown)
-            descent = max(descent, glyph.descent + glyph.shiftDown)
-            children.append(.glyphs(glyph))
+            let node = DisplayNode.glyphs(glyph)
+            // `DisplayNode` already folds `shiftDown` into visual ascent/descent.
+            ascent = max(ascent, node.ascent)
+            descent = max(descent, node.descent)
+            children.append(node)
             x += glyph.width
         }
 

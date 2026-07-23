@@ -56,4 +56,48 @@ struct FontMetricsTableTests {
         let largeSize = metrics.measure(glyphs: [larger])
         #expect(largeSize.ascent + largeSize.descent >= baseSize.ascent + baseSize.descent - 0.01)
     }
+
+    @Test func horizontalAssemblyCoversWideTarget() throws {
+        let metrics = try #require(FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)))
+        // U+2192 arrowright has only a couple of h-variants but a full h_assembly.
+        let arrow = metrics.glyph(for: "\u{2192}")
+        let target: CGFloat = 80
+        let variantOnly = metrics.findHorizontalVariantSized(arrow, coveringWidth: target)
+        let sized = metrics.sizedHorizontal(arrow, coveringWidth: target)
+        #expect(sized.width + 0.5 >= target, "assembled width \(sized.width) < \(target)")
+        // When variants cannot cover the target, assembly should grow past the variant floor.
+        if variantOnly.width + 0.1 < target {
+            #expect(sized.glyphIDs.count >= 2, "expected multi-part assembly, got \(sized.glyphIDs.count)")
+            #expect(!sized.offsetsX.isEmpty)
+            #expect(sized.offsetsX.count == sized.glyphIDs.count)
+        }
+    }
+
+    @Test func flattenedAccentBaseHeightIsPositive() throws {
+        let metrics = try #require(FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)))
+        #expect(metrics.flattenedAccentBaseHeight > metrics.accentBaseHeight)
+    }
+
+    @Test func belowAccentGlyphHasAttachmentEntry() throws {
+        let metrics = try #require(FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)))
+        let below = metrics.glyphID(named: "tildebelowcmb")
+        #expect(below != 0)
+        #expect(metrics.hasAccentAttachment(for: below))
+        // Attachment is finite (may be negative for combining forms).
+        let x = metrics.accentAttachmentX(for: below)
+        #expect(x.isFinite)
+    }
+
+    @Test func verticalAssemblyExtenderStretchIsMonotonic() throws {
+        let metrics = try #require(FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)))
+        let paren = metrics.glyph(for: "(")
+        let short = metrics.sizedDelimiter(forNucleus: "(", height: 30)
+        let tall = metrics.sizedDelimiter(forNucleus: "(", height: 80)
+        #expect(tall.ascent + tall.descent + 0.01 >= short.ascent + short.descent)
+        // Very tall targets should multi-part assemble when variants run out.
+        if tall.glyphIDs.count > 1 {
+            #expect(tall.offsetsY.count == tall.glyphIDs.count)
+        }
+        _ = paren
+    }
 }

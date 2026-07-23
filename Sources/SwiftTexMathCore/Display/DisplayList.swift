@@ -2,6 +2,16 @@ import CoreGraphics
 import Foundation
 
 /// Immutable display tree produced by the typesetter (TeX boxes).
+///
+/// ## Coordinate conventions
+/// - **Baseline**: default `position.y = 0` for atoms on a line.
+/// - **Math axis**: `FontMetrics.axisHeight` above the baseline; fraction bars and
+///   axis-centered delimiters/operators align to it.
+/// - **ascent / descent**: extents above / below the baseline of this node.
+/// - **Rule offsets** (`ruleOffset` on fraction / radical / line): center of a
+///   stroked rule in baseline coordinates (Core Graphics strokes are centered
+///   on the path). Layout must place rules with MATH `*Gap*` clearances; draw
+///   code must use the same offsets (never hard-code `y = 0` for TeX rules).
 public struct DisplayList: Sendable, Hashable {
     public var ascent: CGFloat
     public var descent: CGFloat
@@ -47,7 +57,8 @@ public enum DisplayNode: Sendable, Hashable {
     public var ascent: CGFloat {
         switch self {
         case .list(let n): return n.ascent
-        case .glyphs(let n): return n.ascent
+        // Glyphs drawn with `shiftDown` move the visual top by −shiftDown.
+        case .glyphs(let n): return n.ascent - n.shiftDown
         case .fraction(let n): return n.ascent
         case .radical(let n): return n.ascent
         case .line(let n): return n.ascent
@@ -62,7 +73,8 @@ public enum DisplayNode: Sendable, Hashable {
     public var descent: CGFloat {
         switch self {
         case .list(let n): return n.descent
-        case .glyphs(let n): return n.descent
+        // Visual bottom extends by +shiftDown when the run is shifted down.
+        case .glyphs(let n): return n.descent + n.shiftDown
         case .fraction(let n): return n.descent
         case .radical(let n): return n.descent
         case .line(let n): return n.descent
@@ -152,6 +164,8 @@ public struct GlyphRun: Sendable, Hashable {
     public var glyphIDs: [UInt16]
     /// Per-glyph y offsets for vertical assembly (same count as `glyphIDs`, or empty).
     public var glyphOffsetsY: [CGFloat]
+    /// Per-glyph x offsets for horizontal assembly (same count as `glyphIDs`, or empty).
+    public var glyphOffsetsX: [CGFloat]
     /// Shift the run down (positive) so a tall delimiter centers on the math axis.
     public var shiftDown: CGFloat
     /// Italic correction of the (last) glyph; used when attaching superscripts.
@@ -170,6 +184,7 @@ public struct GlyphRun: Sendable, Hashable {
         position: CGPoint = .zero,
         glyphIDs: [UInt16] = [],
         glyphOffsetsY: [CGFloat] = [],
+        glyphOffsetsX: [CGFloat] = [],
         shiftDown: CGFloat = 0,
         italicCorrection: CGFloat = 0,
         fallbackFontName: String? = nil,
@@ -183,6 +198,7 @@ public struct GlyphRun: Sendable, Hashable {
         self.position = position
         self.glyphIDs = glyphIDs
         self.glyphOffsetsY = glyphOffsetsY
+        self.glyphOffsetsX = glyphOffsetsX
         self.shiftDown = shiftDown
         self.italicCorrection = italicCorrection
         self.fallbackFontName = fallbackFontName
@@ -216,6 +232,7 @@ public struct GlyphRun: Sendable, Hashable {
             width: sized.width,
             glyphIDs: sized.glyphIDs.map { UInt16($0) },
             glyphOffsetsY: sized.offsetsY,
+            glyphOffsetsX: sized.offsetsX,
             shiftDown: shift,
             italicCorrection: italic
         )
@@ -226,7 +243,11 @@ public struct FractionDisplay: Sendable, Hashable {
     public var numerator: DisplayList
     public var denominator: DisplayList
     public var ruleThickness: CGFloat
+    /// Vertical position of the fraction bar relative to the math baseline (math axis when ruled).
+    public var ruleOffset: CGFloat
+    /// Numerator baseline offset above the math baseline.
     public var numeratorOffset: CGFloat
+    /// Denominator baseline offset below the math baseline.
     public var denominatorOffset: CGFloat
     public var ascent: CGFloat
     public var descent: CGFloat
@@ -237,6 +258,7 @@ public struct FractionDisplay: Sendable, Hashable {
         numerator: DisplayList,
         denominator: DisplayList,
         ruleThickness: CGFloat,
+        ruleOffset: CGFloat = 0,
         numeratorOffset: CGFloat,
         denominatorOffset: CGFloat,
         ascent: CGFloat,
@@ -247,6 +269,7 @@ public struct FractionDisplay: Sendable, Hashable {
         self.numerator = numerator
         self.denominator = denominator
         self.ruleThickness = ruleThickness
+        self.ruleOffset = ruleOffset
         self.numeratorOffset = numeratorOffset
         self.denominatorOffset = denominatorOffset
         self.ascent = ascent
@@ -261,6 +284,8 @@ public struct RadicalDisplay: Sendable, Hashable {
     public var degree: DisplayList?
     public var radicalGlyph: GlyphRun
     public var ruleThickness: CGFloat
+    /// Center of the radical overbar relative to the math baseline.
+    public var ruleOffset: CGFloat
     public var ascent: CGFloat
     public var descent: CGFloat
     public var width: CGFloat
@@ -271,6 +296,7 @@ public struct RadicalDisplay: Sendable, Hashable {
         degree: DisplayList?,
         radicalGlyph: GlyphRun,
         ruleThickness: CGFloat,
+        ruleOffset: CGFloat,
         ascent: CGFloat,
         descent: CGFloat,
         width: CGFloat,
@@ -280,6 +306,7 @@ public struct RadicalDisplay: Sendable, Hashable {
         self.degree = degree
         self.radicalGlyph = radicalGlyph
         self.ruleThickness = ruleThickness
+        self.ruleOffset = ruleOffset
         self.ascent = ascent
         self.descent = descent
         self.width = width
@@ -291,6 +318,8 @@ public struct LineDisplay: Sendable, Hashable {
     public var inner: DisplayList
     public var isOverline: Bool
     public var ruleThickness: CGFloat
+    /// Center of the over/under bar relative to the math baseline.
+    public var ruleOffset: CGFloat
     public var ascent: CGFloat
     public var descent: CGFloat
     public var width: CGFloat
@@ -300,6 +329,7 @@ public struct LineDisplay: Sendable, Hashable {
         inner: DisplayList,
         isOverline: Bool,
         ruleThickness: CGFloat,
+        ruleOffset: CGFloat,
         ascent: CGFloat,
         descent: CGFloat,
         width: CGFloat,
@@ -308,6 +338,7 @@ public struct LineDisplay: Sendable, Hashable {
         self.inner = inner
         self.isOverline = isOverline
         self.ruleThickness = ruleThickness
+        self.ruleOffset = ruleOffset
         self.ascent = ascent
         self.descent = descent
         self.width = width

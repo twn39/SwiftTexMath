@@ -80,7 +80,31 @@ public enum LatexSerializer {
             case .scriptScript: return "\\scriptscriptstyle "
             }
         case .accent(let accent):
-            let name = AtomFactory.accents.first(where: { $0.value == accent.accent })?.key ?? "hat"
+            if let mark = accent.mark, !mark.atoms.isEmpty {
+                let cmd = accent.isBelow ? "underaccent" : "accent"
+                return "\\\(cmd){\(string(from: mark))}{\(string(from: accent.base))}"
+            }
+            let name: String
+            if accent.isBelow {
+                name = AtomFactory.accents.first(where: {
+                    $0.value == accent.accent && AtomFactory.belowAccents.contains($0.key)
+                })?.key
+                    ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
+                    ?? "utilde"
+            } else if accent.stretchable {
+                name = AtomFactory.accents.first(where: {
+                    $0.value == accent.accent && $0.key.hasPrefix("wide")
+                })?.key
+                    ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
+                    ?? "widehat"
+            } else {
+                name = AtomFactory.accents.first(where: {
+                    $0.value == accent.accent && !$0.key.hasPrefix("wide")
+                        && !AtomFactory.belowAccents.contains($0.key)
+                })?.key
+                    ?? AtomFactory.accents.first(where: { $0.value == accent.accent })?.key
+                    ?? "hat"
+            }
             return "\\\(name){\(string(from: accent.base))}"
         case .overline(let list):
             return "\\overline{\(string(from: list))}"

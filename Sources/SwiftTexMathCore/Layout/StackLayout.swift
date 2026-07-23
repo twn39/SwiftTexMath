@@ -12,7 +12,9 @@ enum StackLayout {
     ) -> DisplayNode {
         let base = typeset(stack.base, env)
         let scriptEnv = env.with(style: env.style.scriptStyle)
-        let gap = metrics.overbarVerticalGap
+        // Prefer over/underbar gaps; fall back keeps stacks from colliding with the base.
+        let overGap = max(metrics.overbarVerticalGap, metrics.upperLimitGapMin)
+        let underGap = max(metrics.underbarVerticalGap, metrics.lowerLimitGapMin)
 
         var overDisplay: DisplayList?
         if let over = stack.over {
@@ -43,7 +45,7 @@ enum StackLayout {
         if var over = overDisplay {
             over.position = CGPoint(
                 x: (width - over.width) / 2,
-                y: base.ascent + gap + over.descent
+                y: base.ascent + overGap + over.descent
             )
             ascent = max(ascent, over.position.y + over.ascent)
             overDisplay = over
@@ -52,7 +54,7 @@ enum StackLayout {
         if var under = underDisplay {
             under.position = CGPoint(
                 x: (width - under.width) / 2,
-                y: -(base.descent + gap + under.ascent)
+                y: -(base.descent + underGap + under.ascent)
             )
             descent = max(descent, -under.position.y + under.descent)
             underDisplay = under
@@ -70,7 +72,7 @@ enum StackLayout {
         )
     }
 
-    /// Prefer a single glyph; if MATH horizontal variants exist and are wider, use the best fit.
+    /// Prefer MATH horizontal variants, then `h_assembly`, when the base is wide.
     private static func stretchyOverlay(
         nucleus: String,
         width: CGFloat,
@@ -80,21 +82,23 @@ enum StackLayout {
     ) -> DisplayList {
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
-        let glyph = styleMetrics.glyph(for: nucleus)
-        let measured = styleMetrics.measure(glyphs: [glyph])
-        let run = GlyphRun(
+        let baseGlyph = styleMetrics.glyph(for: nucleus)
+        let sized = styleMetrics.sizedHorizontal(baseGlyph, coveringWidth: width)
+        let run = GlyphRun.from(
+            sized: sized,
             text: nucleus,
             font: styleFont,
-            ascent: measured.ascent,
-            descent: measured.descent,
-            width: max(measured.width, width),
-            glyphIDs: [UInt16(glyph)]
+            metrics: styleMetrics,
+            centerOnAxis: false
         )
+        // Report at least the requested coverage so parent centering stays correct.
+        var adjusted = run
+        adjusted.width = max(run.width, width)
         return DisplayList(
-            ascent: run.ascent,
-            descent: run.descent,
-            width: run.width,
-            children: [.glyphs(run)]
+            ascent: adjusted.ascent,
+            descent: adjusted.descent,
+            width: adjusted.width,
+            children: [.glyphs(adjusted)]
         )
     }
 }

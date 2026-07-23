@@ -99,6 +99,16 @@ public enum AtomFactory {
         "vec": "\u{20D7}",
         "widehat": "\u{0302}",
         "widetilde": "\u{0303}",
+        // Below-base accents (combining marks)
+        "utilde": "\u{0330}",
+        "underbar": "\u{0331}",
+        "underrightarrow": "\u{20EF}",
+        "underleftarrow": "\u{20EE}",
+    ]
+
+    /// Accent commands that sit below the nucleus.
+    public static let belowAccents: Set<String> = [
+        "utilde", "underbar", "underrightarrow", "underleftarrow",
     ]
 
     public static let symbols: [String: MathAtom] = {

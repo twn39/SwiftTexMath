@@ -90,7 +90,7 @@ let pointSize = result.size         // logical size in points
 | Radicals `\sqrt`, `\sqrt[n]` | Supported (MATH `v_variants`) |
 | `\left` … `\right` stretchy delimiters | Supported (variants + `v_assembly`) |
 | Scripts `^` `_` / prime `'` / large ops + `\limits` / `\nolimits` | Supported |
-| Accents (`\hat`, `\vec`, `\widehat`, …) | Supported (accent attachment points) |
+| Accents (`\hat`, `\vec`, `\widehat`, `\utilde`, `\underaccent`, …) | Supported (MATH attach + h-variants / `h_assembly`) |
 | Spacing `\,` `\:` `\;` `\!` `\quad` + `\kern` / `\hspace` / `\mkern` | Supported |
 | Styles `\displaystyle` / `\textstyle` / … | Supported |
 | Font faces `\mathrm` `\mathbf` `\mathit` `\text` `\mathsf`/`\textsf` `\mathtt`/`\texttt` `\boldsymbol` + `\bf`/`\rm`/`\mit` | Supported |
@@ -114,6 +114,19 @@ let pointSize = result.size         // logical size in points
 | Bundled MATH fonts (LM, XITS, Asana, …) | 12 fonts |
 
 Delimiters `$…$` / `$$…$$` / `\(...\)` / `\[…\]` are stripped at parse time and inject an implied style atom when present.
+
+### Accent commands
+
+| Command | Placement | Notes |
+|---|---|---|
+| `\hat` `\tilde` `\bar` `\vec` `\dot` `\ddot` `\check` `\breve` `\acute` `\grave` | Above | MATH top accent attachment |
+| `\widehat` `\widetilde` | Above, stretchy | Horizontal variants; assembly when present |
+| `\utilde` `\underbar` | Below | Prefers `*belowcmb` glyphs |
+| `\underrightarrow` `\underleftarrow` | Below, stretchy | Horizontal variants / `h_assembly` |
+| `\accent{mark}{base}` `\overaccent{mark}{base}` | Above | Free-form mark (script size) or bare accent name |
+| `\underaccent{mark}{base}` | Below | Same; e.g. `\underaccent{\tilde}{x}` or `\underaccent{\ast}{x}` |
+
+Prefer `\utilde{x}` for a dedicated under-tilde. `\underaccent{\tilde}{x}` is accepted (bare accent name as mark). Avoid nested bases like `\underaccent{\tilde{y}}{x}`.
 
 ## Architecture
 

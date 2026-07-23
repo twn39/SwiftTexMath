@@ -32,8 +32,11 @@ enum FractionLayout {
         }
         denominator.position = CGPoint(x: (width - denominator.width) / 2, y: 0)
 
+        // Offsets are relative to the surrounding math baseline (TeX Appendix G).
+        // The fraction rule is centered on the math axis, not on the baseline.
         let axis = metrics.axisHeight
         let thickness = fraction.hasRule ? metrics.fractionRuleThickness : 0
+        let ruleOffset = fraction.hasRule ? axis : 0
 
         let numShift: CGFloat
         let denShift: CGFloat
@@ -51,18 +54,31 @@ enum FractionLayout {
             denGap = metrics.fractionDenominatorGapMin
         }
 
-        var numeratorOffset = max(numShift, axis + thickness / 2 + numGap + numerator.descent)
-        var denominatorOffset = max(denShift, -axis + thickness / 2 + denGap + denominator.ascent)
+        // Default shifts from the MATH table, then raise/lower to honor min gaps.
+        var numeratorOffset = numShift
+        var denominatorOffset = denShift
 
-        // Clearance from axis
         if fraction.hasRule {
-            let clearNum = numeratorOffset - numerator.descent - (axis + thickness / 2)
-            if clearNum < numGap {
-                numeratorOffset += numGap - clearNum
+            // Gap above the rule: num baseline − num.descent − (axis + thickness/2)
+            let minNum = axis + thickness / 2 + numGap + numerator.descent
+            if numeratorOffset < minNum {
+                numeratorOffset = minNum
             }
-            let clearDen = (axis - thickness / 2) - (-denominatorOffset + denominator.ascent)
-            // denominator sits at -denominatorOffset baseline
-            _ = clearDen
+            // Gap below the rule: (axis − thickness/2) − (−denOffset + den.ascent)
+            let minDen = denominator.ascent + denGap + thickness / 2 - axis
+            if denominatorOffset < minDen {
+                denominatorOffset = minDen
+            }
+        } else {
+            // `\atop` / stack without a rule: keep a minimum separation around the axis.
+            let minNum = axis + numGap + numerator.descent
+            if numeratorOffset < minNum {
+                numeratorOffset = minNum
+            }
+            let minDen = denominator.ascent + denGap - axis
+            if denominatorOffset < minDen {
+                denominatorOffset = minDen
+            }
         }
 
         let ascent = numeratorOffset + numerator.ascent
@@ -73,6 +89,7 @@ enum FractionLayout {
                 numerator: numerator,
                 denominator: denominator,
                 ruleThickness: thickness,
+                ruleOffset: ruleOffset,
                 numeratorOffset: numeratorOffset,
                 denominatorOffset: denominatorOffset,
                 ascent: ascent,

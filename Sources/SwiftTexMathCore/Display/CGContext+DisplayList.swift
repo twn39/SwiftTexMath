@@ -204,8 +204,14 @@ extension CGContext {
 
         var positions = [CGPoint](repeating: .zero, count: glyphs.count)
         if !run.glyphOffsetsY.isEmpty, run.glyphOffsetsY.count == glyphs.count {
+            // Vertical MATH assembly: stack parts on the y axis.
             for i in glyphs.indices {
                 positions[i] = CGPoint(x: 0, y: run.glyphOffsetsY[i])
+            }
+        } else if !run.glyphOffsetsX.isEmpty, run.glyphOffsetsX.count == glyphs.count {
+            // Horizontal MATH assembly: place parts along x with connector overlaps.
+            for i in glyphs.indices {
+                positions[i] = CGPoint(x: run.glyphOffsetsX[i], y: 0)
             }
         } else {
             var advances = [CGSize](repeating: .zero, count: glyphs.count)
@@ -228,6 +234,7 @@ extension CGContext {
         saveGState()
         translateBy(x: fraction.position.x, y: fraction.position.y)
 
+        // Offsets are baseline-relative; the bar sits on the math axis (`ruleOffset`).
         var num = fraction.numerator
         num.position = CGPoint(x: num.position.x, y: fraction.numeratorOffset)
         draw(num, foregroundColor: foregroundColor, fonts: fonts)
@@ -239,8 +246,9 @@ extension CGContext {
         if fraction.ruleThickness > 0 {
             setStrokeColor(foregroundColor)
             setLineWidth(fraction.ruleThickness)
-            move(to: CGPoint(x: 0, y: 0))
-            addLine(to: CGPoint(x: fraction.width, y: 0))
+            let y = fraction.ruleOffset
+            move(to: CGPoint(x: 0, y: y))
+            addLine(to: CGPoint(x: fraction.width, y: y))
             strokePath()
         }
 
@@ -261,11 +269,11 @@ extension CGContext {
         draw(radical.radicalGlyph, foregroundColor: foregroundColor, fonts: fonts)
         draw(radical.radicand, foregroundColor: foregroundColor, fonts: fonts)
 
-        // Overbar
-        let barY = radical.radicand.ascent + radical.ruleThickness
+        // Overbar (center at ruleOffset so gap above radicand is preserved)
         setStrokeColor(foregroundColor)
         setLineWidth(radical.ruleThickness)
         let startX = radical.radicand.position.x
+        let barY = radical.ruleOffset
         move(to: CGPoint(x: startX, y: barY))
         addLine(to: CGPoint(x: startX + radical.radicand.width, y: barY))
         strokePath()
@@ -283,15 +291,9 @@ extension CGContext {
         draw(line.inner, foregroundColor: foregroundColor, fonts: fonts)
         setStrokeColor(foregroundColor)
         setLineWidth(line.ruleThickness)
-        if line.isOverline {
-            let y = line.inner.ascent + line.ruleThickness
-            move(to: CGPoint(x: 0, y: y))
-            addLine(to: CGPoint(x: line.width, y: y))
-        } else {
-            let y = -(line.inner.descent + line.ruleThickness)
-            move(to: CGPoint(x: 0, y: y))
-            addLine(to: CGPoint(x: line.width, y: y))
-        }
+        let y = line.ruleOffset
+        move(to: CGPoint(x: 0, y: y))
+        addLine(to: CGPoint(x: line.width, y: y))
         strokePath()
         restoreGState()
     }
