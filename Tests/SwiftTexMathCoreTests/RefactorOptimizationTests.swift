@@ -213,6 +213,42 @@ private struct EmptyFontProvider: FontProviding {
     #expect(list.atoms[0].kind == .inner)
 }
 
+@Test func podAndBmodMacros() throws {
+    let pod = try MathParser.parse(#"\pod{n}"#)
+    #expect(pod.atoms.count == 2)
+    #expect(pod.atoms[0].kind == .space)
+    #expect(pod.atoms[1].kind == .inner)
+
+    let bmod = try MathParser.parse(#"a \bmod b"#)
+    #expect(bmod.atoms.contains { $0.kind == .binaryOperator && $0.nucleus == "mod" })
+}
+
+@Test func mathClassMacrosRewriteAtomKind() throws {
+    let bin = try MathParser.parse(#"\mathbin{+}"#)
+    #expect(bin.atoms[0].kind == .binaryOperator)
+
+    let rel = try MathParser.parse(#"\mathrel{=}"#)
+    #expect(rel.atoms[0].kind == .relation)
+
+    let op = try MathParser.parse(#"\mathop{Q}"#)
+    #expect(op.atoms[0].kind == .largeOperator)
+    #expect(op.atoms[0].limits)
+
+    let ord = try MathParser.parse(#"\mathord{+}"#)
+    #expect(ord.atoms[0].kind == .ordinary)
+}
+
+@Test func tagMacroEmitsParenthesizedUpright() throws {
+    let list = try MathParser.parse(#"x \tag{1}"#)
+    #expect(list.atoms.count >= 2)
+    #expect(list.atoms.contains { atom in
+        if case .styled(let styled) = atom.payload {
+            return styled.variant == .upright
+        }
+        return false
+    })
+}
+
 @Test func braKetBraketBuildInners() throws {
     let bra = try MathParser.parse(#"\bra{\psi}"#)
     #expect(bra.atoms[0].kind == .inner)

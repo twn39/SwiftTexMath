@@ -78,6 +78,53 @@ private func expectParseError(
     #expect(spec.vlines == [1, 1, 0, 1])
 }
 
+@Test func unexpectedEndWithoutBeginFails() {
+    expectParseError(#"a \end{matrix}"#, code: .missingBegin)
+}
+
+@Test func unclosedArrayColumnSpecFails() {
+    expectParseError(#"\begin{array}{cc a \end{array}"#, code: .missingEnvironment)
+}
+
+@Test func unknownEnvironmentFails() {
+    expectParseError(#"\begin{notanenv} a \end{notanenv}"#, code: .invalidEnvironment)
+}
+
+@Test func arrayAtInsertWithoutBraceFails() {
+    expectParseError(#"\begin{array}{c@c} 1 \end{array}"#, code: .invalidEnvironment)
+}
+
+@Test func arrayUnterminatedAtInsertFails() {
+    expectParseError(#"\begin{array}{c@{quad} 1 \end{array}"#, code: .missingEnvironment)
+}
+
+@Test func substackWithoutBraceFails() {
+    expectParseError(#"\substack a"#, code: .mismatchedBraces)
+}
+
+@Test func unterminatedSubstackFails() {
+    expectParseError(#"\substack{a"#, code: .mismatchedBraces)
+}
+
+@Test func matrixStarInvalidAlignmentFails() {
+    expectParseError(#"\begin{matrix*}[x] a \end{matrix*}"#, code: .invalidEnvironment)
+}
+
+@Test func alignedAtZeroPairsFails() {
+    expectParseError(#"\begin{alignedat}{0} a \end{alignedat}"#, code: .invalidCommand)
+}
+
+@Test func limitsWithoutOperatorFails() {
+    expectParseError(#"x\limits"#, code: .invalidLimits)
+}
+
+@Test func nestedMismatchedTableEndFails() {
+    expectParseError(
+        #"\begin{pmatrix} \begin{matrix} a \end{pmatrix} \end{matrix}"#,
+        code: .invalidEnvironment
+    )
+}
+
 // MARK: - Delimiter assembly
 
 private func collectGlyphRuns(_ node: DisplayNode) -> [GlyphRun] {

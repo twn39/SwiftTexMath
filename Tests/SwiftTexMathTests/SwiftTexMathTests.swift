@@ -1,5 +1,5 @@
 import Testing
-import SwiftTexMath
+@testable import SwiftTexMath
 import SwiftTexMathCore
 
 @Test @MainActor
@@ -34,4 +34,53 @@ func mathViewConstructible() {
     #expect(throws: ParseError.self) {
         _ = try MathRenderer().layout(latex: #"\notacommand"#)
     }
+}
+
+/// Custom `FontProviding` must not write into `DisplayProvider`'s shared cache.
+@Test func displayProviderBypassesCacheForCustomFonts() throws {
+    let latex = #"x+y"#
+    let font = MathFont(name: .latinModern, size: 20)
+
+    struct EmptyFonts: FontProviding {
+        func metrics(for font: MathFont) -> FontMetrics? { nil }
+    }
+
+    let shared = DisplayProvider.display(
+        for: latex,
+        font: font,
+        style: .display,
+        proposedWidth: 0,
+        fonts: FontRegistry.shared
+    )
+    guard case .success(let cached) = shared else {
+        Issue.record("Expected success with shared registry")
+        return
+    }
+    #expect(cached.width > 0)
+
+    let custom = DisplayProvider.display(
+        for: latex,
+        font: font,
+        style: .display,
+        proposedWidth: 0,
+        fonts: EmptyFonts()
+    )
+    guard case .success(let empty) = custom else {
+        Issue.record("Expected empty success with EmptyFonts")
+        return
+    }
+    #expect(empty.width == 0 || empty.children.isEmpty)
+
+    let again = DisplayProvider.display(
+        for: latex,
+        font: font,
+        style: .display,
+        proposedWidth: 0,
+        fonts: FontRegistry.shared
+    )
+    guard case .success(let stillCached) = again else {
+        Issue.record("Shared cache should remain valid after custom provider call")
+        return
+    }
+    #expect(stillCached.width == cached.width)
 }

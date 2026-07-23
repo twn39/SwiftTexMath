@@ -2,6 +2,11 @@ import CoreGraphics
 import Foundation
 
 /// Immutable math atom (TeX noad). Nested content lives in associated payloads.
+///
+/// Prefer lowering sugar in ``MathNormalizer`` (or at parse time) rather than adding
+/// Layout-only payload cases. A single TeX-facing ``Payload`` ADT is intentional;
+/// grow it carefully—every case fans out through Normalize, Layout, equality, and
+/// ``LatexSerializer``.
 public struct MathAtom: Sendable, Hashable {
     public var kind: AtomKind
     public var nucleus: String

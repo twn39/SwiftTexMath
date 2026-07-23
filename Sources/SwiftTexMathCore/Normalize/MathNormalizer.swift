@@ -4,6 +4,10 @@ import Foundation
 ///
 /// Also drops bare `.boundary` atoms outside `\left...\right` (illegal `\middle`),
 /// while preserving boundaries nested inside `.inner` fences for delimiter layout.
+///
+/// **Payload discipline:** this stage is the preferred place to lower parse sugar into
+/// layout-ready shapes so `Typesetter` / `*Layout` switches stay smaller. Prefer
+/// expanding normalize rules over adding TeX-facing cases that Layout must special-case.
 public enum MathNormalizer {
     /// Produce a layout-ready list: fuse numbers, reclassify Bin→Ord, recurse into nested lists.
     public static func normalize(_ list: MathList) -> MathList {

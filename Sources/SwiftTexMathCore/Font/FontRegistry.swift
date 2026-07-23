@@ -3,6 +3,11 @@
 import Foundation
 
 /// Resolves `FontMetrics` for a math font (injectable for tests / alternate fonts).
+///
+/// The default implementation is ``FontRegistry/shared``. SwiftUI’s `DisplayProvider`
+/// caches layout **only** when the injected provider is identity-equal to that shared
+/// registry; any other `FontProviding` value always recomputes (intentional—custom
+/// metrics must not poison shared cache entries).
 public protocol FontProviding: Sendable {
     func metrics(for font: MathFont) -> FontMetrics?
 }
