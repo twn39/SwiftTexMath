@@ -6,7 +6,42 @@ import Foundation
 /// (e.g. `\cfrac` alignment, some box/strike details).
 public enum LatexSerializer {
     public static func string(from list: MathList) -> String {
-        list.atoms.map(string(from:)).joined()
+        var result = ""
+        for atom in list.atoms {
+            let piece = string(from: atom)
+            if needsInterAtomSpace(before: piece, after: result) {
+                result.append(" ")
+            }
+            result.append(piece)
+        }
+        return result
+    }
+
+    /// TeX control words (`\quad`, `\pi`, …) must not run into a following letter.
+    private static func needsInterAtomSpace(before next: String, after previous: String) -> Bool {
+        guard !previous.isEmpty, !next.isEmpty else { return false }
+        guard endsWithControlWord(previous) else { return false }
+        let first = next.unicodeScalars.first!
+        return Character(first).isLetter || first == "\\"
+    }
+
+    private static func endsWithControlWord(_ latex: String) -> Bool {
+        var i = latex.endIndex
+        if i > latex.startIndex, latex[latex.index(before: i)] == "*" {
+            i = latex.index(before: i)
+        }
+        var sawLetter = false
+        while i > latex.startIndex {
+            let prev = latex.index(before: i)
+            let ch = latex[prev]
+            if ch.isLetter {
+                sawLetter = true
+                i = prev
+                continue
+            }
+            return ch == "\\" && sawLetter
+        }
+        return false
     }
 
     public static func string(from atom: MathAtom) -> String {
@@ -180,6 +215,7 @@ public enum LatexSerializer {
         case .backward: return "\\bcancel{\(body)}"
         case .cross: return "\\xcancel{\(body)}"
         case .horizontal: return "\\sout{\(body)}"
+        case .frame: return "\\boxed{\(body)}"
         case .none:
             break
         }

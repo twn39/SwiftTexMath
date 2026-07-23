@@ -135,7 +135,7 @@ enum TableEnvironment {
                 interRowAdditionalSpacing: 0
             )
 
-        case "aligned", "eqalign", "split":
+        case "aligned", "align", "eqalign", "split":
             if baseName == "split", columnCount > 2 {
                 throw ParseError(
                     code: .invalidNumberOfColumns,
@@ -147,7 +147,7 @@ enum TableEnvironment {
                 alignments.append(i % 2 == 0 ? .right : .left)
             }
             return MathAtom.Table(
-                environment: baseName,
+                environment: baseName == "align" ? "aligned" : baseName,
                 rows: rows,
                 alignments: alignments,
                 interColumnSpacing: 0,

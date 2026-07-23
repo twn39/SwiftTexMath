@@ -94,6 +94,18 @@ extension CGContext {
         case .horizontal:
             let y = box.strikeVerticalOffset
             segments = [(CGPoint(x: 0, y: y), CGPoint(x: w, y: y))]
+        case .frame:
+            let pad = box.strikeThickness * 2
+            let rect = CGRect(
+                x: -pad,
+                y: bot - pad,
+                width: w + 2 * pad,
+                height: top - bot + 2 * pad
+            )
+            setStrokeColor(foregroundColor)
+            setLineWidth(box.strikeThickness)
+            stroke(rect)
+            return
         }
         setStrokeColor(foregroundColor)
         setLineWidth(box.strikeThickness)

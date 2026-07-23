@@ -1,0 +1,974 @@
+[
+  {
+    "id": "fixture/baseline/cancel.tex",
+    "source": "fixture",
+    "latex": "\\cancel{x}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/frac.tex",
+    "source": "fixture",
+    "latex": "\\frac{1}{2}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/greek.tex",
+    "source": "fixture",
+    "latex": "\\alpha+\\beta=\\gamma",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/hat_sub.tex",
+    "source": "fixture",
+    "latex": "\\hat{x}_i",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/left_right_frac.tex",
+    "source": "fixture",
+    "latex": "\\left(\\frac{a}{b}\\right)",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/mathbf.tex",
+    "source": "fixture",
+    "latex": "\\mathbf{R}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/pmatrix.tex",
+    "source": "fixture",
+    "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/pythagoras.tex",
+    "source": "fixture",
+    "latex": "x^2+y^2",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/sqrt_root.tex",
+    "source": "fixture",
+    "latex": "\\sqrt[3]{x}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/baseline/sum_scripts.tex",
+    "source": "fixture",
+    "latex": "\\sum_{i=1}^{n} i",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/arccot.tex",
+    "source": "fixture",
+    "latex": "\\sin x + \\arccot y",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/binom.tex",
+    "source": "fixture",
+    "latex": "\\binom{n}{k}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/bmod.tex",
+    "source": "fixture",
+    "latex": "a \\bmod b",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/dbinom.tex",
+    "source": "fixture",
+    "latex": "\\dbinom{n}{k}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/displaystyle_sum.tex",
+    "source": "fixture",
+    "latex": "\\displaystyle{\\sum}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/lcm.tex",
+    "source": "fixture",
+    "latex": "\\lcm(a,b)",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/mathbin.tex",
+    "source": "fixture",
+    "latex": "\\mathbin{+}x",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/mathop.tex",
+    "source": "fixture",
+    "latex": "\\mathop{\\sum}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/mathrel.tex",
+    "source": "fixture",
+    "latex": "a\\mathrel{=}b",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/mod_infix.tex",
+    "source": "fixture",
+    "latex": "a \\mod n",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/notin.tex",
+    "source": "fixture",
+    "latex": "\\notin",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/operatorname_rank.tex",
+    "source": "fixture",
+    "latex": "\\operatorname{rank}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/overset.tex",
+    "source": "fixture",
+    "latex": "\\overset{a}{b}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/phantom_xy.tex",
+    "source": "fixture",
+    "latex": "\\phantom{x}y",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/pmod.tex",
+    "source": "fixture",
+    "latex": "a \\equiv b \\pmod{n}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/pod.tex",
+    "source": "fixture",
+    "latex": "a \\pod{n}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/stackrel.tex",
+    "source": "fixture",
+    "latex": "\\stackrel{def}{=}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/sum_display.tex",
+    "source": "fixture",
+    "latex": "\\sum_{i=1}^{n} i",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/tag_inline.tex",
+    "source": "fixture",
+    "latex": "x=1\\tag{1}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/tbinom.tex",
+    "source": "fixture",
+    "latex": "\\tbinom{n}{k}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/coverage/underbrace.tex",
+    "source": "fixture",
+    "latex": "\\underbrace{a+b}_{c}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/aligned.tex",
+    "source": "fixture",
+    "latex": "\\begin{aligned} a&=b+c \\\\ d&=e \\end{aligned}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/choose.tex",
+    "source": "fixture",
+    "latex": "{n \\choose k}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/displaystyle.tex",
+    "source": "fixture",
+    "latex": "\\displaystyle{\\frac{1}{2}}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/gathered.tex",
+    "source": "fixture",
+    "latex": "\\begin{gathered} a+b \\\\ c \\end{gathered}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/genfrac_binom.tex",
+    "source": "fixture",
+    "latex": "\\genfrac{(}{)}{0pt}{}{n}{k}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/genfrac_frac.tex",
+    "source": "fixture",
+    "latex": "\\genfrac{}{}{0.4pt}{0}{a}{b}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/hskip.tex",
+    "source": "fixture",
+    "latex": "a\\hskip1em b",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/kern.tex",
+    "source": "fixture",
+    "latex": "a\\kern0.5em b",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/middle.tex",
+    "source": "fixture",
+    "latex": "\\left( a \\middle| b \\right)",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/mkern.tex",
+    "source": "fixture",
+    "latex": "a\\mkern18mu b",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/smallmatrix.tex",
+    "source": "fixture",
+    "latex": "\\begin{smallmatrix} a & b \\\\ c & d \\end{smallmatrix}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/split.tex",
+    "source": "fixture",
+    "latex": "\\begin{split} a&=b \\\\ &=c \\end{split}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/substack.tex",
+    "source": "fixture",
+    "latex": "\\sum_{\\substack{i=1\\\\i\\neq j}}^{n} x_i",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/tag.tex",
+    "source": "fixture",
+    "latex": "x=y \\tag{1}",
+    "expectError": false
+  },
+  {
+    "id": "fixture/p1/textstyle.tex",
+    "source": "fixture",
+    "latex": "\\textstyle{\\frac{1}{2}}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/001",
+    "source": "compatibility.rs",
+    "latex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/002",
+    "source": "compatibility.rs",
+    "latex": "2 = \\left( \\frac{\\left(3-x\\right) \\times 2}{3-x} \\right)",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/003",
+    "source": "compatibility.rs",
+    "latex": "x = y < z \\le 1",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/004",
+    "source": "compatibility.rs",
+    "latex": "\\int_0^\\infty f(x) \\, dx",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/005",
+    "source": "compatibility.rs",
+    "latex": "\\sqrt{\\sqrt{\\sqrt{x}}}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/006",
+    "source": "compatibility.rs",
+    "latex": "\\begin{pmatrix} & b \\\\ c & \\end{pmatrix}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/007",
+    "source": "compatibility.rs",
+    "latex": "\\text{a b }   \\text{ c}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/008",
+    "source": "compatibility.rs",
+    "latex": "\\left. \\frac{d}{dt} \\right|_{t=0}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/009",
+    "source": "compatibility.rs",
+    "latex": "\\overbrace{a+b}^{\\text{term}}",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/010",
+    "source": "compatibility.rs",
+    "latex": "\\max_B X",
+    "expectError": false
+  },
+  {
+    "id": "rust/compatibility/011",
+    "source": "compatibility.rs",
+    "latex": "\\left\\langle f', g \\right\\rangle = \\dfrac{1}{2}",
+    "expectError": false
+  },
+  {
+    "id": "rust/error_recovery/012",
+    "source": "error_recovery.rs",
+    "latex": "\\frac{}{} {}",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/013",
+    "source": "error_recovery.rs",
+    "latex": "\\frac{a}{b",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/014",
+    "source": "error_recovery.rs",
+    "latex": "\\begin{matrix} a & b",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/015",
+    "source": "error_recovery.rs",
+    "latex": "\\frac{a}",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/016",
+    "source": "error_recovery.rs",
+    "latex": "{a + {b + c }",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/017",
+    "source": "error_recovery.rs",
+    "latex": "\\begin{bmatrix} 1 & 2 \\\\ 3 & 4",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/018",
+    "source": "error_recovery.rs",
+    "latex": "\\limits_{x \\to 0}",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/019",
+    "source": "error_recovery.rs",
+    "latex": "\\text{hello {world} nested}",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/020",
+    "source": "error_recovery.rs",
+    "latex": "\\text{hello \\{world\\} nested}",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/021",
+    "source": "error_recovery.rs",
+    "latex": "\\text{unclosed",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/022",
+    "source": "error_recovery.rs",
+    "latex": "\\xrightarrow[a=[b]]{c}",
+    "expectError": true
+  },
+  {
+    "id": "rust/error_recovery/023",
+    "source": "error_recovery.rs",
+    "latex": "\\begin{array}{p{2cm}c} a & b \\end{array}",
+    "expectError": true
+  },
+  {
+    "id": "rust/e2e_environments/024",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{bmatrix} a & b \\\\ c & d \\\\ \\end{bmatrix}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/025",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{matrix} a & b \\\\ c & d \\end{matrix}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/026",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/027",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{align} x &= 1 \\\\ y &= 2 \\end{align}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/028",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{cases} 0 & x < 0 \\\\ 1 & x \\ge 0 \\end{cases}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/029",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{cases} \\frac{1}{2} & -1 \\le x < 0 \\\\ 1 - x^2 & \\text{otherwise} \\end{cases}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/030",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{array}{r|cc} x & y & z \\end{array}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/031",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{matrix} a \\\\ b \\\\[2em] c \\end{matrix}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_environments/032",
+    "source": "e2e_environments.rs",
+    "latex": "\\begin{bmatrix} 1 & V_i^* \\\\ V_i & W_{ii} \\\\ \\end{bmatrix} \\succeq 0",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/033",
+    "source": "e2e_rendering.rs",
+    "latex": "x_i^2 + y_i^2 = 1",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/034",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left[ \\sqrt[3]{x} \\right]",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/035",
+    "source": "e2e_rendering.rs",
+    "latex": "\\sum_{i=1}^n",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/036",
+    "source": "e2e_rendering.rs",
+    "latex": "\\oint_{(x,y)\\in C} x^3\\, dx + 4y^2\\, dy",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/037",
+    "source": "e2e_rendering.rs",
+    "latex": "x=\\frac{{\\color{Blue}-b}\\pm\\sqrt{\\color{Red}b^2-4ac}}{\\color{Green}2a}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/038",
+    "source": "e2e_rendering.rs",
+    "latex": "\\color{Blue}x^2\\color{Black}+\\color{Orange}2x\\color{Black}-\\color{LimeGreen}1",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/039",
+    "source": "e2e_rendering.rs",
+    "latex": "\\frac{a}{b} 42",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/040",
+    "source": "e2e_rendering.rs",
+    "latex": "\\alpha + \\infty \\le \\sum_{i=1}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/041",
+    "source": "e2e_rendering.rs",
+    "latex": "\\ne \\implies \\iff \\coloncolonequals \\sube \\dArr \\Rarr",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/042",
+    "source": "e2e_rendering.rs",
+    "latex": "a \\, b \\: c \\; d \\! e \\enspace f \\enskip g \\quad h \\qquad i",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/043",
+    "source": "e2e_rendering.rs",
+    "latex": "\\% \\$ \\{ \\} \\_ \\& \\#",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/044",
+    "source": "e2e_rendering.rs",
+    "latex": "\\sin x + \\log y",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/045",
+    "source": "e2e_rendering.rs",
+    "latex": "a \\quad b \\, c",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/046",
+    "source": "e2e_rendering.rs",
+    "latex": "\\dim p, \\deg q, \\det m, \\ker\\phi",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/047",
+    "source": "e2e_rendering.rs",
+    "latex": "\\AA, \\aa, \\O, \\o",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/048",
+    "source": "e2e_rendering.rs",
+    "latex": "\\N, \\R, \\Z, \\C, \\Q, \\H",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/049",
+    "source": "e2e_rendering.rs",
+    "latex": "\\varGamma \\varDelta \\varTheta \\varLambda \\varXi \\varPi \\varSigma \\varPhi \\varUpsilon \\varOmega",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/050",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left \\uparrow \\frac{a}{b} \\right \\downarrow \\quad",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/051",
+    "source": "e2e_rendering.rs",
+    "latex": "x + \\phantom{y + z} + a",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/052",
+    "source": "e2e_rendering.rs",
+    "latex": "3.14",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/053",
+    "source": "e2e_rendering.rs",
+    "latex": "1.5 + 0.5",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/054",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left\\langle x \\right\\rangle",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/055",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left\\lfloor x \\right\\rfloor",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/056",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left\\lceil x \\right\\rceil",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/057",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left\\lVert x \\right\\rVert",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/058",
+    "source": "e2e_rendering.rs",
+    "latex": "\\dfrac{1}{n}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/059",
+    "source": "e2e_rendering.rs",
+    "latex": "\\operatorname{rank}(A)",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/060",
+    "source": "e2e_rendering.rs",
+    "latex": "a \\not\\in B",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/061",
+    "source": "e2e_rendering.rs",
+    "latex": "A \\not\\subset B",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/062",
+    "source": "e2e_rendering.rs",
+    "latex": "a \\not= b",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/063",
+    "source": "e2e_rendering.rs",
+    "latex": "a \\not\\equiv b",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/064",
+    "source": "e2e_rendering.rs",
+    "latex": "\\left< a, b \\right>",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/065",
+    "source": "e2e_rendering.rs",
+    "latex": "k \\; : \\; \\mathbb{R}^n \\times \\mathbb{R}^n \\; \\rightarrow \\mathbb{R}, \\qquad\n(s, t) \\mapsto \\left< \\Phi(s), \\Phi(t) \\right>",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/066",
+    "source": "e2e_rendering.rs",
+    "latex": "\\nabla f(x) = \\begin{bmatrix} 1 & 1 & 1 \\\\ 2x_1 & 2x_2 & -2x_3 \\\\ 2x_1 & -x_3 & -x_2 \\end{bmatrix}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/067",
+    "source": "e2e_rendering.rs",
+    "latex": "\\begin{align} a \\\\ \\begin{bmatrix} 1 \\\\ 2 \\end{bmatrix} \\\\ b \\end{align}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/068",
+    "source": "e2e_rendering.rs",
+    "latex": "\\text{max}  \\quad   0.25 L•X \\\\\n    \\text{    s.t.} \\quad   \\mathrm{diag}(X) = e \\\\\n                 \\qquad X \\succeq 0",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/069",
+    "source": "e2e_rendering.rs",
+    "latex": "W = V V^* \\quad \\iff \\quad W_{ii} = | V_i |^2, \\quad W_{ik} = V_i \\; \\overline{V_k}, \\quad \\forall i, \\, k \\in \\{ 1, \\ldots, N \\}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/070",
+    "source": "e2e_rendering.rs",
+    "latex": "a^{b^c}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/071",
+    "source": "e2e_rendering.rs",
+    "latex": "\\mathbf{X} + \\mathbb{R}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/072",
+    "source": "e2e_rendering.rs",
+    "latex": "x = 1 \\text{ if } y > 0",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/073",
+    "source": "e2e_rendering.rs",
+    "latex": "\\hat{y} + \\vec{v} + \\bar{x} + \\dot{x}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/074",
+    "source": "e2e_rendering.rs",
+    "latex": "\\operatorname{\\underset{\\mathit{j\\,\\ne\\,i}}{median}} X_{i,j}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/075",
+    "source": "e2e_rendering.rs",
+    "latex": "x + \\textcolor{red}{y + z} = 1",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/076",
+    "source": "e2e_rendering.rs",
+    "latex": "{a + \\color{blue} b + c} + d",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/077",
+    "source": "e2e_rendering.rs",
+    "latex": "\\boxed{\\colorbox{#FF0000}{x}}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/078",
+    "source": "e2e_rendering.rs",
+    "latex": "\\begin{align} x &= \\color{red} y + 1 \\\\ \\textcolor{blue}{x - 1} &= y \\end{align}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/079",
+    "source": "e2e_rendering.rs",
+    "latex": "\\sum_{i=1}^{\\infty} \\sin(x_i) \\quad \\text{and} \\quad \\lim_{n \\to \\infty} \\frac{1}{n}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/080",
+    "source": "e2e_rendering.rs",
+    "latex": "\\underbrace{a + b + c}_{= X}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/081",
+    "source": "e2e_rendering.rs",
+    "latex": "\\overbrace{x^2 + y^2}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/082",
+    "source": "e2e_rendering.rs",
+    "latex": "{}_1^2 X",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/083",
+    "source": "e2e_rendering.rs",
+    "latex": "{}_a^b X_c^d",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/084",
+    "source": "e2e_rendering.rs",
+    "latex": "\\frac{\\cancel{x} + y}{\\cancel{x}}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/085",
+    "source": "e2e_rendering.rs",
+    "latex": "\\xcancel{Math}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/086",
+    "source": "e2e_rendering.rs",
+    "latex": "\\overline{x + y}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/087",
+    "source": "e2e_rendering.rs",
+    "latex": "\\bar{x}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/088",
+    "source": "e2e_rendering.rs",
+    "latex": "\\mathbf{A}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/089",
+    "source": "e2e_rendering.rs",
+    "latex": "\\mathbb{R}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/090",
+    "source": "e2e_rendering.rs",
+    "latex": "f'",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/091",
+    "source": "e2e_rendering.rs",
+    "latex": "f''",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/092",
+    "source": "e2e_rendering.rs",
+    "latex": "f'(x)",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/093",
+    "source": "e2e_rendering.rs",
+    "latex": "\\dfrac{a}{b}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/094",
+    "source": "e2e_rendering.rs",
+    "latex": "\\tfrac{a}{b}",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/095",
+    "source": "e2e_rendering.rs",
+    "latex": "\\operatorname{tr}(A)",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/096",
+    "source": "e2e_rendering.rs",
+    "latex": "\\mathrm{d}x",
+    "expectError": false
+  },
+  {
+    "id": "rust/e2e_rendering/097",
+    "source": "e2e_rendering.rs",
+    "latex": "\\int f(x) \\mathrm{d} x",
+    "expectError": false
+  },
+  {
+    "id": "rust/boundary_test/098",
+    "source": "boundary_test.rs",
+    "latex": "\\text{你好，世界！🙋‍♂️ 123 α} + \\sum_{i=1}^n x_i",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/099",
+    "source": "parser_atoms.rs",
+    "latex": "123",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/100",
+    "source": "parser_atoms.rs",
+    "latex": "abc",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/101",
+    "source": "parser_atoms.rs",
+    "latex": "\\frac{a}{12}",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/102",
+    "source": "parser_atoms.rs",
+    "latex": "x + y = 2",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/103",
+    "source": "parser_atoms.rs",
+    "latex": "{a + b}^2",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/104",
+    "source": "parser_atoms.rs",
+    "latex": "\\sqrt{x}",
+    "expectError": false
+  },
+  {
+    "id": "rust/parser_atoms/105",
+    "source": "parser_atoms.rs",
+    "latex": "\\left( x \\right)",
+    "expectError": false
+  },
+  {
+    "id": "rust/styling_and_scripts/106",
+    "source": "styling_and_scripts.rs",
+    "latex": "x^2",
+    "expectError": false
+  },
+  {
+    "id": "rust/styling_and_scripts/107",
+    "source": "styling_and_scripts.rs",
+    "latex": "a_i",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/108",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\frac { a } { b }",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/109",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\lim_{x \\to 0}",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/110",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\injlim, \\varinjlim, \\projlim, \\varprojlim",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/111",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\prime, \\backprime, f^\\prime, f', f'', f^{(3)}, \\dot y, \\ddot y",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/112",
+    "source": "limits_and_spacing.rs",
+    "latex": "( \\bigl( \\Bigl( \\biggl( \\Biggl( \\dots \\Biggr] \\biggr] \\Bigr] \\bigr] ]",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/113",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\int\\limits_0^1",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/114",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\sum\\nolimits_0^1",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/115",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\iint_D f",
+    "expectError": false
+  },
+  {
+    "id": "rust/limits_and_spacing/116",
+    "source": "limits_and_spacing.rs",
+    "latex": "\\bigvee_{i=1}^n",
+    "expectError": false
+  }
+]

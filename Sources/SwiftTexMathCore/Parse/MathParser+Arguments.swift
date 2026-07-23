@@ -10,20 +10,38 @@ extension MathParser {
     }
 
     /// Parse a TeX dimension (`1em`, `2mu`, `3pt`, bare number as mu) into math units.
+    /// Accepts braced (`{0.5em}`) or unbraced (`0.5em`) forms (amsmath / tex2math).
     mutating func readDimensionAsMu(allowEm: Bool, command: String) throws -> CGFloat {
         skipSpaces()
-        guard peek() == "{" else {
-            throw ParseError(code: .invalidCommand, message: "\\\(command) expects a braced dimension")
+        let trimmed: String
+        if peek() == "{" {
+            _ = nextCharacter()
+            var raw = ""
+            while hasCharacters, peek() != "}" {
+                raw.append(nextCharacter())
+            }
+            guard hasCharacters, nextCharacter() == "}" else {
+                throw ParseError(code: .mismatchedBraces, message: "Missing } after \\\(command) dimension")
+            }
+            trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        } else {
+            // Unbraced: optional sign, digits, optional decimal, optional unit (mu/em/pt).
+            var raw = ""
+            if peek() == "+" || peek() == "-" {
+                raw.append(nextCharacter())
+            }
+            while let ch = peek(), ch.isNumber || ch == "." {
+                raw.append(nextCharacter())
+            }
+            if let ch = peek(), ch.isLetter {
+                var unit = ""
+                while let u = peek(), u.isLetter {
+                    unit.append(nextCharacter())
+                }
+                raw += unit
+            }
+            trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         }
-        _ = nextCharacter()
-        var raw = ""
-        while hasCharacters, peek() != "}" {
-            raw.append(nextCharacter())
-        }
-        guard hasCharacters, nextCharacter() == "}" else {
-            throw ParseError(code: .mismatchedBraces, message: "Missing } after \\\(command) dimension")
-        }
-        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard !trimmed.isEmpty else {
             throw ParseError(code: .invalidCommand, message: "Empty dimension for \\\(command)")
         }
@@ -54,6 +72,31 @@ extension MathParser {
         }
         // Bare number → mu
         return try parseNumber(trimmed)
+    }
+
+    /// Raw text inside the next `{…}` group (no nested math parse).
+    mutating func readBracedRaw() throws -> String {
+        skipSpaces()
+        guard peek() == "{" else {
+            throw ParseError(code: .mismatchedBraces, message: "Expected {")
+        }
+        _ = nextCharacter()
+        var raw = ""
+        var depth = 1
+        while hasCharacters {
+            let ch = nextCharacter()
+            if ch == "{" {
+                depth += 1
+                raw.append(ch)
+            } else if ch == "}" {
+                depth -= 1
+                if depth == 0 { return raw }
+                raw.append(ch)
+            } else {
+                raw.append(ch)
+            }
+        }
+        throw ParseError(code: .mismatchedBraces, message: "Missing }")
     }
 
     mutating func readBracedInteger() throws -> Int {

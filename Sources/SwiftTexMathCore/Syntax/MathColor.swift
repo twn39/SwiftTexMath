@@ -35,6 +35,16 @@ public enum MathColor {
         "brown": .init(red: 0.65, green: 0.16, blue: 0.16),
         "gray": .init(red: 0.5, green: 0.5, blue: 0.5),
         "grey": .init(red: 0.5, green: 0.5, blue: 0.5),
+        // HTML / CSS aliases used by tex2math / KaTeX fixtures
+        "limegreen": .init(red: 0.196, green: 0.804, blue: 0.196),
+        "lime": .init(red: 0, green: 1, blue: 0),
+        "navy": .init(red: 0, green: 0, blue: 0.5),
+        "teal": .init(red: 0, green: 0.5, blue: 0.5),
+        "maroon": .init(red: 0.5, green: 0, blue: 0),
+        "olive": .init(red: 0.5, green: 0.5, blue: 0),
+        "silver": .init(red: 0.75, green: 0.75, blue: 0.75),
+        "aqua": .init(red: 0, green: 1, blue: 1),
+        "fuchsia": .init(red: 1, green: 0, blue: 1),
     ]
 
     public static func components(from raw: String) -> Components? {

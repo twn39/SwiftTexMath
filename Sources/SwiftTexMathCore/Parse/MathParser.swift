@@ -23,11 +23,35 @@ public struct MathParser: Sendable {
 
     public static func parse(_ latex: String) throws -> MathList {
         var parser = MathParser(latex)
-        var list = try parser.buildInternal(stop: .eof)
+        var rows: [MathList] = []
+        while true {
+            let row = try parser.buildInternal(stop: .lineBreak)
+            rows.append(row)
+            if parser.consumeLineBreak() {
+                continue
+            }
+            break
+        }
         parser.skipSpaces()
         if parser.hasCharacters {
             throw ParseError(code: .mismatchedBraces, message: "Unused characters after parse")
         }
+
+        var list: MathList
+        if rows.count <= 1 {
+            list = rows.first ?? MathList()
+        } else {
+            // Top-level `\\` → single-column gathered table (tex2math / display multiline).
+            let table = MathAtom.Table(
+                environment: "gathered",
+                rows: rows.map { [$0] },
+                alignments: [.center],
+                interColumnSpacing: 0,
+                interRowAdditionalSpacing: 1
+            )
+            list = MathList(atoms: [MathAtom(kind: .table, payload: .table(table))])
+        }
+
         if let style = parser.detectedStyle {
             var atoms = list.atoms
             atoms.insert(MathAtom(kind: .style, payload: .style(style)), at: 0)
@@ -43,6 +67,8 @@ public struct MathParser: Sendable {
         case tableCell
         /// Like `tableCell`, but also stops before a closing `}` (for `\substack{…}`).
         case substackCell
+        /// Stop before top-level `\\` / `\cr` (or at EOF).
+        case lineBreak
     }
 
     // MARK: - Delimiters
@@ -113,7 +139,7 @@ public struct MathParser: Sendable {
                 return list
             case .substackCell where peek() == "&" || peek() == "}":
                 return list
-            case .eof, .character, .rightCommand, .tableCell, .substackCell:
+            case .eof, .character, .rightCommand, .tableCell, .substackCell, .lineBreak:
                 break
             }
 
@@ -201,6 +227,9 @@ public struct MathParser: Sendable {
                 if case .substackCell = stop, startsWithRowBreakOrEnd() {
                     return list
                 }
+                if case .lineBreak = stop, startsWithRowBreak() {
+                    return list
+                }
                 _ = nextCharacter()
                 let outcome = try appendCommand(into: &list, prev: &prev, oneCharArgument: false)
                 switch outcome {
@@ -284,6 +313,23 @@ public struct MathParser: Sendable {
         i = string.index(after: i)
         let name = peekCommandName(from: i)
         return name == "\\" || name == "cr" || name == "end"
+    }
+
+    func startsWithRowBreak() -> Bool {
+        var i = index
+        guard i < string.endIndex, string[i] == "\\" else { return false }
+        i = string.index(after: i)
+        let name = peekCommandName(from: i)
+        return name == "\\" || name == "cr"
+    }
+
+    /// Consume a top-level `\\` or `\cr`. Returns `true` if a row break was present.
+    mutating func consumeLineBreak() -> Bool {
+        skipSpaces()
+        guard startsWithRowBreak() else { return false }
+        _ = nextCharacter() // '\'
+        _ = readCommandName()
+        return true
     }
 
     func peekCommandName(from start: String.Index) -> String {

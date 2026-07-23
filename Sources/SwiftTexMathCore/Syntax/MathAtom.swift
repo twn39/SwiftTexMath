@@ -48,6 +48,8 @@ public struct MathAtom: Sendable, Hashable {
             case backward
             case cross
             case horizontal
+            /// Rectangular frame around the contents (`\boxed`).
+            case frame
         }
 
         public init(

@@ -36,7 +36,8 @@ let package = Package(
             name: "SwiftTexMathCoreTests",
             dependencies: ["SwiftTexMathCore"],
             resources: [
-                .copy("Goldens")
+                .copy("Goldens"),
+                .copy("Tex2MathCorpus"),
             ]
         ),
         .testTarget(

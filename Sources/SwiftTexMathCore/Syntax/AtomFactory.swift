@@ -12,9 +12,25 @@ public enum AtomFactory {
         "lbrace": "{",
         "rbrace": "}",
         "Vert": "|",
+        "lVert": "Vert",
+        "rVert": "Vert",
         "gets": "leftarrow",
         "to": "rightarrow",
         "iff": "Longleftrightarrow",
+        "dots": "ldots",
+        "sube": "subseteq",
+        "dArr": "Downarrow",
+        "Rarr": "Rightarrow",
+        "varGamma": "Gamma",
+        "varDelta": "Delta",
+        "varTheta": "Theta",
+        "varLambda": "Lambda",
+        "varXi": "Xi",
+        "varPi": "Pi",
+        "varSigma": "Sigma",
+        "varPhi": "Phi",
+        "varUpsilon": "Upsilon",
+        "varOmega": "Omega",
         "AA": "angstrom",
         // iosMath / amssymb aliases
         "restriction": "upharpoonright",
@@ -48,6 +64,8 @@ public enum AtomFactory {
         "rgroup": "\u{27EF}",
         "||": "\u{2016}",
         "Vert": "\u{2016}",
+        "lVert": "\u{2016}",
+        "rVert": "\u{2016}",
         "vert": "|",
         "uparrow": "\u{2191}",
         "downarrow": "\u{2193}",
@@ -165,10 +183,20 @@ public enum AtomFactory {
                      "dim", "hom", "exp", "deg", "mod"] {
             put(name, .largeOperator(name, limits: false))
         }
-        for name in ["lim", "limsup", "liminf", "max", "min", "sup", "inf", "det", "Pr", "gcd"] {
-            let nucleus = name == "limsup" ? "lim sup" : name == "liminf" ? "lim inf" : name
+        for name in ["lim", "limsup", "liminf", "max", "min", "sup", "inf", "det", "Pr", "gcd", "lcm"] {
+            let nucleus: String
+            switch name {
+            case "limsup": nucleus = "lim sup"
+            case "liminf": nucleus = "lim inf"
+            default: nucleus = name
+            }
             put(name, .largeOperator(nucleus, limits: true))
         }
+        put("injlim", .largeOperator("inj lim", limits: true))
+        put("projlim", .largeOperator("proj lim", limits: true))
+        put("varinjlim", .largeOperator("lim", limits: true)) // under-arrow variant approximated
+        put("varprojlim", .largeOperator("lim", limits: true))
+        put("backprime", .ordinary("\u{2035}"))
 
         put("prod", .largeOperator("\u{220F}", limits: true))
         put("coprod", .largeOperator("\u{2210}", limits: true))
@@ -230,6 +258,17 @@ public enum AtomFactory {
         put("!", .space(mu: -3))
         put("quad", .space(mu: 18))
         put("qquad", .space(mu: 36))
+        put("enspace", .space(mu: 9))
+        put("enskip", .space(mu: 9))
+
+        // Blackboard-bold letter shortcuts (amsmath / tex2math)
+        put("N", .ordinary("\u{2115}"))
+        put("Z", .ordinary("\u{2124}"))
+        put("Q", .ordinary("\u{211A}"))
+        put("R", .ordinary("\u{211D}"))
+        put("C", .ordinary("\u{2102}"))
+        put("H", .ordinary("\u{210D}"))
+        put("coloncolonequals", .relation("\u{2A74}"))
 
         // Extended AMS / iosMath symbol parity
         put("varkappa", .ordinary("\u{03F0}"))
