@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Swift Package Manager
+/.build
+/Packages
+/*.xcodeproj
+.swiftpm/
+Package.resolved
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# IDEs / editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# Secrets / local creds
+.netrc
+.env
+.env.*
+
+# Codegraph vault (regenerate with `codegraph build .`)
+.codegraph/
+
+# Reference implementations (local clones; not part of the package)
+third_party/
