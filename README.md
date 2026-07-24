@@ -2,7 +2,7 @@
 
 Native Swift LaTeX math rendering for Apple platforms: **parse → normalize → typeset → draw**, with an optional SwiftUI `Math` view and UIKit/AppKit `MathLabel`.
 
-**Platforms:** macOS 14+, iOS 17+, tvOS 17+, watchOS 10+, visionOS 1+ · **Swift tools:** 6.2+
+**Platforms:** macOS 14+, iOS 17+, tvOS 17+, watchOS 10+, visionOS 1+ · **Swift tools:** 6.1+
 
 ## Installation
 
