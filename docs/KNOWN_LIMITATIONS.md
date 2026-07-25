@@ -22,7 +22,7 @@ behavior is approximated rather than fully TeX-faithful.
 
 | Topic | Behavior |
 |---|---|
-| **Custom `FontProviding`** | SwiftUI `DisplayProvider` caches **only** when the provider is identity-equal to `FontRegistry.shared`. Custom providers recompute every pass. |
+| **Custom `FontProviding`** | SwiftUI `DisplayProvider` automatically caches parse & layout results for all `FontProviding` instances (keyed by instance or type identifier). |
 | **Missing glyphs** | Falls back to the text fallback font / system UI font; metrics may not match MATH spacing. |
 | **Export** | `MathImage` (bitmap/PNG), `MathPDF` (vector PDF), `MathSVG` (vector SVG via glyph outlines + stroked rules). SVG does not embed font files; missing outline glyphs may fall back to `<text>`. |
 

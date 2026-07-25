@@ -3,16 +3,15 @@ import SwiftTexMathCore
 
 /// Caches parse + layout results for SwiftUI layout/draw passes.
 ///
-/// Caching is only enabled when `fonts` is identity-equal to ``FontRegistry/shared``.
-/// Custom ``FontProviding`` injects bypass the cache so alternate metrics cannot
-/// poison shared entries (see README “Architecture invariants”).
+/// Automatically caches results across layout passes for default and custom ``FontProviding``
+/// implementations to avoid redundant layout calculations.
 enum DisplayProvider {
     struct Key: Hashable, Sendable {
         var latex: String
         var font: MathFont
         var style: TypesettingStyle
         var proposedWidth: CGFloat
-        var fontProviderID: ObjectIdentifier?
+        var fontProviderID: ObjectIdentifier
         var textFallbackFontName: String?
     }
 
@@ -44,11 +43,11 @@ enum DisplayProvider {
 
     private static let cache = CacheBox()
 
-    private static func fontProviderIdentifier(_ fonts: any FontProviding) -> ObjectIdentifier? {
+    private static func fontProviderIdentifier(_ fonts: any FontProviding) -> ObjectIdentifier {
         if let obj = fonts as? AnyObject {
             return ObjectIdentifier(obj)
         }
-        return nil
+        return ObjectIdentifier(type(of: fonts))
     }
 
     static func display(
@@ -68,8 +67,7 @@ enum DisplayProvider {
             fontProviderID: providerID,
             textFallbackFontName: textFallbackFontName
         )
-        let cacheable = providerID != nil
-        if cacheable, let cached = cache.get(key) {
+        if let cached = cache.get(key) {
             return cached
         }
 
@@ -89,9 +87,7 @@ enum DisplayProvider {
             result = .failure(ParseError(code: .internalError, message: error.localizedDescription))
         }
 
-        if cacheable {
-            cache.set(key, result)
-        }
+        cache.set(key, result)
         return result
     }
 }
