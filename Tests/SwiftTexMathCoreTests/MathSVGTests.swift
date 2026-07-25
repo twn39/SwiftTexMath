@@ -68,3 +68,9 @@ import Testing
     let text = String(data: result.data, encoding: .utf8)
     #expect(text == result.svg)
 }
+
+@Test func svgExportIsPureVectorPathsNoTextElements() throws {
+    let result = try MathSVG.render(latex: #"\text{abc 123} + \alpha"#)
+    #expect(!result.svg.contains("<text"))
+    #expect(result.svg.contains("<path"))
+}

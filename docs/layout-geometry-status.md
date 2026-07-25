@@ -24,10 +24,15 @@ clearance tests using MATH table minima (+0.01 slack).
 | `\lim_{x\to\infty}` | 11.94 | 12.574 | ~36.01 | Op with subscript |
 | `\displaystyle\int_0^1` | 34.384 | 24.408 | 39.92 | Display integral |
 | `\left(\frac{a}{b}\right)` | 22.92 | 13.94 | ~38.90 | Stretchy delims |
+| `\overline{abc}` | 17.08 | 0.22 | 27.82 | Overline rule |
+| `\underline{abc}` | 13.88 | 4.22 | 27.82 | Underline rule |
+| `\widehat{xyz}` | 14.96 | 4.10 | 31.62 | Wide accent variant |
+| `x_i^j` | 17.48 | 8.22 | 18.33 | Dual scripts |
+| `\begin{pmatrix} a & b \\ c & d \end{pmatrix}` | 25.92 | 15.92 | ~71.94 | Matrix centered on math axis |
 
 ## Clearance invariants (MATH-driven)
 
-These assert **gaps**, not absolute sizes:
+These assert **gaps** and **alignments**, not absolute sizes:
 
 - Fraction numerator / denominator vs rule (`Fraction*GapMin`)
 - Radical overbar vs radicand (`Radical*VerticalGap`)
@@ -36,6 +41,14 @@ These assert **gaps**, not absolute sizes:
 - Dual scripts `x_i^j` (`SubSuperscriptGapMin`)
 - `\overset` over base (max of overbar / upper-limit gaps)
 - `\sout` strike on math axis
+- Matrix/Table vertical center aligned on math axis (`axisHeight`)
+- Sized delimiters (`\big`, `\Big`, `\left...\right`) centered on math axis
+- Accent attachment points (`accentAttachmentX`) aligned with base attachment points
+- Integral / large operator side-scripts tuck subscript leftward by italic correction (`\int_0^1`)
+- Matrix inter-row spacing maintains minimum vertical clearance (`OverbarVerticalGap`)
+- Stretchy horizontal assemblies (`\overrightarrow`, `\overbrace`) scale width monotonically with base
+- Phantom and Smash box invariants (`\phantom`, `\hphantom`, `\vphantom`, `\smash`, `\smash[t]`, `\smash[b]`)
+- WrapLayout penalizes breaks inside nested groups so multi-line wrap prefers top-level operators
 
 ## When to update
 

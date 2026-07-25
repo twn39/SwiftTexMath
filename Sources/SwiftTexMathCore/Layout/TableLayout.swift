@@ -131,8 +131,11 @@ enum TableLayout {
         let totalHeight = zip(rowAscent, rowDescent).map(+).reduce(0, +)
             + CGFloat(max(cells.count - 1, 0)) * rowGap
             + hlineHeight
-        let totalAscent = totalHeight / 2
-        let totalDescent = totalHeight / 2
+        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
+        let axis = styleMetrics.axisHeight
+        let totalAscent = totalHeight / 2 + axis
+        let totalDescent = totalHeight / 2 - axis
 
         var children: [DisplayNode] = []
         var y = totalAscent
@@ -263,8 +266,6 @@ enum TableLayout {
             )
         }
 
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let glyphHeight = totalAscent + totalDescent
         let padding = styleMetrics.mathUnit * 2
 

@@ -42,17 +42,19 @@ enum ScriptLayout {
         // TeX italic correction shifts the superscript right of an italic nucleus.
         let italic = italicCorrection(of: base)
         let scriptX = base.width
+        let subItalicShift = isLargeOperator(of: base) ? italic : 0
         if var s = superList {
             s.position = CGPoint(x: scriptX + italic, y: superShift)
             superList = s
         }
         if var b = subList {
-            b.position = CGPoint(x: scriptX, y: -subShift)
+            b.position = CGPoint(x: max(0, scriptX - subItalicShift), y: -subShift)
             subList = b
         }
 
         let superExtent = (superList?.width ?? 0) + (superList != nil ? italic : 0)
-        let scriptWidth = max(superExtent, subList?.width ?? 0) + delta
+        let subExtent = (subList?.width ?? 0) - (subList != nil ? subItalicShift : 0)
+        let scriptWidth = max(superExtent, subExtent) + delta
         let ascent = max(base.ascent, (superList.map { $0.position.y + $0.ascent } ?? base.ascent))
         let descent = max(base.descent, (subList.map { -$0.position.y + $0.descent } ?? base.descent))
 
@@ -80,6 +82,19 @@ enum ScriptLayout {
             return op.nucleus.italicCorrection
         default:
             return 0
+        }
+    }
+
+    private static func isLargeOperator(of node: DisplayNode) -> Bool {
+        switch node {
+        case .largeOperator:
+            return true
+        case .glyphs(let run):
+            return run.italicCorrection > 0
+        case .list(let list):
+            return list.children.last.map(isLargeOperator(of:)) ?? false
+        default:
+            return false
         }
     }
 }

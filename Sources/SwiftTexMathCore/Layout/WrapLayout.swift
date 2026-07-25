@@ -318,7 +318,7 @@ enum WrapLayout {
         return ch.isLetter || ch.isNumber
     }
 
-    /// Higher score = better break (prefer end of line, relations over mid-word).
+    /// Higher score = better break (prefer end of line, relations over mid-word, top-level over nested).
     private static func breakScore(
         at index: Int,
         in line: [PlacedAtom],
@@ -329,25 +329,36 @@ enum WrapLayout {
         guard canBreakBefore(atom, previous: previous, allowMidWord: allowMidWord) else {
             return -1
         }
+        // Penalize breaks inside nested delimiters (open/close groups) so breaks prefer top-level.
+        var openDepth = 0
+        for k in 0..<index {
+            if line[k].atom.kind == .open { openDepth += 1 }
+            else if line[k].atom.kind == .close { openDepth = max(0, openDepth - 1) }
+        }
+        let nestPenalty = openDepth * 80
+
         // Prefer breaks closer to the end of the line (fill width).
         let endBias = index
+        let baseScore: Int
         switch atom.kind {
         case .relation:
-            return 400 + endBias
+            baseScore = 400 + endBias
         case .binaryOperator:
-            return 300 + endBias
+            baseScore = 300 + endBias
         case .space:
-            return 350 + endBias
+            baseScore = 350 + endBias
         case .fraction, .radical, .inner, .table, .largeOperator:
-            return 250 + endBias
+            baseScore = 250 + endBias
         default:
-            if case .space = previous.payload { return 350 + endBias }
-            if previous.kind == .close || previous.kind == .punctuation {
-                return 200 + endBias
+            if case .space = previous.payload { baseScore = 350 + endBias }
+            else if previous.kind == .close || previous.kind == .punctuation {
+                baseScore = 200 + endBias
+            } else {
+                // Mid-word rescue only when allowMidWord.
+                baseScore = allowMidWord ? 10 + endBias : -1
             }
-            // Mid-word rescue only when allowMidWord.
-            return allowMidWord ? 10 + endBias : -1
         }
+        return baseScore >= 0 ? max(0, baseScore - nestPenalty) : -1
     }
 
     private static func bestBreakIndex(in line: [PlacedAtom], allowMidWord: Bool = false) -> Int? {

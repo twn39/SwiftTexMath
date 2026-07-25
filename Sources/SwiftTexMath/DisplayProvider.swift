@@ -12,6 +12,7 @@ enum DisplayProvider {
         var font: MathFont
         var style: TypesettingStyle
         var proposedWidth: CGFloat
+        var fontProviderID: ObjectIdentifier?
         var textFallbackFontName: String?
     }
 
@@ -43,9 +44,11 @@ enum DisplayProvider {
 
     private static let cache = CacheBox()
 
-    /// Returns whether `fonts` is the process-wide shared registry (safe to cache).
-    private static func usesSharedRegistry(_ fonts: any FontProviding) -> Bool {
-        (fonts as AnyObject) === FontRegistry.shared
+    private static func fontProviderIdentifier(_ fonts: any FontProviding) -> ObjectIdentifier? {
+        if let obj = fonts as? AnyObject {
+            return ObjectIdentifier(obj)
+        }
+        return nil
     }
 
     static func display(
@@ -56,14 +59,16 @@ enum DisplayProvider {
         fonts: any FontProviding = FontRegistry.shared,
         textFallbackFontName: String? = nil
     ) -> Result<DisplayList, ParseError> {
+        let providerID = fontProviderIdentifier(fonts)
         let key = Key(
             latex: latex,
             font: font,
             style: style,
             proposedWidth: proposedWidth.rounded(),
+            fontProviderID: providerID,
             textFallbackFontName: textFallbackFontName
         )
-        let cacheable = usesSharedRegistry(fonts)
+        let cacheable = providerID != nil
         if cacheable, let cached = cache.get(key) {
             return cached
         }

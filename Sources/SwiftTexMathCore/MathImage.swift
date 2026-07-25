@@ -49,6 +49,39 @@ public enum MathImage {
         return render(display: display, fonts: fonts, options: options)
     }
 
+    private final class BitmapBufferPool: @unchecked Sendable {
+        private struct BufferEntry {
+            var capacity: Int
+            var data: [UInt8]
+        }
+        private let lock = NSLock()
+        private var storage: [BufferEntry] = []
+        private let capacity = 16
+
+        func acquire(byteCount: Int) -> [UInt8] {
+            lock.lock()
+            defer { lock.unlock() }
+            if let idx = storage.firstIndex(where: { $0.capacity >= byteCount }) {
+                let entry = storage.remove(at: idx)
+                var buf = entry.data
+                buf.withUnsafeMutableBufferPointer { ptr in
+                    ptr.baseAddress?.initialize(repeating: 0, count: byteCount)
+                }
+                return buf
+            }
+            return [UInt8](repeating: 0, count: byteCount)
+        }
+
+        func release(_ buffer: [UInt8]) {
+            lock.lock()
+            defer { lock.unlock() }
+            guard storage.count < capacity else { return }
+            storage.append(BufferEntry(capacity: buffer.count, data: buffer))
+        }
+    }
+
+    private static let bufferPool = BitmapBufferPool()
+
     /// Rasterize an existing display list.
     public static func render(
         display: DisplayList,
@@ -62,14 +95,19 @@ public enum MathImage {
         let pixelWidth = max(Int(ceil(pointWidth * scale)), 1)
         let pixelHeight = max(Int(ceil(pointHeight * scale)), 1)
 
+        let bytesPerRow = pixelWidth * 4
+        let totalBytes = bytesPerRow * pixelHeight
+        var buffer = bufferPool.acquire(byteCount: totalBytes)
+        defer { bufferPool.release(buffer) }
+
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
         guard let ctx = CGContext(
-            data: nil,
+            data: &buffer,
             width: pixelWidth,
             height: pixelHeight,
             bitsPerComponent: 8,
-            bytesPerRow: 0,
+            bytesPerRow: bytesPerRow,
             space: colorSpace,
             bitmapInfo: bitmapInfo
         ) else {

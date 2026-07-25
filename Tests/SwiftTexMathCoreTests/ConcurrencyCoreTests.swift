@@ -46,7 +46,7 @@ struct ConcurrencyCoreTests {
 
     @Test func concurrentMathImageRender() async throws {
         try await withThrowingTaskGroup(of: Bool.self) { group in
-            for i in 0..<12 {
+            for i in 0..<64 {
                 group.addTask {
                     let result = try MathImage.render(
                         latex: "x_{\(i)}^2",

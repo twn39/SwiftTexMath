@@ -158,27 +158,28 @@ public enum MathSVG {
             let ctFont = resolveCTFont(for: run)
             let glyphs = resolveGlyphs(run: run, ctFont: ctFont)
             let positions = glyphPositions(run: run, glyphs: glyphs, ctFont: ctFont)
+            let utf16Array = Array(run.text.utf16)
 
             for i in glyphs.indices {
                 let g = glyphs[i]
-                guard g != 0 else { continue }
                 let p = positions[i]
-                guard let path = CTFontCreatePathForGlyph(ctFont, g, nil) else {
-                    // Fallback: single character as text (may miss variants).
-                    if i < run.text.utf16.count {
-                        let ch = String(run.text.utf16.dropFirst(i).prefix(1).compactMap { UnicodeScalar($0) }.map(Character.init))
-                        if !ch.isEmpty {
-                            let tx = base.x + p.x
-                            let ty = base.y + p.y
-                            // Text in flipped space: counter-flip with scale(1,-1).
-                            fragments.append(
-                                #"<text x="\#(fmt(tx))" y="\#(fmt(ty))" fill="\#(escapeXML(color))" font-size="\#(fmt(run.font.size))" transform="translate(0,\#(fmt(ty))) scale(1,-1) translate(0,\#(fmt(-ty)))" dominant-baseline="alphabetic">\#(escapeXML(ch))</text>"#
-                            )
-                        }
-                    }
-                    continue
+                var path: CGPath? = nil
+                if g != 0 {
+                    path = CTFontCreatePathForGlyph(ctFont, g, nil)
                 }
-                let d = cgPathToSVG(path)
+                if path == nil, i < utf16Array.count {
+                    // Extract vector path outline for fallback characters using system CTFont.
+                    let sysFont = CTFontCreateUIFontForLanguage(.system, run.font.size, nil)
+                        ?? CTFontCreateWithName("Helvetica" as CFString, run.font.size, nil)
+                    var chars = [utf16Array[i]]
+                    var sysGlyph: CGGlyph = 0
+                    CTFontGetGlyphsForCharacters(sysFont, &chars, &sysGlyph, 1)
+                    if sysGlyph != 0 {
+                        path = CTFontCreatePathForGlyph(sysFont, sysGlyph, nil)
+                    }
+                }
+                guard let validPath = path else { continue }
+                let d = cgPathToSVG(validPath)
                 guard !d.isEmpty else { continue }
                 let tx = base.x + p.x
                 let ty = base.y + p.y

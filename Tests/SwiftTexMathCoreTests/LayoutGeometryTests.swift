@@ -275,6 +275,26 @@ struct LayoutGeometryTests {
         try expectSize(#"\left(\frac{a}{b}\right)"#, ascent: 22.92, descent: 13.94, width: 38.904444444444444)
     }
 
+    @Test func overlineGolden() throws {
+        try expectSize(#"\overline{abc}"#, ascent: 17.08, descent: 0.22, width: 27.82)
+    }
+
+    @Test func underlineGolden() throws {
+        try expectSize(#"\underline{abc}"#, ascent: 13.88, descent: 4.22, width: 27.82)
+    }
+
+    @Test func widehatGolden() throws {
+        try expectSize(#"\widehat{xyz}"#, ascent: 14.96, descent: 4.10, width: 31.62)
+    }
+
+    @Test func dualScriptsGolden() throws {
+        try expectSize(#"x_i^j"#, ascent: 17.478, descent: 8.218, width: 18.328)
+    }
+
+    @Test func pmatrixGolden() throws {
+        try expectSize(#"\begin{pmatrix} a & b \\ c & d \end{pmatrix}"#, ascent: 25.92, descent: 15.92, width: 71.94444444444444)
+    }
+
     // MARK: - Nested / multi-row clearance corpus
 
     @Test func deepNestedFractionClearances() throws {
@@ -330,6 +350,90 @@ struct LayoutGeometryTests {
             return
         }
         try assertAccentMoreCenteredThanRightEdge(list)
+    }
+
+    @Test func integralSubscriptTucksUnderHook() throws {
+        let display = try renderer.layout(latex: #"\int_0^1"#)
+        guard case .list(let list) = display.children.first else {
+            Issue.record("expected list display for \\int_0^1")
+            return
+        }
+        #expect(list.children.count >= 3, "expected base + super + sub children")
+        let superNode = list.children[1]
+        let subNode = list.children[2]
+        // Subscript x position should be tucked left of superscript x position
+        #expect(subNode.position.x < superNode.position.x)
+    }
+
+    @Test func matrixInterRowClearance() throws {
+        let display = try renderer.layout(latex: #"\begin{matrix} \frac{a}{b} \\ c \end{matrix}"#)
+        #expect(display.ascent > 0)
+        #expect(display.descent > 0)
+        #expect(display.width > 0)
+    }
+
+    @Test func stretchyHorizontalVectorAssembly() throws {
+        let shortVec = try renderer.layout(latex: #"\overrightarrow{AB}"#)
+        let longVec = try renderer.layout(latex: #"\overrightarrow{ABCDEF}"#)
+        #expect(longVec.width > shortVec.width)
+        #expect(longVec.ascent > 0)
+    }
+
+    @Test func wrapLayoutTagMargin() throws {
+        let wrappedEnv = MathEnvironment(
+            font: MathFont(name: .latinModern, size: 20),
+            style: .display,
+            maxWidth: 150
+        )
+        let display = try MathRenderer(environment: wrappedEnv).layout(latex: #"x+y \tag{1}"#)
+        #expect(display.width > 0)
+    }
+
+    @Test func phantomAndSmashBoxVariants() throws {
+        let base = try renderer.layout(latex: "x")
+        let phantom = try renderer.layout(latex: #"\phantom{x}"#)
+        let hphantom = try renderer.layout(latex: #"\hphantom{x}"#)
+        let vphantom = try renderer.layout(latex: #"\vphantom{x}"#)
+        let smash = try renderer.layout(latex: #"\smash{x}"#)
+        let smashTop = try renderer.layout(latex: #"\smash[t]{x}"#)
+        let smashBottom = try renderer.layout(latex: #"\smash[b]{x}"#)
+
+        #expect(abs(phantom.width - base.width) <= 0.01)
+        #expect(abs(phantom.ascent - base.ascent) <= 0.01)
+        #expect(abs(phantom.descent - base.descent) <= 0.01)
+
+        #expect(abs(hphantom.width - base.width) <= 0.01)
+        #expect(hphantom.ascent == 0)
+        #expect(hphantom.descent == 0)
+
+        #expect(vphantom.width == 0)
+        #expect(abs(vphantom.ascent - base.ascent) <= 0.01)
+        #expect(abs(vphantom.descent - base.descent) <= 0.01)
+
+        #expect(abs(smash.width - base.width) <= 0.01)
+        #expect(smash.ascent == 0)
+        #expect(smash.descent == 0)
+
+        #expect(abs(smashTop.width - base.width) <= 0.01)
+        #expect(smashTop.ascent == 0)
+        #expect(abs(smashTop.descent - base.descent) <= 0.01)
+
+        #expect(abs(smashBottom.width - base.width) <= 0.01)
+        #expect(abs(smashBottom.ascent - base.ascent) <= 0.01)
+        #expect(smashBottom.descent == 0)
+    }
+
+    @Test func cfracContinuedFractionLayoutAndClearance() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let display = try renderer.layout(latex: #"\cfrac[l]{1}{1+\cfrac{1}{x}}"#)
+        #expect(display.ascent > 0)
+        #expect(display.descent > 0)
+        #expect(display.width > 0)
+        let fracs = LayoutClearance.allFractions(in: display)
+        #expect(fracs.count >= 2)
+        for frac in fracs {
+            LayoutClearance.assertFractionRuleClearances(frac, metrics: metrics)
+        }
     }
 
     private func assertAccentMoreCenteredThanRightEdge(_ list: DisplayList) throws {
