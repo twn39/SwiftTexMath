@@ -8,19 +8,27 @@ public struct MathParameters: Sendable, Hashable {
     public var thickMuskip: CGFloat
     public var delimiterFactor: CGFloat
     public var delimiterShortfall: CGFloat
+    /// Penalty for breaking line at a relation symbol (TeX default = 500).
+    public var relpenalty: Int
+    /// Penalty for breaking line at a binary operator (TeX default = 700).
+    public var binoppenalty: Int
 
     public init(
         thinMuskip: CGFloat = 3,
         medMuskip: CGFloat = 4,
         thickMuskip: CGFloat = 5,
         delimiterFactor: CGFloat = 901,
-        delimiterShortfall: CGFloat = 5
+        delimiterShortfall: CGFloat = 5,
+        relpenalty: Int = 500,
+        binoppenalty: Int = 700
     ) {
         self.thinMuskip = thinMuskip
         self.medMuskip = medMuskip
         self.thickMuskip = thickMuskip
         self.delimiterFactor = delimiterFactor
         self.delimiterShortfall = delimiterShortfall
+        self.relpenalty = relpenalty
+        self.binoppenalty = binoppenalty
     }
 
     public static let `default` = MathParameters()

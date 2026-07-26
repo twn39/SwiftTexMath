@@ -40,7 +40,7 @@ struct SizedGlyph: Sendable {
 }
 
 /// Scaled MATH metrics for a concrete `(font, size)`.
-public struct FontMetrics: Sendable {
+public struct FontMetrics: Sendable, FontMetricsProtocol {
     private let font: MathFont
     private let unitsPerEm: UInt
     private let table: FontTable
@@ -58,41 +58,41 @@ public struct FontMetrics: Sendable {
     public var mathUnit: CGFloat { font.size / 18 }
     public var size: CGFloat { font.size }
 
-    func unitsToPoints(_ value: Int) -> CGFloat {
+    public func unitsToPoints(_ value: Int) -> CGFloat {
         CGFloat(value) * font.size / CGFloat(unitsPerEm)
     }
 
-    func constant(named name: String) -> CGFloat {
+    public func constant(named name: String) -> CGFloat {
         unitsToPoints(table.constants[name] ?? 0)
     }
 
     /// Unitless percent constants from the MATH table (e.g. 60 → 0.60).
-    func percentConstant(named name: String) -> CGFloat {
+    public func percentConstant(named name: String) -> CGFloat {
         CGFloat(table.constants[name] ?? 0) / 100
     }
 
-    func glyph(for nucleus: String) -> CGGlyph {
+    public func glyph(for nucleus: String) -> CGGlyph {
         var chars = Array(nucleus.utf16)
         var glyphs = [CGGlyph](repeating: 0, count: chars.count)
         CTFontGetGlyphsForCharacters(ctFont, &chars, &glyphs, chars.count)
         return glyphs.first ?? 0
     }
 
-    func glyphName(for glyph: CGGlyph) -> String {
+    public func glyphName(for glyph: CGGlyph) -> String {
         (cgFont.name(for: glyph) as String?) ?? ""
     }
 
-    func glyphID(named name: String) -> CGGlyph {
+    public func glyphID(named name: String) -> CGGlyph {
         cgFont.getGlyphWithGlyphName(name: name as CFString)
     }
 
-    func advances(forGlyphs glyphs: [CGGlyph]) -> [CGSize] {
+    public func advances(forGlyphs glyphs: [CGGlyph]) -> [CGSize] {
         var advances = [CGSize](repeating: .zero, count: glyphs.count)
         CTFontGetAdvancesForGlyphs(ctFont, .horizontal, glyphs, &advances, glyphs.count)
         return advances
     }
 
-    func boundingRects(forGlyphs glyphs: [CGGlyph]) -> [CGRect] {
+    public func boundingRects(forGlyphs glyphs: [CGGlyph]) -> [CGRect] {
         var rects = [CGRect](repeating: .zero, count: glyphs.count)
         CTFontGetBoundingRectsForGlyphs(ctFont, .horizontal, glyphs, &rects, glyphs.count)
         return rects
@@ -113,7 +113,7 @@ public struct FontMetrics: Sendable {
         return (width, max(ascent, 0), max(descent, 0))
     }
 
-    func italicCorrection(for glyph: CGGlyph) -> CGFloat {
+    public func italicCorrection(for glyph: CGGlyph) -> CGFloat {
         let name = glyphName(for: glyph)
         guard let units = table.italic[name] else { return 0 }
         return unitsToPoints(units)
@@ -126,7 +126,7 @@ public struct FontMetrics: Sendable {
 
     /// Horizontal accent attachment from the MATH `accents` table (signed, font-relative).
     /// Combining marks often store a negative X (left of origin). Missing → advance/2.
-    func topAccentAdjustment(for glyph: CGGlyph) -> CGFloat {
+    public func topAccentAdjustment(for glyph: CGGlyph) -> CGFloat {
         accentAttachmentX(for: glyph)
     }
 

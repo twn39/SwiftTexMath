@@ -130,4 +130,40 @@ final class ArchitectureOptimizationTests: XCTestCase {
             XCTAssertNotEqual(atom.kind, .boundary, "Normalizer must strip boundary pseudo-atoms")
         }
     }
+
+    // MARK: - Decoupling & Protocol Abstraction Tests
+
+    private struct MockFontMetrics: FontMetricsProtocol {
+        var mathUnit: CGFloat = 1.0
+        var size: CGFloat = 20.0
+
+        func unitsToPoints(_ value: Int) -> CGFloat { CGFloat(value) * 0.01 }
+        func constant(named name: String) -> CGFloat { 5.0 }
+        func percentConstant(named name: String) -> CGFloat { 0.6 }
+        func glyph(for nucleus: String) -> CGGlyph { 1 }
+        func glyphName(for glyph: CGGlyph) -> String { "mock" }
+        func glyphID(named name: String) -> CGGlyph { 1 }
+        func advances(forGlyphs glyphs: [CGGlyph]) -> [CGSize] { glyphs.map { _ in CGSize(width: 10, height: 10) } }
+        func boundingRects(forGlyphs glyphs: [CGGlyph]) -> [CGRect] { glyphs.map { _ in CGRect(x: 0, y: 0, width: 10, height: 10) } }
+        func italicCorrection(for glyph: CGGlyph) -> CGFloat { 0.0 }
+        func topAccentAdjustment(for glyph: CGGlyph) -> CGFloat { 5.0 }
+    }
+
+    func testFontMetricsProtocolMocking() {
+        let mock: any FontMetricsProtocol = MockFontMetrics()
+        XCTAssertEqual(mock.size, 20.0)
+        XCTAssertEqual(mock.mathUnit, 1.0)
+        XCTAssertEqual(mock.constant(named: "AxisHeight"), 5.0)
+    }
+
+    func testMathRendererIsThinPipelineCoordinator() throws {
+        let renderer = MathRenderer()
+        let parsed = try renderer.parse("x + y")
+        XCTAssertEqual(parsed.atoms.count, 3)
+
+        let display = renderer.layout(parsed)
+        XCTAssertFalse(display.children.isEmpty)
+        XCTAssertGreaterThan(display.width, 0)
+    }
 }
+

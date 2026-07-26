@@ -7,7 +7,7 @@ behavior is approximated rather than fully TeX-faithful.
 
 | Topic | Behavior |
 |---|---|
-| **Auto wrap (`maxWidth`)** | Breaks prefer relations, binary ops, and spaces; mid-letter breaks are last resort. Baseline skip uses a TeX-like rule (`~1.2×` font size floor + inter-line gap from MATH `mu`), not full TeX demerits / `\baselineskip` glue. |
+| **Auto wrap (`maxWidth`)** | Evaluated via TeX penalties (`relpenalty: 500`, `binoppenalty: 700`), nested delimiter group penalties (`openDepth`), explicit `\allowbreak` / `\nobreak`, and Knuth-Plass badness squared shortfall penalties. Baseline skip uses a TeX-like rule (`~1.2×` font size floor + inter-line gap from MATH `mu`). |
 | **`\tag` / `\tag*`** | Tags typeset upright; `\tag` parenthesizes, `\tag*` does not. With `maxWidth > 0`, the tag is **flush-right** on the line; with `maxWidth == 0`, it follows the expression after a thick space. No equation counter, `\notag`, or multi-line equation-number placement. |
 | **Multi-line envs** | `aligned` / `gather` / `align` / `split` / … are table-based; not full amsmath numbering or `\intertext`. |
 | **Line breaks in tables** | `\\` is a row break inside environments; paragraph wrap is only via `MathEnvironment.maxWidth`. |
@@ -22,7 +22,7 @@ behavior is approximated rather than fully TeX-faithful.
 
 | Topic | Behavior |
 |---|---|
-| **Custom `FontProviding`** | SwiftUI `DisplayProvider` automatically caches parse & layout results for all `FontProviding` instances (keyed by instance or type identifier). |
+| **Custom `FontProviding` & `FontMetricsProtocol`** | SwiftUI `DisplayProvider` automatically caches parse & layout results for all `FontProviding` instances. Custom metric providers and test doubles conform to `FontMetricsProtocol`. |
 | **Missing glyphs** | Falls back to the text fallback font / system UI font; metrics may not match MATH spacing. |
 | **Export** | `MathImage` (bitmap/PNG), `MathPDF` (vector PDF), `MathSVG` (vector SVG via glyph outlines + stroked rules). SVG does not embed font files; missing outline glyphs may fall back to `<text>`. |
 

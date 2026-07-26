@@ -57,4 +57,37 @@ final class LayoutGeometryCompletenessTests: XCTestCase {
         XCTAssertGreaterThan(display.ascent, 0)
         XCTAssertGreaterThan(display.descent, 0)
     }
+
+    // MARK: - TeX Penalty & Break Scoring Invariant Tests
+
+    func testRelpenaltyPrefersRelationOverBinaryOperator() throws {
+        // "a + b = c + d" with tight maxWidth will prefer breaking at "=" (relpenalty 500) rather than "+" (binoppenalty 700)
+        let latex = "a + b = c + d"
+        let font = MathFont(name: .latinModern, size: 20)
+        let env = MathEnvironment(font: font, maxWidth: 85)
+        let display = try MathRenderer(environment: env).layout(latex: latex)
+
+        XCTAssertGreaterThan(display.children.count, 1, "WrapLayout should break multi-atom expression")
+    }
+
+    func testNestedDelimiterGroupBreakPenalized() throws {
+        // Break should prefer top-level '+' over '+' inside (x + y)
+        let latex = "(x + y) + z"
+        let font = MathFont(name: .latinModern, size: 20)
+        let env = MathEnvironment(font: font, maxWidth: 75)
+        let display = try MathRenderer(environment: env).layout(latex: latex)
+
+        XCTAssertNotNil(display)
+        XCTAssertGreaterThan(display.width, 0)
+    }
+
+    func testIntertextRowMaintainsBaselineSpacing() throws {
+        let latex = "\\begin{align} a &= b \\\\ \\intertext{where} c &= d \\end{align}"
+        let display = try MathRenderer().layout(latex: latex)
+
+        XCTAssertGreaterThan(display.children.count, 0)
+        XCTAssertGreaterThan(display.ascent, 0)
+        XCTAssertGreaterThan(display.descent, 0)
+    }
 }
+

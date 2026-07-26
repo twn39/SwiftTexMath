@@ -113,7 +113,7 @@ enum WrapLayout {
                 continue
             }
 
-            if wouldExceed, let breakAt = bestBreakIndex(in: lines[lines.count - 1]) {
+            if wouldExceed, let breakAt = bestBreakIndex(in: lines[lines.count - 1], maxWidth: maxWidth, parameters: env.parameters) {
                 appendByBreaking(
                     item,
                     breakAt: breakAt,
@@ -125,7 +125,7 @@ enum WrapLayout {
             }
 
             // Last resort: mid-word / letter breaks when no soft opportunity exists.
-            if wouldExceed, let breakAt = bestBreakIndex(in: lines[lines.count - 1], allowMidWord: true) {
+            if wouldExceed, let breakAt = bestBreakIndex(in: lines[lines.count - 1], allowMidWord: true, maxWidth: maxWidth, parameters: env.parameters) {
                 appendByBreaking(
                     item,
                     breakAt: breakAt,
@@ -320,12 +320,13 @@ enum WrapLayout {
         return ch.isLetter || ch.isNumber
     }
 
-    /// Higher score = better break (prefer end of line, relations over mid-word, top-level over nested).
+    /// Higher score = better break (prefer end of line, relations over binary ops, top-level over nested).
     private static func breakScore(
         at index: Int,
         in line: [PlacedAtom],
         allowMidWord: Bool,
-        maxWidth: CGFloat = 0
+        maxWidth: CGFloat = 0,
+        parameters: MathParameters = .default
     ) -> Int {
         let atom = line[index].atom
         let previous = line[index - 1].atom
@@ -336,7 +337,7 @@ enum WrapLayout {
 
         // Explicit break command \allowbreak gets top score (penalty = 0)
         if atom.nucleus == "\\allowbreak" {
-            return 1000 + index
+            return 2000 + index
         }
 
         // Penalize breaks inside nested delimiters (open/close groups) so breaks prefer top-level.
@@ -345,16 +346,18 @@ enum WrapLayout {
             if line[k].atom.kind == .open { openDepth += 1 }
             else if line[k].atom.kind == .close { openDepth = max(0, openDepth - 1) }
         }
-        let nestPenalty = openDepth * 80
+        let nestPenalty = openDepth * 150
 
-        // Prefer breaks closer to the end of the line (fill width).
-        let endBias = index
+        // TeX penalty calculation: relpenalty (500) < binoppenalty (700) -> relations score higher than binary ops
+        let endBias = index * 2
         let baseScore: Int
         switch atom.kind {
         case .relation:
-            baseScore = 400 + endBias
+            // 1000 - 500 = 500 base
+            baseScore = (1000 - parameters.relpenalty) + endBias
         case .binaryOperator:
-            baseScore = 300 + endBias
+            // 1000 - 700 = 300 base
+            baseScore = (1000 - parameters.binoppenalty) + endBias
         case .space:
             baseScore = 350 + endBias
         case .fraction, .radical, .inner, .table, .largeOperator:
@@ -379,12 +382,17 @@ enum WrapLayout {
         return baseScore >= 0 ? max(0, baseScore - nestPenalty - badnessPenalty) : -1
     }
 
-    private static func bestBreakIndex(in line: [PlacedAtom], allowMidWord: Bool = false) -> Int? {
+    private static func bestBreakIndex(
+        in line: [PlacedAtom],
+        allowMidWord: Bool = false,
+        maxWidth: CGFloat = 0,
+        parameters: MathParameters = .default
+    ) -> Int? {
         guard line.count > 1 else { return nil }
         var bestIndex: Int?
         var bestScore = -1
         for i in 1..<line.count {
-            let score = breakScore(at: i, in: line, allowMidWord: allowMidWord)
+            let score = breakScore(at: i, in: line, allowMidWord: allowMidWord, maxWidth: maxWidth, parameters: parameters)
             if score > bestScore {
                 bestScore = score
                 bestIndex = i
