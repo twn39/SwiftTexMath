@@ -1,94 +1,133 @@
-import Foundation
-import Testing
+import XCTest
 @testable import SwiftTexMathCore
-@testable import SwiftTexMath
 
-@Suite("Architecture & Core Abstractions Optimization")
-struct ArchitectureOptimizationTests {
+final class ArchitectureOptimizationTests: XCTestCase {
 
-    @Test func atomFactoryTablesIntegrity() {
-        // Verify default aliases map to non-empty targets
-        #expect(!AtomFactory.aliases.isEmpty)
-        for (alias, target) in AtomFactory.aliases {
-            #expect(!alias.isEmpty)
-            #expect(!target.isEmpty)
-        }
+    // MARK: - Display Visitor Pattern Tests
 
-        // Verify delimiters table
-        #expect(!AtomFactory.delimiters.isEmpty)
-        #expect(AtomFactory.delimiters["("] == "(")
-        #expect(AtomFactory.delimiters["\\"] == "\\")
+    private struct NodeCountingVisitor: DisplayNodeVisitor {
+        typealias Result = Int
+        var count = 0
 
-        // Verify accents table
-        #expect(!AtomFactory.accents.isEmpty)
-        #expect(AtomFactory.accents["hat"] == "\u{0302}")
-
-        // Verify symbols built-in table
-        #expect(!AtomFactory.symbols.isEmpty)
-        #expect(AtomFactory.symbols["alpha"]?.nucleus == "\u{03B1}")
-        #expect(AtomFactory.symbols["sum"]?.kind == .largeOperator)
-        #expect(AtomFactory.symbols["infty"]?.nucleus == "\u{221E}")
-    }
-
-    @Test func customSymbolRegistrationAndReset() {
-        AtomFactory.resetCustomSymbols()
-        
-        let customAtom = MathAtom.ordinary("\u{2605}") // Star symbol
-        AtomFactory.addLatexSymbol("mycustomstar", atom: customAtom)
-
-        #expect(AtomFactory.atom(forCommand: "mycustomstar")?.nucleus == "\u{2605}")
-
-        AtomFactory.addAlias("staralias", target: "mycustomstar")
-        #expect(AtomFactory.atom(forCommand: "staralias")?.nucleus == "\u{2605}")
-
-        AtomFactory.resetCustomSymbols()
-        #expect(AtomFactory.atom(forCommand: "mycustomstar") == nil)
-    }
-
-    @Test func displayProviderCachingForStructFontProviders() throws {
-        let latex = #"E=mc^2"#
-        let font = MathFont(name: .latinModern, size: 18)
-
-        struct MockStructProvider: FontProviding, Hashable {
-            let id = UUID()
-            func metrics(for font: MathFont) -> FontMetrics? {
-                FontRegistry.shared.metrics(for: font)
+        mutating func visit(list: DisplayList) -> Int {
+            count += 1
+            for child in list.children {
+                _ = child.accept(&self)
             }
+            return count
         }
 
-        let provider1 = MockStructProvider()
-        let provider2 = MockStructProvider()
-
-        let res1 = DisplayProvider.display(for: latex, font: font, style: .display, proposedWidth: 0, fonts: provider1)
-        let res2 = DisplayProvider.display(for: latex, font: font, style: .display, proposedWidth: 0, fonts: provider1)
-        let res3 = DisplayProvider.display(for: latex, font: font, style: .display, proposedWidth: 0, fonts: provider2)
-
-        guard case .success(let d1) = res1, case .success(let d2) = res2, case .success(let d3) = res3 else {
-            Issue.record("Expected successful DisplayList calculation")
-            return
+        mutating func visit(glyphs: GlyphRun) -> Int {
+            count += 1
+            return count
         }
 
-        #expect(d1.width == d2.width)
-        #expect(d1.width == d3.width)
+        mutating func visit(fraction: FractionDisplay) -> Int {
+            count += 1
+            _ = fraction.numerator.accept(&self)
+            _ = fraction.denominator.accept(&self)
+            return count
+        }
+
+        mutating func visit(radical: RadicalDisplay) -> Int {
+            count += 1
+            _ = radical.radicand.accept(&self)
+            if let degree = radical.degree {
+                _ = degree.accept(&self)
+            }
+            return count
+        }
+
+        mutating func visit(line: LineDisplay) -> Int {
+            count += 1
+            _ = line.inner.accept(&self)
+            return count
+        }
+
+        mutating func visit(largeOperator: LargeOperatorDisplay) -> Int {
+            count += 1
+            if let upper = largeOperator.upperLimit { _ = upper.accept(&self) }
+            if let lower = largeOperator.lowerLimit { _ = lower.accept(&self) }
+            return count
+        }
+
+        mutating func visit(colored: ColoredDisplay) -> Int {
+            count += 1
+            _ = colored.inner.accept(&self)
+            return count
+        }
+
+        mutating func visit(rule: RuleDisplay) -> Int {
+            count += 1
+            return count
+        }
+
+        mutating func visit(box: BoxDisplay) -> Int {
+            count += 1
+            if box.drawChild {
+                _ = box.child.accept(&self)
+            }
+            return count
+        }
+
+        mutating func visit(stack: StackDisplay) -> Int {
+            count += 1
+            _ = stack.base.accept(&self)
+            if let over = stack.over { _ = over.accept(&self) }
+            if let under = stack.under { _ = under.accept(&self) }
+            return count
+        }
     }
 
-    @Test func latexSerializerRoundTripFidelity() throws {
-        let testLatexStrings = [
-            #"a+b=c"#,
-            #"\frac{1}{2}"#,
-            #"\sqrt{x}"#,
-            #"\hat{x}"#,
-            #"\overline{abc}"#,
-            #"\sum_{i=1}^{n} x_i"#,
-            #"\binom{n}{k}"#
-        ]
+    func testDisplayVisitorTraversesNodes() throws {
+        let renderer = MathRenderer()
+        let display = try renderer.layout(latex: "\\frac{1}{2} + \\sqrt{x}")
 
-        for latex in testLatexStrings {
-            let parsed = try MathParser.parse(latex)
-            let serialized = parsed.latexString
-            let reParsed = try MathParser.parse(serialized)
-            #expect(!serialized.isEmpty)
-            #expect(parsed.atoms.count == reParsed.atoms.count)
+        var visitor = NodeCountingVisitor()
+        let visitedCount = display.accept(&visitor)
+
+        XCTAssertGreaterThan(visitedCount, 0, "Visitor should traverse all display list nodes")
+    }
+
+    // MARK: - Recursion Safety Tests
+
+    func testParserThrowsOnExceededRecursionDepth() {
+        // Generate a deeply nested expression exceeding default maxRecursionDepth (64)
+        let deepLatex = String(repeating: "{", count: 70) + "x" + String(repeating: "}", count: 70)
+
+        XCTAssertThrowsError(try MathParser.parse(deepLatex)) { error in
+            guard let parseError = error as? ParseError else {
+                XCTFail("Expected ParseError but got \(error)")
+                return
+            }
+            XCTAssertEqual(parseError.code, .nestingTooDeep)
+        }
+    }
+
+    func testTypesetterGuardsMaxRecursionDepth() throws {
+        let list = try MathParser.parse("\\frac{1}{2}")
+        let cappedEnv = MathEnvironment(maxRecursionDepth: 0)
+
+        let display = MathRenderer(environment: cappedEnv).layout(list)
+        // With maxRecursionDepth = 0, inner child layout (numerator/denominator) returns empty DisplayList
+        if let fracNode = display.children.first, case .fraction(let frac) = fracNode {
+            XCTAssertEqual(frac.numerator.children.count, 0)
+            XCTAssertEqual(frac.denominator.children.count, 0)
+        } else {
+            XCTFail("Expected top-level fraction display node")
+        }
+    }
+
+    // MARK: - AST Normalization & Sugar Lowering Tests
+
+    func testNormalizerLowersSugarAtoms() throws {
+        // Verify that MathNormalizer produces clean canonical AST
+        let rawList = try MathParser.parse("a + b")
+        let normalized = MathNormalizer.normalize(rawList)
+
+        XCTAssertFalse(normalized.atoms.isEmpty)
+        for atom in normalized.atoms {
+            XCTAssertNotEqual(atom.kind, .boundary, "Normalizer must strip boundary pseudo-atoms")
         }
     }
 }

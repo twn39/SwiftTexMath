@@ -17,6 +17,32 @@ public enum MathPDF {
             self.foregroundColor = foregroundColor
             self.backgroundColor = backgroundColor
         }
+
+        public static let darkMode = Options(
+            padding: 4,
+            foregroundColor: CGColor(gray: 1, alpha: 1),
+            backgroundColor: CGColor(gray: 0, alpha: 1)
+        )
+
+        public static let transparent = Options(
+            padding: 4,
+            foregroundColor: CGColor(gray: 0, alpha: 1),
+            backgroundColor: nil
+        )
+    }
+
+    public struct Result: Sendable {
+        public var data: Data
+        public var display: DisplayList
+        public var size: CGSize
+        public var baselineOffset: CGFloat
+
+        public init(data: Data, display: DisplayList, size: CGSize, baselineOffset: CGFloat = 0) {
+            self.data = data
+            self.display = display
+            self.size = size
+            self.baselineOffset = baselineOffset
+        }
     }
 
     /// Parse + layout + PDF.
@@ -29,6 +55,36 @@ public enum MathPDF {
         let renderer = MathRenderer(environment: environment, fonts: fonts)
         let display = try renderer.layout(latex: latex)
         return render(display: display, fonts: fonts, options: options)
+    }
+
+    /// Parse + layout + PDF Result (with metadata).
+    public static func renderResult(
+        latex: String,
+        environment: MathEnvironment = MathEnvironment(),
+        fonts: any FontProviding = FontRegistry.shared,
+        options: Options = Options()
+    ) throws -> Result {
+        let renderer = MathRenderer(environment: environment, fonts: fonts)
+        let display = try renderer.layout(latex: latex)
+        return renderResult(display: display, fonts: fonts, options: options)
+    }
+
+    /// PDF Result for an existing display list.
+    public static func renderResult(
+        display: DisplayList,
+        fonts: any FontProviding = FontRegistry.shared,
+        options: Options = Options()
+    ) -> Result {
+        let pad = max(options.padding, 0)
+        let width = max(display.width + 2 * pad, 1)
+        let height = max(display.ascent + display.descent + 2 * pad, 1)
+        let pdfData = render(display: display, fonts: fonts, options: options)
+        return Result(
+            data: pdfData,
+            display: display,
+            size: CGSize(width: width, height: height),
+            baselineOffset: pad + display.descent
+        )
     }
 
     /// PDF data for an existing display list (points = media box).

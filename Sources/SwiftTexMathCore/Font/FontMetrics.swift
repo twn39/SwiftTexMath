@@ -583,6 +583,11 @@ public struct FontMetrics: Sendable {
 
     // Axis
     var axisHeight: CGFloat { constant(named: "AxisHeight") }
+    /// Estimated axis height fallback when MATH table constants are absent.
+    public var estimatedAxisHeight: CGFloat {
+        let axis = axisHeight
+        return axis > 0 ? axis : font.size * 0.25
+    }
 
     var overbarVerticalGap: CGFloat { constant(named: "OverbarVerticalGap") }
     var overbarRuleThickness: CGFloat { constant(named: "OverbarRuleThickness") }

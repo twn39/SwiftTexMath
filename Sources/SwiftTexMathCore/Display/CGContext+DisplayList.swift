@@ -34,29 +34,56 @@ extension CGContext {
         foregroundColor: CGColor,
         fonts: any FontProviding = FontRegistry.shared
     ) {
-        switch node {
-        case .list(let list):
-            draw(list, foregroundColor: foregroundColor, fonts: fonts)
-        case .glyphs(let run):
-            draw(run, foregroundColor: foregroundColor, fonts: fonts)
-        case .fraction(let fraction):
-            draw(fraction, foregroundColor: foregroundColor, fonts: fonts)
-        case .radical(let radical):
-            draw(radical, foregroundColor: foregroundColor, fonts: fonts)
-        case .line(let line):
-            draw(line, foregroundColor: foregroundColor, fonts: fonts)
-        case .largeOperator(let op):
-            draw(op, foregroundColor: foregroundColor, fonts: fonts)
-        case .colored(let colored):
-            draw(colored, foregroundColor: foregroundColor, fonts: fonts)
-        case .rule(let rule):
-            draw(rule, foregroundColor: foregroundColor)
-        case .box(let box):
-            draw(box, foregroundColor: foregroundColor, fonts: fonts)
-        case .stack(let stack):
-            draw(stack, foregroundColor: foregroundColor, fonts: fonts)
-        }
+        var visitor = CGContextDrawingVisitor(context: self, foregroundColor: foregroundColor, fonts: fonts)
+        node.accept(&visitor)
     }
+
+private struct CGContextDrawingVisitor: DisplayNodeVisitor {
+    let context: CGContext
+    let foregroundColor: CGColor
+    let fonts: any FontProviding
+
+    mutating func visit(list: DisplayList) {
+        context.draw(list, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(glyphs: GlyphRun) {
+        context.draw(glyphs, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(fraction: FractionDisplay) {
+        context.draw(fraction, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(radical: RadicalDisplay) {
+        context.draw(radical, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(line: LineDisplay) {
+        context.draw(line, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(largeOperator: LargeOperatorDisplay) {
+        context.draw(largeOperator, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(colored: ColoredDisplay) {
+        context.draw(colored, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(rule: RuleDisplay) {
+        context.draw(rule, foregroundColor: foregroundColor)
+    }
+
+    mutating func visit(box: BoxDisplay) {
+        context.draw(box, foregroundColor: foregroundColor, fonts: fonts)
+    }
+
+    mutating func visit(stack: StackDisplay) {
+        context.draw(stack, foregroundColor: foregroundColor, fonts: fonts)
+    }
+}
+
 
     private func draw(
         _ box: BoxDisplay,

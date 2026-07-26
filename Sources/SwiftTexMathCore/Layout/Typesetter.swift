@@ -20,8 +20,12 @@ public enum Typesetter {
         _ list: MathList,
         env: MathEnvironment,
         metrics: FontMetrics,
-        fonts: any FontProviding = FontRegistry.shared
+        fonts: any FontProviding = FontRegistry.shared,
+        depth: Int = 0
     ) -> DisplayList {
+        if depth > env.maxRecursionDepth {
+            return DisplayList()
+        }
         if env.maxWidth > 0 {
             return WrapLayout.typeset(
                 list,
@@ -31,7 +35,7 @@ public enum Typesetter {
                 makeNode: { atom, ctx in makeNode(for: atom, ctx: ctx) }
             )
         }
-        return typesetSingleLine(list, env: env, metrics: metrics, fonts: fonts)
+        return typesetSingleLine(list, env: env, metrics: metrics, fonts: fonts, depth: depth)
     }
 
     // MARK: - Single line
@@ -40,7 +44,8 @@ public enum Typesetter {
         _ list: MathList,
         env: MathEnvironment,
         metrics: FontMetrics,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0
     ) -> DisplayList {
         var env = env
         var children: [DisplayNode] = []
@@ -73,7 +78,7 @@ public enum Typesetter {
             if case .tag = atom.payload {
                 pendingTag = makeNode(
                     for: atom,
-                    ctx: LayoutContext(env: env, metrics: styleMetrics, fonts: fonts)
+                    ctx: LayoutContext(env: env, metrics: styleMetrics, fonts: fonts, depth: depth)
                 )
                 continue
             }
@@ -90,7 +95,7 @@ public enum Typesetter {
 
             let node = makeNode(
                 for: atom,
-                ctx: LayoutContext(env: env, metrics: styleMetrics, fonts: fonts)
+                ctx: LayoutContext(env: env, metrics: styleMetrics, fonts: fonts, depth: depth)
             )
             var placed = node
             placed.position = CGPoint(x: x, y: 0)

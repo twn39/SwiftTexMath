@@ -18,20 +18,40 @@ public enum MathSVG {
         public var includeXMLDeclaration: Bool
         /// Decimal places for path / transform numbers.
         public var precision: Int
+        /// When true, reuses SVG glyph paths via <defs> symbols for repeating characters.
+        public var reuseGlyphPaths: Bool
 
         public init(
             padding: CGFloat = 4,
             foregroundCSS: String = "#000000",
             backgroundCSS: String? = nil,
             includeXMLDeclaration: Bool = true,
-            precision: Int = 3
+            precision: Int = 3,
+            reuseGlyphPaths: Bool = false
         ) {
             self.padding = padding
             self.foregroundCSS = foregroundCSS
             self.backgroundCSS = backgroundCSS
             self.includeXMLDeclaration = includeXMLDeclaration
             self.precision = max(0, min(precision, 8))
+            self.reuseGlyphPaths = reuseGlyphPaths
         }
+
+        public static let darkMode = Options(
+            padding: 4,
+            foregroundCSS: "#FFFFFF",
+            backgroundCSS: "#000000",
+            includeXMLDeclaration: true,
+            precision: 3
+        )
+
+        public static let transparent = Options(
+            padding: 4,
+            foregroundCSS: "#000000",
+            backgroundCSS: nil,
+            includeXMLDeclaration: true,
+            precision: 3
+        )
     }
 
     public struct Result: Sendable {
@@ -39,11 +59,14 @@ public enum MathSVG {
         /// Logical size in points (viewBox / width / height).
         public var size: CGSize
         public var display: DisplayList
+        /// Baseline offset in points from the bottom of the SVG viewBox frame.
+        public var baselineOffset: CGFloat
 
-        public init(svg: String, size: CGSize, display: DisplayList) {
+        public init(svg: String, size: CGSize, display: DisplayList, baselineOffset: CGFloat = 0) {
             self.svg = svg
             self.size = size
             self.display = display
+            self.baselineOffset = baselineOffset
         }
 
         public var data: Data {
@@ -78,7 +101,7 @@ public enum MathSVG {
         // Place baseline at (pad, pad+ascent) then flip y so math y-up matches SVG.
         emitter.openGroup(
             transform:
-                "translate(\(fmt(pad, options)) \(fmt(pad + display.ascent, options))) scale(1,-1)"
+                "translate(\(emitter.fmt(pad)), \(emitter.fmt(pad + display.ascent))) scale(1, -1)"
         )
         emitter.emit(display, origin: .zero, color: options.foregroundCSS)
         emitter.closeGroup()
@@ -99,7 +122,7 @@ public enum MathSVG {
         svg += body + "\n"
         svg += "</svg>"
 
-        return Result(svg: svg, size: size, display: display)
+        return Result(svg: svg, size: size, display: display, baselineOffset: pad + display.descent)
     }
 
     // MARK: - Emitter

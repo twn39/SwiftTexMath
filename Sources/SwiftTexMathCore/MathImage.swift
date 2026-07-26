@@ -22,6 +22,20 @@ public enum MathImage {
             self.foregroundColor = foregroundColor
             self.backgroundColor = backgroundColor
         }
+
+        public static let darkMode = Options(
+            scale: 2,
+            padding: 2,
+            foregroundColor: CGColor(gray: 1, alpha: 1),
+            backgroundColor: CGColor(gray: 0, alpha: 1)
+        )
+
+        public static let transparent = Options(
+            scale: 2,
+            padding: 2,
+            foregroundColor: CGColor(gray: 0, alpha: 1),
+            backgroundColor: nil
+        )
     }
 
     public struct Result: Sendable {
@@ -29,11 +43,14 @@ public enum MathImage {
         public var display: DisplayList
         /// Logical size in points (not pixels).
         public var size: CGSize
+        /// Baseline offset in points from the bottom of the image frame.
+        public var baselineOffset: CGFloat
 
-        public init(image: CGImage, display: DisplayList, size: CGSize) {
+        public init(image: CGImage, display: DisplayList, size: CGSize, baselineOffset: CGFloat = 0) {
             self.image = image
             self.display = display
             self.size = size
+            self.baselineOffset = baselineOffset
         }
     }
 
@@ -138,7 +155,8 @@ public enum MathImage {
         return Result(
             image: image,
             display: display,
-            size: CGSize(width: pointWidth, height: pointHeight)
+            size: CGSize(width: pointWidth, height: pointHeight),
+            baselineOffset: pad + display.descent
         )
     }
 

@@ -102,6 +102,14 @@ enum CommandHandlers {
             throw ParseError(code: .missingBegin, message: "Unexpected \\end")
         case "limits", "nolimits":
             try EnvironmentCommands.applyLimits(command: command, list: &list, prev: &prev)
+        case "allowbreak":
+            let atom = MathAtom(kind: .boundary, nucleus: "\\allowbreak", payload: .space(mu: 0))
+            list.append(atom)
+            prev = atom
+        case "nobreak":
+            let atom = MathAtom(kind: .boundary, nucleus: "\\nobreak", payload: .space(mu: 0))
+            list.append(atom)
+            prev = atom
         default:
             return .notHandled
         }

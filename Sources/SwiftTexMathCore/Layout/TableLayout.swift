@@ -49,7 +49,7 @@ enum TableLayout {
         }
 
         let columnGap = table.interColumnSpacing * metrics.mathUnit
-        let rowGap = (12 + 12 * table.interRowAdditionalSpacing) * metrics.mathUnit
+        let rowGap = max(metrics.overbarVerticalGap, (12 + 12 * table.interRowAdditionalSpacing) * metrics.mathUnit)
         let ruleThickness = max(metrics.fractionRuleThickness, 0.4)
         let vlineGap = metrics.mathUnit
         let hlinePad = metrics.mathUnit

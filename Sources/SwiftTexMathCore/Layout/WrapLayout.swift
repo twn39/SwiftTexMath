@@ -150,6 +150,7 @@ enum WrapLayout {
         // inter-line gap in mu (not full demerits / \baselineskip glue).
         let minBaselineSkip = styleFont.size * 1.2
         let interLineGap = max(styleFont.size * 0.25, styleMetrics.mathUnit * 3)
+        let continuationIndent = styleMetrics.mathUnit * 12
         var lineDisplays: [DisplayList] = []
         var totalAscent: CGFloat = 0
         var totalDescent: CGFloat = 0
@@ -157,7 +158,8 @@ enum WrapLayout {
         var y: CGFloat = 0
 
         for (lineIndex, line) in lines.enumerated() {
-            let display = materializeLine(line)
+            let indent = lineIndex > 0 ? continuationIndent : 0
+            let display = materializeLine(line, indent: indent)
             totalWidth = max(totalWidth, display.width)
             if lineIndex == 0 {
                 totalAscent = display.ascent
@@ -231,9 +233,9 @@ enum WrapLayout {
         }
     }
 
-    private static func materializeLine(_ items: [PlacedAtom]) -> DisplayList {
+    private static func materializeLine(_ items: [PlacedAtom], indent: CGFloat = 0) -> DisplayList {
         var children: [DisplayNode] = []
-        var x: CGFloat = 0
+        var x: CGFloat = indent
         var ascent: CGFloat = 0
         var descent: CGFloat = 0
         for (i, item) in items.enumerated() {
@@ -264,6 +266,10 @@ enum WrapLayout {
         previous: MathAtom?,
         allowMidWord: Bool = false
     ) -> Bool {
+        // Explicit break control commands
+        if atom.nucleus == "\\allowbreak" { return true }
+        if atom.nucleus == "\\nobreak" || previous?.nucleus == "\\nobreak" { return false }
+
         // Tags stay with the equation body (placed by Typesetter on single-line path).
         if case .tag = atom.payload { return false }
 
@@ -278,8 +284,6 @@ enum WrapLayout {
             if isTextLetter(previous), isTextLetter(atom) {
                 return allowMidWord
             }
-            // Don't break immediately after a binary/relation (avoid dangling op at EOL).
-            // Breaks happen *before* the next atom instead.
         }
 
         switch atom.kind {
@@ -288,10 +292,8 @@ enum WrapLayout {
         case .space:
             return true
         case .fraction, .radical, .inner, .table, .largeOperator:
-            // Prefer breaking before large constructs rather than overflowing.
             return true
         default:
-            // Colored / styled / box / stack payloads behave like ordinary.
             if case .colored = atom.payload { return previous.map(isGoodBreakAfter) ?? false }
             if case .styled = atom.payload { return previous.map(isGoodBreakAfter) ?? false }
             if case .box = atom.payload { return previous.map(isGoodBreakAfter) ?? false }
@@ -322,13 +324,21 @@ enum WrapLayout {
     private static func breakScore(
         at index: Int,
         in line: [PlacedAtom],
-        allowMidWord: Bool
+        allowMidWord: Bool,
+        maxWidth: CGFloat = 0
     ) -> Int {
         let atom = line[index].atom
         let previous = line[index - 1].atom
         guard canBreakBefore(atom, previous: previous, allowMidWord: allowMidWord) else {
             return -1
         }
+        if previous.nucleus == "\\nobreak" { return -1 }
+
+        // Explicit break command \allowbreak gets top score (penalty = 0)
+        if atom.nucleus == "\\allowbreak" {
+            return 1000 + index
+        }
+
         // Penalize breaks inside nested delimiters (open/close groups) so breaks prefer top-level.
         var openDepth = 0
         for k in 0..<index {
@@ -354,11 +364,19 @@ enum WrapLayout {
             else if previous.kind == .close || previous.kind == .punctuation {
                 baseScore = 200 + endBias
             } else {
-                // Mid-word rescue only when allowMidWord.
                 baseScore = allowMidWord ? 10 + endBias : -1
             }
         }
-        return baseScore >= 0 ? max(0, baseScore - nestPenalty) : -1
+
+        // Knuth-Plass Demerits squared influence: penalize line width shortfall
+        var badnessPenalty = 0
+        if maxWidth > 0 {
+            let currentWidth = lineWidthOf(Array(line[..<index]))
+            let ratio = max(0, (maxWidth - currentWidth) / maxWidth)
+            badnessPenalty = Int(min(100, ratio * ratio * 50))
+        }
+
+        return baseScore >= 0 ? max(0, baseScore - nestPenalty - badnessPenalty) : -1
     }
 
     private static func bestBreakIndex(in line: [PlacedAtom], allowMidWord: Bool = false) -> Int? {

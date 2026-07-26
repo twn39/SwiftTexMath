@@ -6,11 +6,13 @@ struct LayoutContext {
     var env: MathEnvironment
     var metrics: FontMetrics
     var fonts: any FontProviding
+    var depth: Int
 
-    init(env: MathEnvironment, metrics: FontMetrics, fonts: any FontProviding = FontRegistry.shared) {
+    init(env: MathEnvironment, metrics: FontMetrics, fonts: any FontProviding = FontRegistry.shared, depth: Int = 0) {
         self.env = env
         self.metrics = metrics
         self.fonts = fonts
+        self.depth = depth
     }
 
     func styleMetrics(for env: MathEnvironment) -> FontMetrics {
@@ -22,8 +24,12 @@ struct LayoutContext {
 
     func childTypesetter() -> (MathList, MathEnvironment) -> DisplayList {
         { list, childEnv in
+            let nextDepth = self.depth + 1
+            if nextDepth > childEnv.maxRecursionDepth {
+                return DisplayList()
+            }
             let m = self.styleMetrics(for: childEnv)
-            return Typesetter.typeset(list, env: childEnv, metrics: m, fonts: self.fonts)
+            return Typesetter.typeset(list, env: childEnv, metrics: m, fonts: self.fonts, depth: nextDepth)
         }
     }
 }
