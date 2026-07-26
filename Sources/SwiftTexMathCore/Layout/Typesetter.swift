@@ -236,10 +236,10 @@ public enum Typesetter {
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let text = MathVariantMapper.mapNucleus(atom.nucleus, variant: env.variant, kind: atom.kind)
         let measureText = text.isEmpty ? " " : text
-        var glyphID = styleMetrics.glyph(for: measureText)
+        var glyphIDs = styleMetrics.glyphs(for: measureText)
 
         // Missing glyph in math font → text fallback (CJK / emoji / rare chars).
-        if glyphID == 0, !text.isEmpty {
+        if (glyphIDs.first ?? 0) == 0, !text.isEmpty {
             let fallback = fallbackCTFont(named: env.textFallbackFontName, size: styleFont.size)
             let attributed = NSAttributedString(
                 string: text,
@@ -262,11 +262,11 @@ public enum Typesetter {
             )
         }
 
-        if enlarge {
-            glyphID = styleMetrics.largerGlyph(glyphID, forDisplayStyle: true)
+        if enlarge, glyphIDs.count == 1 {
+            glyphIDs = [styleMetrics.largerGlyph(glyphIDs.first ?? 0, forDisplayStyle: true)]
         }
-        let measured = styleMetrics.measure(glyphs: [glyphID])
-        let italic = styleMetrics.italicCorrection(for: glyphID)
+        let measured = styleMetrics.measure(glyphs: glyphIDs)
+        let italic = glyphIDs.count == 1 ? styleMetrics.italicCorrection(for: glyphIDs.first ?? 0) : 0
         let shift: CGFloat
         if centerOnAxis {
             shift = 0.5 * (measured.ascent - measured.descent) - styleMetrics.axisHeight
@@ -280,7 +280,7 @@ public enum Typesetter {
                 ascent: measured.ascent,
                 descent: measured.descent,
                 width: text.isEmpty ? 0 : measured.width,
-                glyphIDs: text.isEmpty ? [] : [UInt16(glyphID)],
+                glyphIDs: text.isEmpty ? [] : glyphIDs.map { UInt16($0) },
                 shiftDown: shift,
                 italicCorrection: italic
             )

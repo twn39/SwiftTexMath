@@ -11,12 +11,12 @@ enum LargeOperatorLayout {
     ) -> DisplayNode {
         let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
-        var glyphID = styleMetrics.glyph(for: atom.nucleus)
-        if env.style == .display {
-            glyphID = styleMetrics.largerGlyph(glyphID, forDisplayStyle: true)
+        var glyphIDs = styleMetrics.glyphs(for: atom.nucleus)
+        if env.style == .display, glyphIDs.count == 1 {
+            glyphIDs = [styleMetrics.largerGlyph(glyphIDs.first ?? 0, forDisplayStyle: true)]
         }
-        let measured = styleMetrics.measure(glyphs: [glyphID])
-        let italic = styleMetrics.italicCorrection(for: glyphID)
+        let measured = styleMetrics.measure(glyphs: glyphIDs)
+        let italic = glyphIDs.count == 1 ? styleMetrics.italicCorrection(for: glyphIDs.first ?? 0) : 0
         // Center the operator on the math axis (TeX large-op convention).
         let axisShift = 0.5 * (measured.ascent - measured.descent) - styleMetrics.axisHeight
         let nucleus = GlyphRun(
@@ -25,7 +25,7 @@ enum LargeOperatorLayout {
             ascent: measured.ascent,
             descent: measured.descent,
             width: measured.width,
-            glyphIDs: [UInt16(glyphID)],
+            glyphIDs: glyphIDs.map { UInt16($0) },
             shiftDown: axisShift,
             italicCorrection: italic
         )

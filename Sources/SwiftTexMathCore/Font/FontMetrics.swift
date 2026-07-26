@@ -72,10 +72,14 @@ public struct FontMetrics: Sendable, FontMetricsProtocol {
     }
 
     public func glyph(for nucleus: String) -> CGGlyph {
-        var chars = Array(nucleus.utf16)
+        glyphs(for: nucleus).first ?? 0
+    }
+
+    public func glyphs(for text: String) -> [CGGlyph] {
+        var chars = Array(text.utf16)
         var glyphs = [CGGlyph](repeating: 0, count: chars.count)
         CTFontGetGlyphsForCharacters(ctFont, &chars, &glyphs, chars.count)
-        return glyphs.first ?? 0
+        return glyphs
     }
 
     public func glyphName(for glyph: CGGlyph) -> String {
