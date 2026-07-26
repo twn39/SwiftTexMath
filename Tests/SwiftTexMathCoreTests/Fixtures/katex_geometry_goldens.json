@@ -9,10 +9,34 @@
       "x",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -25,10 +49,34 @@
       "x",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -41,10 +89,34 @@
       "θ",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -67,10 +139,46 @@
       "=",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mn",
+      "msup",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 1.1219,
       "descentEm": 0.25,
       "totalHeightEm": 1.3719
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1219,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3719
+    },
+    "textMetrics": {
+      "ascentEm": 1.1219,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3719
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -90,10 +198,42 @@
       "y",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -115,10 +255,46 @@
       "=",
       "e"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "munder",
+      "msup",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4543,
       "descentEm": 0.95,
       "totalHeightEm": 3.4043
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4543,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.4043
+    },
+    "textMetrics": {
+      "ascentEm": 1.2543,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.6042999999999998
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -149,10 +325,52 @@
       "⁡",
       "S"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -173,10 +391,42 @@
       "f",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -201,10 +451,94 @@
       "z",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
+    }
+  },
+  {
+    "id": "op_mod_tag",
+    "latex": "a \\equiv b \\pmod{m}",
+    "tokens": [
+      "a",
+      "≡",
+      "b",
+      "(",
+      "m",
+      "o",
+      "d",
+      "m",
+      ")"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -214,10 +548,32 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.7936,
       "descentEm": 0.686,
       "totalHeightEm": 2.4796
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "textMetrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -236,10 +592,43 @@
       "2",
       "a"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mn",
+      "mi",
+      "mfrac",
+      "msqrt",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 2.2764,
       "descentEm": 0.686,
       "totalHeightEm": 2.9624
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2764,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.9624
+    },
+    "textMetrics": {
+      "ascentEm": 1.3845,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.7295
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -257,10 +646,44 @@
       "a",
       "2"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mn",
+      "msub",
+      "mfrac",
+      "msub",
+      "mfrac",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 3.906,
       "descentEm": 2.316,
       "totalHeightEm": 6.2219999999999995
+    },
+    "displayMetrics": {
+      "ascentEm": 3.906,
+      "descentEm": 2.316,
+      "totalHeightEm": 6.2219999999999995
+    },
+    "textMetrics": {
+      "ascentEm": 3.906,
+      "descentEm": 2.316,
+      "totalHeightEm": 6.2219999999999995
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -283,10 +706,46 @@
       ")",
       "!"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mfrac",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 1.4001,
+      "descentEm": 0.52,
+      "totalHeightEm": 1.9201
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -302,10 +761,95 @@
       "0",
       "B"
     ],
+    "nodeTypes": [
+      "mo",
+      "mtext",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mover",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 1.4114,
       "descentEm": 0.7281,
       "totalHeightEm": 2.1395
+    },
+    "displayMetrics": {
+      "ascentEm": 1.4114,
+      "descentEm": 0.7281,
+      "totalHeightEm": 2.1395
+    },
+    "textMetrics": {
+      "ascentEm": 1.4114,
+      "descentEm": 0.7281,
+      "totalHeightEm": 2.1395
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
+    }
+  },
+  {
+    "id": "overbrace_underbrace",
+    "latex": "\\underbrace{a + b + \\dots + z}_{26 \\text{ terms}} = S",
+    "tokens": [
+      "a",
+      "+",
+      "b",
+      "+",
+      "⋯",
+      "+",
+      "z",
+      "⏟",
+      "26",
+      "terms",
+      "=",
+      "S"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mtext",
+      "mo",
+      "mi",
+      "munder",
+      "munder"
+    ],
+    "metrics": {
+      "ascentEm": 2.0769,
+      "descentEm": 1.3824,
+      "totalHeightEm": 3.4593000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0769,
+      "descentEm": 1.3824,
+      "totalHeightEm": 3.4593000000000003
+    },
+    "textMetrics": {
+      "ascentEm": 2.0769,
+      "descentEm": 1.3824,
+      "totalHeightEm": 3.4593000000000003
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -316,10 +860,33 @@
       "+",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mn",
+      "msqrt"
+    ],
     "metrics": {
       "ascentEm": 1.04,
       "descentEm": 0.1256,
       "totalHeightEm": 1.1656
+    },
+    "displayMetrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1256,
+      "totalHeightEm": 1.1656
+    },
+    "textMetrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1744,
+      "totalHeightEm": 1.2144
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -333,57 +900,182 @@
       "2",
       "3"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "mn",
+      "mroot",
+      "msup",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 1.24,
       "descentEm": 0.2333,
       "totalHeightEm": 1.4733
+    },
+    "displayMetrics": {
+      "ascentEm": 1.24,
+      "descentEm": 0.2333,
+      "totalHeightEm": 1.4733
+    },
+    "textMetrics": {
+      "ascentEm": 1.24,
+      "descentEm": 0.2822,
+      "totalHeightEm": 1.5222
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "accents_single",
     "latex": "\\hat{a} + \\bar{b} + \\vec{c} + \\dot{d} + \\ddot{e} + \\tilde{f}",
     "tokens": [
-      "a^",
+      "a",
+      "^",
       "+",
-      "bˉ",
+      "b",
+      "ˉ",
       "+",
-      "c⃗",
+      "c",
+      "⃗",
       "+",
-      "d˙",
+      "d",
+      "˙",
       "+",
-      "e¨",
+      "e",
+      "¨",
       "+",
-      "f~"
+      "f",
+      "~"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mover",
+      "mover",
+      "mover",
+      "mover",
+      "mover",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 1.1257,
       "descentEm": 0.1944,
       "totalHeightEm": 1.3200999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1257,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.3200999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.1257,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.3200999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": true
     }
   },
   {
     "id": "accents_wide",
     "latex": "\\widehat{AB} + \\widetilde{XYZ} + \\overrightarrow{PQ} + \\overleftarrow{MN}",
     "tokens": [
-      "AB^",
+      "A",
+      "B",
+      "^",
       "+",
-      "XYZ~",
+      "X",
+      "Y",
+      "Z",
+      "~",
       "+",
-      "PQ→",
+      "P",
+      "Q",
+      "→",
       "+",
-      "MN←"
+      "M",
+      "N",
+      "←"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mover",
+      "mover",
+      "mover",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 1.3998,
       "descentEm": 0.1944,
       "totalHeightEm": 1.5941999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 1.3998,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.5941999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.3998,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.5941999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "lines_over_under",
     "latex": "\\overline{x+y} + \\underline{z+w}",
     "tokens": [
-      "x+",
+      "x",
+      "+",
       "y",
       "‾",
       "+",
@@ -392,10 +1084,40 @@
       "w",
       "‾"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mover",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 0.9778,
       "descentEm": 0.2833,
       "totalHeightEm": 1.2610999999999999
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9778,
+      "descentEm": 0.2833,
+      "totalHeightEm": 1.2610999999999999
+    },
+    "textMetrics": {
+      "ascentEm": 0.9778,
+      "descentEm": 0.2833,
+      "totalHeightEm": 1.2610999999999999
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -411,10 +1133,38 @@
       "2",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 1.2533,
+      "descentEm": 0.4033,
+      "totalHeightEm": 1.6566
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -431,10 +1181,38 @@
       "}",
       "]"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -455,10 +1233,42 @@
       "v",
       "⟩"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -475,10 +1285,38 @@
       "]",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 3,
       "descentEm": 1.25,
       "totalHeightEm": 4.25
+    },
+    "displayMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "textMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -507,10 +1345,53 @@
       ")",
       "6"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mn",
+      "munderover",
+      "msup",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.355,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.7
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -530,10 +1411,44 @@
       "2",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mn",
+      "mo",
+      "munderover",
+      "mfrac",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 2.9535,
       "descentEm": 1.3021,
       "totalHeightEm": 4.2556
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9535,
+      "descentEm": 1.3021,
+      "totalHeightEm": 4.2556
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -551,10 +1466,42 @@
       "1",
       "3"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mn",
+      "mi",
+      "mn",
+      "mi",
+      "mi",
+      "mo",
+      "mn",
+      "mn",
+      "msubsup",
+      "msup",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.476,
       "descentEm": 0.9119,
       "totalHeightEm": 3.3879
+    },
+    "displayMetrics": {
+      "ascentEm": 2.476,
+      "descentEm": 0.9119,
+      "totalHeightEm": 3.3879
+    },
+    "textMetrics": {
+      "ascentEm": 1.3648,
+      "descentEm": 0.3558,
+      "totalHeightEm": 1.7206000000000001
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -587,10 +1534,56 @@
       "d",
       "V"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "msub",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 2.2717,
       "descentEm": 0.9117,
       "totalHeightEm": 3.1834
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2717,
+      "descentEm": 0.9117,
+      "totalHeightEm": 3.1834
+    },
+    "textMetrics": {
+      "ascentEm": 1.1607,
+      "descentEm": 0.3557,
+      "totalHeightEm": 1.5164
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -615,10 +1608,369 @@
       "d",
       "S"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "msub",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 2.2719,
       "descentEm": 0.9119,
       "totalHeightEm": 3.1838
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2719,
+      "descentEm": 0.9119,
+      "totalHeightEm": 3.1838
+    },
+    "textMetrics": {
+      "ascentEm": 1.1608,
+      "descentEm": 0.3558,
+      "totalHeightEm": 1.5166
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
+    }
+  },
+  {
+    "id": "pde_laplacian",
+    "latex": "\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2} = 0",
+    "tokens": [
+      "∂",
+      "2",
+      "u",
+      "∂",
+      "x",
+      "2",
+      "+",
+      "∂",
+      "2",
+      "u",
+      "∂",
+      "y",
+      "2",
+      "=",
+      "0"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mi",
+      "mi",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "mi",
+      "mi",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mfrac",
+      "msup",
+      "msup",
+      "mfrac",
+      "msup",
+      "msup"
+    ],
+    "metrics": {
+      "ascentEm": 2.3715,
+      "descentEm": 0.8804,
+      "totalHeightEm": 3.2519
+    },
+    "displayMetrics": {
+      "ascentEm": 2.3715,
+      "descentEm": 0.8804,
+      "totalHeightEm": 3.2519
+    },
+    "textMetrics": {
+      "ascentEm": 1.499,
+      "descentEm": 0.4811,
+      "totalHeightEm": 1.9801000000000002
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
+    }
+  },
+  {
+    "id": "fourier_transform",
+    "latex": "\\hat{f}(\\xi) = \\int_{-\\infty}^{\\infty} f(x) e^{-2\\pi i x \\xi} \\, dx",
+    "tokens": [
+      "f",
+      "^",
+      "(",
+      "ξ",
+      ")",
+      "=",
+      "∫",
+      "−",
+      "∞",
+      "∞",
+      "f",
+      "(",
+      "x",
+      ")",
+      "e",
+      "−",
+      "2",
+      "π",
+      "i",
+      "x",
+      "ξ",
+      "d",
+      "x"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mover",
+      "msubsup",
+      "msup"
+    ],
+    "metrics": {
+      "ascentEm": 2.3846,
+      "descentEm": 0.9703,
+      "totalHeightEm": 3.3548999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 2.3846,
+      "descentEm": 0.9703,
+      "totalHeightEm": 3.3548999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.2734,
+      "descentEm": 0.4142,
+      "totalHeightEm": 1.6876000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": true
+    }
+  },
+  {
+    "id": "schrodinger_eq",
+    "latex": "i\\hbar \\frac{\\partial}{\\partial t} |\\psi(t)\\rangle = \\hat{H} |\\psi(t)\\rangle",
+    "tokens": [
+      "i",
+      "ℏ",
+      "∂",
+      "∂",
+      "t",
+      "∣",
+      "ψ",
+      "(",
+      "t",
+      ")",
+      "⟩",
+      "=",
+      "H",
+      "^",
+      "∣",
+      "ψ",
+      "(",
+      "t",
+      ")",
+      "⟩"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mfrac",
+      "mover"
+    ],
+    "metrics": {
+      "ascentEm": 2.0574,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.7434
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0574,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.7434
+    },
+    "textMetrics": {
+      "ascentEm": 1.2251,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5701
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": true
+    }
+  },
+  {
+    "id": "bessel_func",
+    "latex": "J_\\alpha(x) = \\sum_{m=0}^\\infty \\frac{(-1)^m}{m! \\Gamma(m+\\alpha+1)} \\left(\\frac{x}{2}\\right)^{2m+\\alpha}",
+    "tokens": [
+      "J",
+      "α",
+      "(",
+      "x",
+      ")",
+      "=",
+      "∑",
+      "m",
+      "=",
+      "0",
+      "∞",
+      "(",
+      "−",
+      "1",
+      ")",
+      "m",
+      "m",
+      "!",
+      "Γ",
+      "(",
+      "m",
+      "+",
+      "α",
+      "+",
+      "1",
+      ")",
+      "(",
+      "x",
+      "2",
+      ")",
+      "2",
+      "m",
+      "+",
+      "α"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mi",
+      "msub",
+      "munderover",
+      "mfrac",
+      "msup",
+      "msup",
+      "mfrac"
+    ],
+    "metrics": {
+      "ascentEm": 2.9185,
+      "descentEm": 1.2671,
+      "totalHeightEm": 4.1856
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9185,
+      "descentEm": 1.2671,
+      "totalHeightEm": 4.1856
+    },
+    "textMetrics": {
+      "ascentEm": 1.574,
+      "descentEm": 0.52,
+      "totalHeightEm": 2.0940000000000003
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -632,10 +1984,36 @@
       "1",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mn",
+      "mn",
+      "mn",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -649,10 +2027,36 @@
       "d",
       "]"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -666,10 +2070,36 @@
       "w",
       "∣"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -693,10 +2123,47 @@
       "<",
       "0"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mn",
+      "mtable",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 3,
       "descentEm": 1.25,
       "totalHeightEm": 4.25
+    },
+    "displayMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "textMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -714,10 +2181,40 @@
       "+",
       "f"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.7,
       "descentEm": 1.1,
       "totalHeightEm": 3.8000000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    },
+    "textMetrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -729,10 +2226,34 @@
       "3",
       "4"
     ],
+    "nodeTypes": [
+      "mn",
+      "mn",
+      "mn",
+      "mn",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -757,10 +2278,48 @@
       "j",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "munder",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 3.0514,
       "descentEm": 2.0014,
       "totalHeightEm": 5.0527999999999995
+    },
+    "displayMetrics": {
+      "ascentEm": 3.0514,
+      "descentEm": 2.0014,
+      "totalHeightEm": 5.0527999999999995
+    },
+    "textMetrics": {
+      "ascentEm": 1.5906,
+      "descentEm": 0.8406,
+      "totalHeightEm": 2.4312
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -790,10 +2349,114 @@
       "+",
       "g"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
+    }
+  },
+  {
+    "id": "logic_quantifiers",
+    "latex": "\\forall x \\in \\mathbb{R}, \\exists y > 0 \\text{ s.t. } y = x^2 + 1",
+    "tokens": [
+      "∀",
+      "x",
+      "∈",
+      "R",
+      ",",
+      "∃",
+      "y",
+      ">",
+      "0",
+      "s.t.",
+      "y",
+      "=",
+      "x",
+      "2",
+      "+",
+      "1"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mn",
+      "mtext",
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "msup"
+    ],
+    "metrics": {
+      "ascentEm": 0.9474,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1418
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9474,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1418
+    },
+    "textMetrics": {
+      "ascentEm": 0.8974,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0917999999999999
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -814,10 +2477,42 @@
       "+",
       "Δ"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -840,10 +2535,44 @@
       "⊂",
       "S"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -860,10 +2589,38 @@
       "↗",
       "E"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -872,10 +2629,30 @@
     "tokens": [
       "x"
     ],
+    "nodeTypes": [
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.4306,
       "descentEm": 0,
       "totalHeightEm": 0.4306
+    },
+    "displayMetrics": {
+      "ascentEm": 0.4306,
+      "descentEm": 0,
+      "totalHeightEm": 0.4306
+    },
+    "textMetrics": {
+      "ascentEm": 0.4306,
+      "descentEm": 0,
+      "totalHeightEm": 0.4306
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -885,10 +2662,32 @@
       "1",
       "2"
     ],
+    "nodeTypes": [
+      "mn",
+      "mn",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.0074,
       "descentEm": 0.686,
       "totalHeightEm": 2.6934
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "textMetrics": {
+      "ascentEm": 1.1901,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5351
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -901,23 +2700,72 @@
       "=",
       "γ"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "corpus/fixture/baseline/hat_sub_tex",
     "latex": "\\hat{x}_i",
     "tokens": [
-      "x^",
+      "x",
+      "^",
       "i"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "msub",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 0.8444,
       "descentEm": 0.15,
       "totalHeightEm": 0.9944000000000001
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8444,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.9944000000000001
+    },
+    "textMetrics": {
+      "ascentEm": 0.8444,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.9944000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": true
     }
   },
   {
@@ -929,10 +2777,34 @@
       "b",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.836,
       "descentEm": 0.686,
       "totalHeightEm": 2.5220000000000002
+    },
+    "displayMetrics": {
+      "ascentEm": 1.836,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.5220000000000002
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -941,10 +2813,30 @@
     "tokens": [
       "R"
     ],
+    "nodeTypes": [
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6861,
       "descentEm": 0,
       "totalHeightEm": 0.6861
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6861,
+      "descentEm": 0,
+      "totalHeightEm": 0.6861
+    },
+    "textMetrics": {
+      "ascentEm": 0.6861,
+      "descentEm": 0,
+      "totalHeightEm": 0.6861
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -958,10 +2850,36 @@
       "d",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -974,10 +2892,36 @@
       "y",
       "2"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "msup",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 1.0585,
       "descentEm": 0.1944,
       "totalHeightEm": 1.2529
+    },
+    "displayMetrics": {
+      "ascentEm": 1.0585,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.2529
+    },
+    "textMetrics": {
+      "ascentEm": 1.0085,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.2028999999999999
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -987,10 +2931,32 @@
       "x",
       "3"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mroot"
+    ],
     "metrics": {
       "ascentEm": 1.04,
       "descentEm": 0.1908,
       "totalHeightEm": 1.2308000000000001
+    },
+    "displayMetrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1908,
+      "totalHeightEm": 1.2308000000000001
+    },
+    "textMetrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.2397,
+      "totalHeightEm": 1.2797
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1004,10 +2970,36 @@
       "n",
       "i"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "munderover"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.104,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.4037000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1019,10 +3011,34 @@
       "k",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1033,10 +3049,32 @@
       "mod",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1048,10 +3086,34 @@
       "k",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1060,10 +3122,30 @@
     "tokens": [
       "∑"
     ],
+    "nodeTypes": [
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1.6,
       "descentEm": 0.55,
       "totalHeightEm": 2.1500000000000004
+    },
+    "displayMetrics": {
+      "ascentEm": 1.6,
+      "descentEm": 0.55,
+      "totalHeightEm": 2.1500000000000004
+    },
+    "textMetrics": {
+      "ascentEm": 1.6,
+      "descentEm": 0.55,
+      "totalHeightEm": 2.1500000000000004
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1073,10 +3155,31 @@
       "+",
       "x"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6667,
       "descentEm": 0.0833,
       "totalHeightEm": 0.75
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6667,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.75
+    },
+    "textMetrics": {
+      "ascentEm": 0.6667,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.75
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1085,10 +3188,30 @@
     "tokens": [
       "∑"
     ],
+    "nodeTypes": [
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1.6,
       "descentEm": 0.55,
       "totalHeightEm": 2.1500000000000004
+    },
+    "displayMetrics": {
+      "ascentEm": 1.6,
+      "descentEm": 0.55,
+      "totalHeightEm": 2.1500000000000004
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1099,10 +3222,32 @@
       "=",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1115,10 +3260,34 @@
       "d",
       "n"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1127,10 +3296,30 @@
     "tokens": [
       "∉"
     ],
+    "nodeTypes": [
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1140,10 +3329,31 @@
       "rank",
       "⁡"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1153,10 +3363,32 @@
       "b",
       "a"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mover"
+    ],
     "metrics": {
       "ascentEm": 1.2958,
       "descentEm": 0,
       "totalHeightEm": 1.2958
+    },
+    "displayMetrics": {
+      "ascentEm": 1.2958,
+      "descentEm": 0,
+      "totalHeightEm": 1.2958
+    },
+    "textMetrics": {
+      "ascentEm": 1.2958,
+      "descentEm": 0,
+      "totalHeightEm": 1.2958
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1166,10 +3398,31 @@
       "x",
       "y"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.625,
       "descentEm": 0.1944,
       "totalHeightEm": 0.8194
+    },
+    "displayMetrics": {
+      "ascentEm": 0.625,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.8194
+    },
+    "textMetrics": {
+      "ascentEm": 0.625,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.8194
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1186,10 +3439,38 @@
       "n",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1201,10 +3482,33 @@
       "n",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1216,10 +3520,34 @@
       "e",
       "f"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mover"
+    ],
     "metrics": {
       "ascentEm": 1.2001,
       "descentEm": 0,
       "totalHeightEm": 1.2001
+    },
+    "displayMetrics": {
+      "ascentEm": 1.2001,
+      "descentEm": 0,
+      "totalHeightEm": 1.2001
+    },
+    "textMetrics": {
+      "ascentEm": 1.2001,
+      "descentEm": 0,
+      "totalHeightEm": 1.2001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1233,25 +3561,36 @@
       "n",
       "i"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "munderover"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
-    }
-  },
-  {
-    "id": "corpus/fixture/coverage/tag_inline_tex",
-    "latex": "x=1\\tag{1}",
-    "tokens": [
-      "x",
-      "=",
-      "1",
-      "(1)"
-    ],
-    "metrics": {
-      "ascentEm": 1,
-      "descentEm": 0.25,
-      "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.104,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.4037000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1263,10 +3602,34 @@
       "k",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.2,
       "descentEm": 0.35,
       "totalHeightEm": 1.5499999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1279,10 +3642,36 @@
       "⏟",
       "c"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "munder",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 1.9272,
       "descentEm": 1.2327,
       "totalHeightEm": 3.1599
+    },
+    "displayMetrics": {
+      "ascentEm": 1.9272,
+      "descentEm": 1.2327,
+      "totalHeightEm": 3.1599
+    },
+    "textMetrics": {
+      "ascentEm": 1.9272,
+      "descentEm": 1.2327,
+      "totalHeightEm": 3.1599
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1298,10 +3687,38 @@
       "=",
       "e"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.7,
       "descentEm": 1.1,
       "totalHeightEm": 3.8000000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    },
+    "textMetrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1313,10 +3730,34 @@
       "k",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1326,10 +3767,32 @@
       "1",
       "2"
     ],
+    "nodeTypes": [
+      "mn",
+      "mn",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.0074,
       "descentEm": 0.686,
       "totalHeightEm": 2.6934
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "textMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1341,10 +3804,34 @@
       "b",
       "c"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.7,
       "descentEm": 1.1,
       "totalHeightEm": 3.8000000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    },
+    "textMetrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1356,10 +3843,34 @@
       "k",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1369,10 +3880,32 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.7936,
       "descentEm": 0.686,
       "totalHeightEm": 2.4796
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "textMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1382,10 +3915,31 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1395,10 +3949,31 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1411,10 +3986,34 @@
       "b",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1424,10 +4023,31 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1439,26 +4059,34 @@
       "c",
       "d"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 1.3322,
       "descentEm": 0.4161,
       "totalHeightEm": 1.7483
-    }
-  },
-  {
-    "id": "corpus/fixture/p1/split_tex",
-    "latex": "\\begin{split} a&=b \\\\ &=c \\end{split}",
-    "tokens": [
-      "a",
-      "=",
-      "b",
-      "=",
-      "c"
-    ],
-    "metrics": {
-      "ascentEm": 2.7,
-      "descentEm": 1.1,
-      "totalHeightEm": 3.8000000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 1.3322,
+      "descentEm": 0.4161,
+      "totalHeightEm": 1.7483
+    },
+    "textMetrics": {
+      "ascentEm": 1.3322,
+      "descentEm": 0.4161,
+      "totalHeightEm": 1.7483
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1476,25 +4104,42 @@
       "x",
       "i"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "munderover",
+      "mtable",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 3.6773,
       "descentEm": 2.0259,
       "totalHeightEm": 5.7032
-    }
-  },
-  {
-    "id": "corpus/fixture/p1/tag_tex",
-    "latex": "x=y \\tag{1}",
-    "tokens": [
-      "x",
-      "=",
-      "y",
-      "(1)"
-    ],
-    "metrics": {
-      "ascentEm": 1,
-      "descentEm": 0.25,
-      "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 3.6773,
+      "descentEm": 2.0259,
+      "totalHeightEm": 5.7032
+    },
+    "textMetrics": {
+      "ascentEm": 1.6713,
+      "descentEm": 0.867,
+      "totalHeightEm": 2.5383
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1504,10 +4149,32 @@
       "1",
       "2"
     ],
+    "nodeTypes": [
+      "mn",
+      "mn",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.1901,
       "descentEm": 0.345,
       "totalHeightEm": 1.5351
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1901,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5351
+    },
+    "textMetrics": {
+      "ascentEm": 1.1901,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5351
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1528,10 +4195,45 @@
       "2",
       "a"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mn",
+      "mi",
+      "mfrac",
+      "msqrt",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 2.2764,
       "descentEm": 0.686,
       "totalHeightEm": 2.9624
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2764,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.9624
+    },
+    "textMetrics": {
+      "ascentEm": 1.3845,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.7295
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1553,10 +4255,44 @@
       "x",
       ")"
     ],
+    "nodeTypes": [
+      "mn",
+      "mo",
+      "mo",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mn",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 1.8,
+      "descentEm": 0.65,
+      "totalHeightEm": 2.45
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1571,10 +4307,36 @@
       "≤",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.7719,
       "descentEm": 0.1944,
       "totalHeightEm": 0.9663
+    },
+    "displayMetrics": {
+      "ascentEm": 0.7719,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9663
+    },
+    "textMetrics": {
+      "ascentEm": 0.7719,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9663
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1591,10 +4353,39 @@
       "d",
       "x"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "msubsup"
+    ],
     "metrics": {
       "ascentEm": 2.3262,
       "descentEm": 0.9119,
       "totalHeightEm": 3.2381
+    },
+    "displayMetrics": {
+      "ascentEm": 2.3262,
+      "descentEm": 0.9119,
+      "totalHeightEm": 3.2381
+    },
+    "textMetrics": {
+      "ascentEm": 1.2151,
+      "descentEm": 0.3558,
+      "totalHeightEm": 1.5709
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1603,10 +4394,33 @@
     "tokens": [
       "x"
     ],
+    "nodeTypes": [
+      "mi",
+      "msqrt",
+      "msqrt",
+      "msqrt"
+    ],
     "metrics": {
       "ascentEm": 2.44,
       "descentEm": 0.6631,
       "totalHeightEm": 3.1031
+    },
+    "displayMetrics": {
+      "ascentEm": 2.44,
+      "descentEm": 0.6631,
+      "totalHeightEm": 3.1031
+    },
+    "textMetrics": {
+      "ascentEm": 1.84,
+      "descentEm": 0.5097,
+      "totalHeightEm": 2.3497000000000003
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1618,10 +4432,34 @@
       "c",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1630,10 +4468,30 @@
     "tokens": [
       "a b  c"
     ],
+    "nodeTypes": [
+      "mtext"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1648,25 +4506,80 @@
       "=",
       "0"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "msub",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.4497,
       "descentEm": 0.9997,
       "totalHeightEm": 3.4494
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4497,
+      "descentEm": 0.9997,
+      "totalHeightEm": 3.4494
+    },
+    "textMetrics": {
+      "ascentEm": 1.2798,
+      "descentEm": 0.3997,
+      "totalHeightEm": 1.6795
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "corpus/rust/compatibility/009",
     "latex": "\\overbrace{a+b}^{\\text{term}}",
     "tokens": [
-      "a+",
+      "a",
+      "+",
       "b",
       "⏞",
       "term"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mtext",
+      "mover",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 2.0563,
       "descentEm": 0.0833,
       "totalHeightEm": 2.1395999999999997
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0563,
+      "descentEm": 0.0833,
+      "totalHeightEm": 2.1395999999999997
+    },
+    "textMetrics": {
+      "ascentEm": 2.0563,
+      "descentEm": 0.0833,
+      "totalHeightEm": 2.1395999999999997
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1678,10 +4591,34 @@
       "B",
       "X"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 1.4277,
       "descentEm": 0.7443,
       "totalHeightEm": 2.1719999999999997
+    },
+    "displayMetrics": {
+      "ascentEm": 1.4277,
+      "descentEm": 0.7443,
+      "totalHeightEm": 2.1719999999999997
+    },
+    "textMetrics": {
+      "ascentEm": 0.8333,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.9833000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1698,10 +4635,40 @@
       "1",
       "2"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mn",
+      "mn",
+      "msup",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.0074,
       "descentEm": 0.686,
       "totalHeightEm": 2.6934
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "textMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1715,10 +4682,36 @@
       "d",
       "]"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1730,10 +4723,34 @@
       "c",
       "d"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1747,27 +4764,36 @@
       "1",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mn",
+      "mn",
+      "mn",
+      "mo",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
-    }
-  },
-  {
-    "id": "corpus/rust/e2e_environments/027",
-    "latex": "\\begin{align} x &= 1 \\\\ y &= 2 \\end{align}",
-    "tokens": [
-      "x",
-      "=",
-      "1",
-      "y",
-      "=",
-      "2"
-    ],
-    "metrics": {
-      "ascentEm": 2.7,
-      "descentEm": 1.1,
-      "totalHeightEm": 3.8000000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1784,10 +4810,39 @@
       "≥",
       "0"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 3,
       "descentEm": 1.25,
       "totalHeightEm": 4.25
+    },
+    "displayMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "textMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1809,10 +4864,46 @@
       "2",
       "otherwise"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mn",
+      "mo",
+      "mn",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "mtext",
+      "mtable",
+      "mfrac",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 3,
       "descentEm": 1.25,
       "totalHeightEm": 4.25
+    },
+    "displayMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "textMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1823,10 +4914,33 @@
       "y",
       "z"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 1.2,
       "descentEm": 0.35,
       "totalHeightEm": 1.5499999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1837,10 +4951,33 @@
       "b",
       "c"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mtable"
+    ],
     "metrics": {
       "ascentEm": 5.6,
       "descentEm": 2.55,
       "totalHeightEm": 8.149999999999999
+    },
+    "displayMetrics": {
+      "ascentEm": 5.6,
+      "descentEm": 2.55,
+      "totalHeightEm": 8.149999999999999
+    },
+    "textMetrics": {
+      "ascentEm": 5.6,
+      "descentEm": 2.55,
+      "totalHeightEm": 8.149999999999999
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1861,10 +4998,46 @@
       "⪰",
       "0"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mn",
+      "mtable",
+      "msubsup",
+      "msub",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 2.4,
       "descentEm": 0.95,
       "totalHeightEm": 3.3499999999999996
+    },
+    "displayMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "textMetrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1881,10 +5054,40 @@
       "=",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "msubsup",
+      "msubsup"
+    ],
     "metrics": {
       "ascentEm": 1.1111,
       "descentEm": 0.247,
       "totalHeightEm": 1.3580999999999999
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1111,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3580999999999999
+    },
+    "textMetrics": {
+      "ascentEm": 1.0728,
+      "descentEm": 0.2587,
+      "totalHeightEm": 1.3315
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1896,10 +5099,34 @@
       "3",
       "]"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mroot"
+    ],
     "metrics": {
       "ascentEm": 1.2,
       "descentEm": 0.35,
       "totalHeightEm": 1.5499999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.0503,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3003
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1912,10 +5139,35 @@
       "1",
       "n"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "munderover"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.104,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.4037000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -1941,10 +5193,50 @@
       "d",
       "y"
     ],
+    "nodeTypes": [
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mn",
+      "mi",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mn",
+      "mi",
+      "mi",
+      "msub",
+      "msup",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 2.447,
       "descentEm": 1.0869,
       "totalHeightEm": 3.5339
+    },
+    "displayMetrics": {
+      "ascentEm": 2.447,
+      "descentEm": 1.0869,
+      "totalHeightEm": 3.5339
+    },
+    "textMetrics": {
+      "ascentEm": 1.3449,
+      "descentEm": 0.5308,
+      "totalHeightEm": 1.8757000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1965,10 +5257,45 @@
       "2",
       "a"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mn",
+      "mi",
+      "mfrac",
+      "msqrt",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 2.2764,
       "descentEm": 0.686,
       "totalHeightEm": 2.9624
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2764,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.9624
+    },
+    "textMetrics": {
+      "ascentEm": 1.3845,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.7295
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1983,10 +5310,37 @@
       "−",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mo",
+      "mn",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 0.9474,
       "descentEm": 0.0833,
       "totalHeightEm": 1.0307
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9474,
+      "descentEm": 0.0833,
+      "totalHeightEm": 1.0307
+    },
+    "textMetrics": {
+      "ascentEm": 0.8974,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.9807
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -1997,10 +5351,33 @@
       "b",
       "42"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mn",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.7936,
       "descentEm": 0.686,
       "totalHeightEm": 2.4796
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "textMetrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2016,10 +5393,38 @@
       "=",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 2.3277,
       "descentEm": 1.2777,
       "totalHeightEm": 3.6054000000000004
+    },
+    "displayMetrics": {
+      "ascentEm": 2.3277,
+      "descentEm": 1.2777,
+      "totalHeightEm": 3.6054000000000004
+    },
+    "textMetrics": {
+      "ascentEm": 1.0497,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.3494000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -2034,10 +5439,36 @@
       "⇓",
       "⇒"
     ],
+    "nodeTypes": [
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2055,10 +5486,39 @@
       "h",
       "i"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mtext",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2073,10 +5533,36 @@
       "&",
       "#"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 1.06,
       "descentEm": 0.31,
       "totalHeightEm": 1.37
+    },
+    "displayMetrics": {
+      "ascentEm": 1.06,
+      "descentEm": 0.31,
+      "totalHeightEm": 1.37
+    },
+    "textMetrics": {
+      "ascentEm": 1.06,
+      "descentEm": 0.31,
+      "totalHeightEm": 1.37
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2091,10 +5577,36 @@
       "⁡",
       "y"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2105,10 +5617,32 @@
       "b",
       "c"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2131,10 +5665,44 @@
       "⁡",
       "ϕ"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2152,10 +5720,39 @@
       "Υ",
       "Ω"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6833,
       "descentEm": 0,
       "totalHeightEm": 0.6833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6833,
+      "descentEm": 0,
+      "totalHeightEm": 0.6833
+    },
+    "textMetrics": {
+      "ascentEm": 0.6833,
+      "descentEm": 0,
+      "totalHeightEm": 0.6833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2167,10 +5764,34 @@
       "b",
       "↓"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.837,
       "descentEm": 0.686,
       "totalHeightEm": 2.523
+    },
+    "displayMetrics": {
+      "ascentEm": 1.837,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.523
+    },
+    "textMetrics": {
+      "ascentEm": 1.201,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5510000000000002
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2185,10 +5806,36 @@
       "+",
       "a"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.7778,
       "descentEm": 0.1944,
       "totalHeightEm": 0.9722000000000001
+    },
+    "displayMetrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9722000000000001
+    },
+    "textMetrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9722000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2197,10 +5844,30 @@
     "tokens": [
       "3.14"
     ],
+    "nodeTypes": [
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.6444,
       "descentEm": 0,
       "totalHeightEm": 0.6444
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6444,
+      "descentEm": 0,
+      "totalHeightEm": 0.6444
+    },
+    "textMetrics": {
+      "ascentEm": 0.6444,
+      "descentEm": 0,
+      "totalHeightEm": 0.6444
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2211,10 +5878,32 @@
       "+",
       "0.5"
     ],
+    "nodeTypes": [
+      "mn",
+      "mo",
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.7278,
       "descentEm": 0.0833,
       "totalHeightEm": 0.8111
+    },
+    "displayMetrics": {
+      "ascentEm": 0.7278,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8111
+    },
+    "textMetrics": {
+      "ascentEm": 0.7278,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8111
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2225,10 +5914,32 @@
       "x",
       "⟩"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2239,10 +5950,32 @@
       "x",
       "⌋"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2253,10 +5986,32 @@
       "x",
       "⌉"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2267,10 +6022,32 @@
       "x",
       "∥"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2280,10 +6057,32 @@
       "1",
       "n"
     ],
+    "nodeTypes": [
+      "mn",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.0074,
       "descentEm": 0.686,
       "totalHeightEm": 2.6934
+    },
+    "displayMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "textMetrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2296,10 +6095,34 @@
       "A",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2310,10 +6133,32 @@
       "∉",
       "B"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2324,10 +6169,32 @@
       "⊄",
       "B"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2338,10 +6205,32 @@
       "≠",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2352,10 +6241,32 @@
       "≢",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2368,10 +6279,34 @@
       "b",
       ">"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2406,10 +6341,58 @@
       ")",
       ">"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "msup",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2447,27 +6430,66 @@
       "2",
       "]"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mn",
+      "mn",
+      "mn",
+      "mn",
+      "mi",
+      "mn",
+      "mn",
+      "mi",
+      "mn",
+      "mo",
+      "mn",
+      "mi",
+      "mn",
+      "mn",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mtable",
+      "msub",
+      "msub",
+      "msub",
+      "msub",
+      "msub",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 3.6,
       "descentEm": 1.55,
       "totalHeightEm": 5.15
-    }
-  },
-  {
-    "id": "corpus/rust/e2e_rendering/067",
-    "latex": "\\begin{align} a \\\\ \\begin{bmatrix} 1 \\\\ 2 \\end{bmatrix} \\\\ b \\end{align}",
-    "tokens": [
-      "a",
-      "[",
-      "1",
-      "2",
-      "]",
-      "b"
-    ],
-    "metrics": {
-      "ascentEm": 5.4,
-      "descentEm": 2.45,
-      "totalHeightEm": 7.8500000000000005
+    },
+    "displayMetrics": {
+      "ascentEm": 3.6,
+      "descentEm": 1.55,
+      "totalHeightEm": 5.15
+    },
+    "textMetrics": {
+      "ascentEm": 3.6,
+      "descentEm": 1.55,
+      "totalHeightEm": 5.15
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": true,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2493,10 +6515,47 @@
       "⪰",
       "0"
     ],
+    "nodeTypes": [
+      "mtext",
+      "mn",
+      "mi",
+      "mtext",
+      "mi",
+      "mtext",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2525,7 +6584,9 @@
       "=",
       "V",
       "i",
-      "Vk‾",
+      "V",
+      "k",
+      "‾",
       ",",
       "∀",
       "i",
@@ -2540,10 +6601,75 @@
       "N",
       "}"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mn",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "msup",
+      "msub",
+      "msub",
+      "msup",
+      "msub",
+      "msub",
+      "mover",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 1.1141,
       "descentEm": 0.25,
       "totalHeightEm": 1.3641
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1141,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3641
+    },
+    "textMetrics": {
+      "ascentEm": 1.0778,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3278
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2554,10 +6680,34 @@
       "b",
       "c"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "msup",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 0.93,
       "descentEm": 0,
       "totalHeightEm": 0.93
+    },
+    "displayMetrics": {
+      "ascentEm": 0.93,
+      "descentEm": 0,
+      "totalHeightEm": 0.93
+    },
+    "textMetrics": {
+      "ascentEm": 0.88,
+      "descentEm": 0,
+      "totalHeightEm": 0.88
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2568,10 +6718,32 @@
       "+",
       "R"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.7694,
       "descentEm": 0.0833,
       "totalHeightEm": 0.8527
+    },
+    "displayMetrics": {
+      "ascentEm": 0.7694,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8527
+    },
+    "textMetrics": {
+      "ascentEm": 0.7694,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8527
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2586,28 +6758,92 @@
       ">",
       "0"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mn",
+      "mtext",
+      "mi",
+      "mo",
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "corpus/rust/e2e_rendering/073",
     "latex": "\\hat{y} + \\vec{v} + \\bar{x} + \\dot{x}",
     "tokens": [
-      "y^",
+      "y",
+      "^",
       "+",
-      "v⃗",
+      "v",
+      "⃗",
       "+",
-      "xˉ",
+      "x",
+      "ˉ",
       "+",
-      "x˙"
+      "x",
+      "˙"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mover",
+      "mover",
+      "mover",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 0.8889,
       "descentEm": 0.1944,
       "totalHeightEm": 1.0833
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "textMetrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": true
     }
   },
   {
@@ -2621,10 +6857,36 @@
       ",",
       "j"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mi",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 1.5827,
       "descentEm": 0.8882,
       "totalHeightEm": 2.4709
+    },
+    "displayMetrics": {
+      "ascentEm": 1.5827,
+      "descentEm": 0.8882,
+      "totalHeightEm": 2.4709
+    },
+    "textMetrics": {
+      "ascentEm": 1.5827,
+      "descentEm": 0.8882,
+      "totalHeightEm": 2.4709
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2639,10 +6901,36 @@
       "=",
       "1"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.7778,
       "descentEm": 0.1944,
       "totalHeightEm": 0.9722000000000001
+    },
+    "displayMetrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9722000000000001
+    },
+    "textMetrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9722000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2657,10 +6945,36 @@
       "+",
       "d"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.7778,
       "descentEm": 0.0833,
       "totalHeightEm": 0.8611000000000001
+    },
+    "displayMetrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8611000000000001
+    },
+    "textMetrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8611000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2669,31 +6983,30 @@
     "tokens": [
       "x"
     ],
+    "nodeTypes": [
+      "mtext"
+    ],
     "metrics": {
       "ascentEm": 1.7106,
       "descentEm": 0.64,
       "totalHeightEm": 2.3506
-    }
-  },
-  {
-    "id": "corpus/rust/e2e_rendering/078",
-    "latex": "\\begin{align} x &= \\color{red} y + 1 \\\\ \\textcolor{blue}{x - 1} &= y \\end{align}",
-    "tokens": [
-      "x",
-      "=",
-      "y",
-      "+",
-      "1",
-      "x",
-      "−",
-      "1",
-      "=",
-      "y"
-    ],
-    "metrics": {
-      "ascentEm": 2.7,
-      "descentEm": 1.1,
-      "totalHeightEm": 3.8000000000000003
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7106,
+      "descentEm": 0.64,
+      "totalHeightEm": 2.3506
+    },
+    "textMetrics": {
+      "ascentEm": 1.7106,
+      "descentEm": 0.64,
+      "totalHeightEm": 2.3506
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2720,10 +7033,52 @@
       "1",
       "n"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mo",
+      "mtext",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "mi",
+      "munderover",
+      "msub",
+      "munder",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.1901,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5351
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -2739,25 +7094,84 @@
       "=",
       "X"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "munder",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 2.1041,
       "descentEm": 1.4097,
       "totalHeightEm": 3.5138
+    },
+    "displayMetrics": {
+      "ascentEm": 2.1041,
+      "descentEm": 1.4097,
+      "totalHeightEm": 3.5138
+    },
+    "textMetrics": {
+      "ascentEm": 2.1041,
+      "descentEm": 1.4097,
+      "totalHeightEm": 3.5138
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "corpus/rust/e2e_rendering/081",
     "latex": "\\overbrace{x^2 + y^2}",
     "tokens": [
-      "x2+",
+      "x",
+      "2",
+      "+",
       "y",
       "2",
       "⏞"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mo",
+      "mi",
+      "mn",
+      "mo",
+      "mover",
+      "msup",
+      "msup"
     ],
     "metrics": {
       "ascentEm": 1.7065,
       "descentEm": 0.1944,
       "totalHeightEm": 1.9008999999999998
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7065,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.9008999999999998
+    },
+    "textMetrics": {
+      "ascentEm": 1.7065,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.9008999999999998
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2768,10 +7182,33 @@
       "2",
       "X"
     ],
+    "nodeTypes": [
+      "mn",
+      "mn",
+      "mi",
+      "msubsup"
+    ],
     "metrics": {
       "ascentEm": 1.1111,
       "descentEm": 0.247,
       "totalHeightEm": 1.3580999999999999
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1111,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3580999999999999
+    },
+    "textMetrics": {
+      "ascentEm": 1.0622,
+      "descentEm": 0.2481,
+      "totalHeightEm": 1.3103
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2784,10 +7221,36 @@
       "c",
       "d"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "mi",
+      "msubsup",
+      "msubsup"
+    ],
     "metrics": {
       "ascentEm": 1.1461,
       "descentEm": 0.247,
       "totalHeightEm": 1.3931
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1461,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3931
+    },
+    "textMetrics": {
+      "ascentEm": 1.0961,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3431000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2799,10 +7262,34 @@
       "y",
       "x"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.9463,
       "descentEm": 0.686,
       "totalHeightEm": 2.6323
+    },
+    "displayMetrics": {
+      "ascentEm": 1.9463,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6323
+    },
+    "textMetrics": {
+      "ascentEm": 1.1994,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5444
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2814,36 +7301,107 @@
       "t",
       "h"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "corpus/rust/e2e_rendering/086",
     "latex": "\\overline{x + y}",
     "tokens": [
-      "x+",
+      "x",
+      "+",
       "y",
       "‾"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 0.9778,
       "descentEm": 0.1944,
       "totalHeightEm": 1.1722
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1722
+    },
+    "textMetrics": {
+      "ascentEm": 0.9778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1722
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
     "id": "corpus/rust/e2e_rendering/087",
     "latex": "\\bar{x}",
     "tokens": [
-      "xˉ"
+      "x",
+      "ˉ"
+    ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 0.5678,
       "descentEm": 0,
       "totalHeightEm": 0.5678
+    },
+    "displayMetrics": {
+      "ascentEm": 0.5678,
+      "descentEm": 0,
+      "totalHeightEm": 0.5678
+    },
+    "textMetrics": {
+      "ascentEm": 0.5678,
+      "descentEm": 0,
+      "totalHeightEm": 0.5678
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": true
     }
   },
   {
@@ -2852,10 +7410,30 @@
     "tokens": [
       "A"
     ],
+    "nodeTypes": [
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6861,
       "descentEm": 0,
       "totalHeightEm": 0.6861
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6861,
+      "descentEm": 0,
+      "totalHeightEm": 0.6861
+    },
+    "textMetrics": {
+      "ascentEm": 0.6861,
+      "descentEm": 0,
+      "totalHeightEm": 0.6861
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2864,10 +7442,30 @@
     "tokens": [
       "R"
     ],
+    "nodeTypes": [
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6889,
       "descentEm": 0,
       "totalHeightEm": 0.6889
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6889,
+      "descentEm": 0,
+      "totalHeightEm": 0.6889
+    },
+    "textMetrics": {
+      "ascentEm": 0.6889,
+      "descentEm": 0,
+      "totalHeightEm": 0.6889
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2877,10 +7475,32 @@
       "f",
       "′"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 0.9963,
       "descentEm": 0.1944,
       "totalHeightEm": 1.1906999999999999
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9963,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1906999999999999
+    },
+    "textMetrics": {
+      "ascentEm": 0.9463,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1407
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2891,10 +7511,33 @@
       "′",
       "′"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 0.9963,
       "descentEm": 0.1944,
       "totalHeightEm": 1.1906999999999999
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9963,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1906999999999999
+    },
+    "textMetrics": {
+      "ascentEm": 0.9463,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1407
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2907,10 +7550,35 @@
       "x",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 1.0519,
       "descentEm": 0.25,
       "totalHeightEm": 1.3019
+    },
+    "displayMetrics": {
+      "ascentEm": 1.0519,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3019
+    },
+    "textMetrics": {
+      "ascentEm": 1.0019,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.2519
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2920,10 +7588,32 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.7936,
       "descentEm": 0.686,
       "totalHeightEm": 2.4796
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "textMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2933,10 +7623,32 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.0404,
       "descentEm": 0.345,
       "totalHeightEm": 1.3854
+    },
+    "displayMetrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    },
+    "textMetrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2949,10 +7661,34 @@
       "A",
       ")"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2962,10 +7698,31 @@
       "d",
       "x"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -2980,10 +7737,36 @@
       "d",
       "x"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 2.2222,
       "descentEm": 0.8622,
       "totalHeightEm": 3.0844
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2222,
+      "descentEm": 0.8622,
+      "totalHeightEm": 3.0844
+    },
+    "textMetrics": {
+      "ascentEm": 1.1111,
+      "descentEm": 0.3061,
+      "totalHeightEm": 1.4172
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -3000,10 +7783,40 @@
       "x",
       "i"
     ],
+    "nodeTypes": [
+      "mtext",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "mi",
+      "mi",
+      "munderover",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.104,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.4037000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -3012,10 +7825,30 @@
     "tokens": [
       "123"
     ],
+    "nodeTypes": [
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.6444,
       "descentEm": 0,
       "totalHeightEm": 0.6444
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6444,
+      "descentEm": 0,
+      "totalHeightEm": 0.6444
+    },
+    "textMetrics": {
+      "ascentEm": 0.6444,
+      "descentEm": 0,
+      "totalHeightEm": 0.6444
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3026,10 +7859,32 @@
       "b",
       "c"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mi"
+    ],
     "metrics": {
       "ascentEm": 0.6944,
       "descentEm": 0,
       "totalHeightEm": 0.6944
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "textMetrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3039,10 +7894,32 @@
       "a",
       "12"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.7936,
       "descentEm": 0.686,
       "totalHeightEm": 2.4796
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "textMetrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3055,10 +7932,34 @@
       "=",
       "2"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn"
+    ],
     "metrics": {
       "ascentEm": 0.6667,
       "descentEm": 0.1944,
       "totalHeightEm": 0.8611
+    },
+    "displayMetrics": {
+      "ascentEm": 0.6667,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.8611
+    },
+    "textMetrics": {
+      "ascentEm": 0.6667,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.8611
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3070,10 +7971,34 @@
       "b",
       "2"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mn",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 0.9818,
       "descentEm": 0.0833,
       "totalHeightEm": 1.0651
+    },
+    "displayMetrics": {
+      "ascentEm": 0.9818,
+      "descentEm": 0.0833,
+      "totalHeightEm": 1.0651
+    },
+    "textMetrics": {
+      "ascentEm": 0.9818,
+      "descentEm": 0.0833,
+      "totalHeightEm": 1.0651
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3082,10 +8007,31 @@
     "tokens": [
       "x"
     ],
+    "nodeTypes": [
+      "mi",
+      "msqrt"
+    ],
     "metrics": {
       "ascentEm": 1.04,
       "descentEm": 0.1908,
       "totalHeightEm": 1.2308000000000001
+    },
+    "displayMetrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1908,
+      "totalHeightEm": 1.2308000000000001
+    },
+    "textMetrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.2397,
+      "totalHeightEm": 1.2797
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": true,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3096,10 +8042,32 @@
       "x",
       ")"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 1,
       "descentEm": 0.25,
       "totalHeightEm": 1.25
+    },
+    "displayMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "textMetrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3109,10 +8077,32 @@
       "x",
       "2"
     ],
+    "nodeTypes": [
+      "mi",
+      "mn",
+      "msup"
+    ],
     "metrics": {
       "ascentEm": 0.8641,
       "descentEm": 0,
       "totalHeightEm": 0.8641
+    },
+    "displayMetrics": {
+      "ascentEm": 0.8641,
+      "descentEm": 0,
+      "totalHeightEm": 0.8641
+    },
+    "textMetrics": {
+      "ascentEm": 0.8141,
+      "descentEm": 0,
+      "totalHeightEm": 0.8141
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3122,10 +8112,32 @@
       "a",
       "i"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 0.5806,
       "descentEm": 0.15,
       "totalHeightEm": 0.7306
+    },
+    "displayMetrics": {
+      "ascentEm": 0.5806,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.7306
+    },
+    "textMetrics": {
+      "ascentEm": 0.5806,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.7306
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3135,10 +8147,32 @@
       "a",
       "b"
     ],
+    "nodeTypes": [
+      "mi",
+      "mi",
+      "mfrac"
+    ],
     "metrics": {
       "ascentEm": 1.7936,
       "descentEm": 0.686,
       "totalHeightEm": 2.4796
+    },
+    "displayMetrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    },
+    "textMetrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    },
+    "features": {
+      "hasFraction": true,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3151,10 +8185,35 @@
       "→",
       "0"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 1.4115,
       "descentEm": 0.7171,
       "totalHeightEm": 2.1286
+    },
+    "displayMetrics": {
+      "ascentEm": 1.4115,
+      "descentEm": 0.7171,
+      "totalHeightEm": 2.1286
+    },
+    "textMetrics": {
+      "ascentEm": 0.8444,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.9944000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3179,10 +8238,48 @@
       "←",
       "⁡"
     ],
+    "nodeTypes": [
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mi",
+      "mi",
+      "mo",
+      "mo",
+      "munder",
+      "munder"
+    ],
     "metrics": {
       "ascentEm": 1.2164,
       "descentEm": 0.522,
       "totalHeightEm": 1.7384
+    },
+    "displayMetrics": {
+      "ascentEm": 1.2164,
+      "descentEm": 0.522,
+      "totalHeightEm": 1.7384
+    },
+    "textMetrics": {
+      "ascentEm": 1.2164,
+      "descentEm": 0.522,
+      "totalHeightEm": 1.7384
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3208,14 +8305,65 @@
       "3",
       ")",
       ",",
-      "y˙",
+      "y",
+      "˙",
       ",",
-      "y¨"
+      "y",
+      "¨"
+    ],
+    "nodeTypes": [
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "mo",
+      "mi",
+      "mo",
+      "msup",
+      "msup",
+      "msup",
+      "msup",
+      "mover",
+      "mover"
     ],
     "metrics": {
       "ascentEm": 1.1324,
       "descentEm": 0.1944,
       "totalHeightEm": 1.3268
+    },
+    "displayMetrics": {
+      "ascentEm": 1.1324,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.3268
+    },
+    "textMetrics": {
+      "ascentEm": 1.0824,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.2768
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3234,10 +8382,40 @@
       "]",
       "]"
     ],
+    "nodeTypes": [
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo",
+      "mo"
+    ],
     "metrics": {
       "ascentEm": 3,
       "descentEm": 1.25,
       "totalHeightEm": 4.25
+    },
+    "displayMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "textMetrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3248,10 +8426,33 @@
       "0",
       "1"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mn",
+      "munderover"
+    ],
     "metrics": {
       "ascentEm": 3.6905,
       "descentEm": 1.5782,
       "totalHeightEm": 5.2687
+    },
+    "displayMetrics": {
+      "ascentEm": 3.6905,
+      "descentEm": 1.5782,
+      "totalHeightEm": 5.2687
+    },
+    "textMetrics": {
+      "ascentEm": 2.5793,
+      "descentEm": 1.0227,
+      "totalHeightEm": 3.602
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -3262,10 +8463,33 @@
       "0",
       "1"
     ],
+    "nodeTypes": [
+      "mo",
+      "mn",
+      "mn",
+      "msubsup"
+    ],
     "metrics": {
       "ascentEm": 1.8537,
       "descentEm": 0.5997,
       "totalHeightEm": 2.4534
+    },
+    "displayMetrics": {
+      "ascentEm": 1.8537,
+      "descentEm": 0.5997,
+      "totalHeightEm": 2.4534
+    },
+    "textMetrics": {
+      "ascentEm": 1.2537,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.5534000000000001
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": true,
+      "hasAccent": false
     }
   },
   {
@@ -3276,10 +8500,33 @@
       "D",
       "f"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mi",
+      "msub"
+    ],
     "metrics": {
       "ascentEm": 2.2717,
       "descentEm": 0.9117,
       "totalHeightEm": 3.1834
+    },
+    "displayMetrics": {
+      "ascentEm": 2.2717,
+      "descentEm": 0.9117,
+      "totalHeightEm": 3.1834
+    },
+    "textMetrics": {
+      "ascentEm": 1.1607,
+      "descentEm": 0.3557,
+      "totalHeightEm": 1.5164
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   },
   {
@@ -3292,10 +8539,35 @@
       "1",
       "n"
     ],
+    "nodeTypes": [
+      "mo",
+      "mi",
+      "mo",
+      "mn",
+      "mi",
+      "munderover"
+    ],
     "metrics": {
       "ascentEm": 2.9291,
       "descentEm": 1.2777,
       "totalHeightEm": 4.2068
+    },
+    "displayMetrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    },
+    "textMetrics": {
+      "ascentEm": 1.104,
+      "descentEm": 0.2997,
+      "totalHeightEm": 1.4037000000000002
+    },
+    "features": {
+      "hasFraction": false,
+      "hasRadical": false,
+      "hasMatrix": false,
+      "hasLargeOp": false,
+      "hasAccent": false
     }
   }
 ]

@@ -13,11 +13,23 @@ struct KaTeXCrossValidationTests {
         var totalHeightEm: Double
     }
 
+    struct Features: Decodable, Sendable {
+        var hasFraction: Bool
+        var hasRadical: Bool
+        var hasMatrix: Bool
+        var hasLargeOp: Bool
+        var hasAccent: Bool
+    }
+
     struct GoldenItem: Decodable, Sendable {
         var id: String
         var latex: String
         var tokens: [String]
+        var nodeTypes: [String]?
         var metrics: Metrics
+        var displayMetrics: Metrics?
+        var textMetrics: Metrics?
+        var features: Features?
     }
 
     static let goldens: [GoldenItem] = {
@@ -50,11 +62,11 @@ struct KaTeXCrossValidationTests {
         }
     }()
 
-    private var renderer: MathRenderer {
+    private func renderer(for style: MathStyle) -> MathRenderer {
         MathRenderer(
             environment: MathEnvironment(
                 font: MathFont(name: .latinModern, size: 20),
-                style: .display
+                style: style
             )
         )
     }
@@ -74,9 +86,10 @@ struct KaTeXCrossValidationTests {
         ]
 
         var testedFormulaCount = 0
+        let displayRenderer = renderer(for: .display)
 
         for golden in Self.goldens {
-            guard let display = try? renderer.layout(latex: golden.latex) else {
+            guard let display = try? displayRenderer.layout(latex: golden.latex) else {
                 continue
             }
             testedFormulaCount += 1
@@ -99,9 +112,10 @@ struct KaTeXCrossValidationTests {
     @Test func testLayoutGeometryAndBoundingMetrics() throws {
         let fontSize: CGFloat = 20 // 1em = 20pt
         var testedFormulaCount = 0
+        let displayRenderer = renderer(for: .display)
 
         for golden in Self.goldens {
-            guard let display = try? renderer.layout(latex: golden.latex) else {
+            guard let display = try? displayRenderer.layout(latex: golden.latex) else {
                 continue
             }
             testedFormulaCount += 1
@@ -112,7 +126,8 @@ struct KaTeXCrossValidationTests {
             #expect(display.descent >= 0, "Descent of \(golden.id) must be non-negative")
 
             // 2. Metric ratio comparison with KaTeX
-            let expectedHeightPt = CGFloat(golden.metrics.totalHeightEm) * fontSize
+            let targetMetrics = golden.displayMetrics ?? golden.metrics
+            let expectedHeightPt = CGFloat(targetMetrics.totalHeightEm) * fontSize
             let actualHeightPt = display.ascent + display.descent
 
             if expectedHeightPt > 0 {
@@ -122,5 +137,31 @@ struct KaTeXCrossValidationTests {
         }
 
         #expect(testedFormulaCount >= 100, "Should successfully validate geometry for 100+ formulas")
+    }
+
+    @Test func testBothDisplayStyleAndTextStyleLayout() throws {
+        let displayRenderer = renderer(for: .display)
+        let textRenderer = renderer(for: .text)
+        var testedCount = 0
+
+        for golden in Self.goldens {
+            guard let displayLayout = try? displayRenderer.layout(latex: golden.latex),
+                  let textLayout = try? textRenderer.layout(latex: golden.latex) else {
+                continue
+            }
+            testedCount += 1
+
+            #expect(displayLayout.width > 0, "Display layout width for \(golden.id) must be positive")
+            #expect(textLayout.width > 0, "Text layout width for \(golden.id) must be positive")
+
+            // For formulas with large operators or fractions, display height is typically >= text height
+            if let feat = golden.features, feat.hasLargeOp || feat.hasFraction {
+                let displayHeight = displayLayout.ascent + displayLayout.descent
+                let textHeight = textLayout.ascent + textLayout.descent
+                #expect(displayHeight >= textHeight * 0.8, "Display style height should be at least comparable to text style for \(golden.id)")
+            }
+        }
+
+        #expect(testedCount >= 100, "Should validate both styles across 100+ formulas")
     }
 }

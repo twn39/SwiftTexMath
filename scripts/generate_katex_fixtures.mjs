@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import katex from 'katex';
 
-// Comprehensive math test suite covering all LaTeX math categories
 const CATEGORY_FORMULAS = [
   // 1. Functions & Multi-character Operators
   { id: "op_sin", latex: String.raw`\sin(x)` },
@@ -14,6 +13,7 @@ const CATEGORY_FORMULAS = [
   { id: "op_min_max", latex: String.raw`\max(a, b) + \min(c, d) + \sup E + \inf S` },
   { id: "op_custom_operatorname", latex: String.raw`\operatorname{Hom}(A, B) \otimes \operatorname{Ker}(f)` },
   { id: "op_hyperbolic", latex: String.raw`\sinh(x) + \cosh(y) = \tanh(z)` },
+  { id: "op_mod_tag", latex: String.raw`a \equiv b \pmod{m}` },
 
   // 2. Fractions, Binomials & Stacks
   { id: "frac_simple", latex: String.raw`\frac{a}{b}` },
@@ -21,6 +21,7 @@ const CATEGORY_FORMULAS = [
   { id: "frac_cfrac", latex: String.raw`a_0 + \cfrac{1}{a_1 + \cfrac{1}{a_2}}` },
   { id: "binom", latex: String.raw`\binom{n}{k} = \frac{n!}{k!(n-k)!}` },
   { id: "overset_underset", latex: String.raw`\overset{\text{def}}{=} A \underset{x \to 0}{\longrightarrow} B` },
+  { id: "overbrace_underbrace", latex: String.raw`\underbrace{a + b + \dots + z}_{26 \text{ terms}} = S` },
 
   // 3. Radicals & Accents
   { id: "sqrt_simple", latex: String.raw`\sqrt{x+1}` },
@@ -42,7 +43,13 @@ const CATEGORY_FORMULAS = [
   { id: "largeop_multi_int", latex: String.raw`\iint_D f(x,y) \, dx \, dy + \iiint_V g(x,y,z) \, dV` },
   { id: "largeop_oint", latex: String.raw`\oint_C F \cdot dr = \oiint_S (\nabla \times F) \cdot dS` },
 
-  // 6. Matrices & Environments
+  // 6. Calculus, Differential Equations & Physics
+  { id: "pde_laplacian", latex: String.raw`\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0` },
+  { id: "fourier_transform", latex: String.raw`\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x) e^{-2\pi i x \xi} \, dx` },
+  { id: "schrodinger_eq", latex: String.raw`i\hbar \frac{\partial}{\partial t} |\psi(t)\rangle = \hat{H} |\psi(t)\rangle` },
+  { id: "bessel_func", latex: String.raw`J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma(m+\alpha+1)} \left(\frac{x}{2}\right)^{2m+\alpha}` },
+
+  // 7. Matrices & Environments
   { id: "matrix_pmatrix", latex: String.raw`\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}` },
   { id: "matrix_bmatrix", latex: String.raw`\begin{bmatrix} a & b \\ c & d \end{bmatrix}` },
   { id: "matrix_vmatrix", latex: String.raw`\begin{vmatrix} x & y \\ z & w \end{vmatrix}` },
@@ -51,20 +58,23 @@ const CATEGORY_FORMULAS = [
   { id: "env_array", latex: String.raw`\begin{array}{c|c} 1 & 2 \\ \hline 3 & 4 \end{array}` },
   { id: "env_substack", latex: String.raw`\sum_{\substack{0 \le i \le n \\ 0 \le j \le m}} P(i,j)` },
 
-  // 7. Math Styles & Fonts
+  // 8. Math Styles, Fonts & Logic
   { id: "fonts_math", latex: String.raw`\mathbf{v} + \mathrm{d}x + \mathit{f}(x) + \mathsf{A} + \mathtt{code} + \mathcal{L} + \mathbb{R} + \mathfrak{g}` },
-
-  // 8. Symbols, Greek & Relations
+  { id: "logic_quantifiers", latex: String.raw`\forall x \in \mathbb{R}, \exists y > 0 \text{ s.t. } y = x^2 + 1` },
   { id: "symbols_greek", latex: String.raw`\alpha + \beta + \gamma = \pi + \theta + \Omega + \Delta` },
   { id: "symbols_relations", latex: String.raw`x \le y \ge z \neq w \approx a \equiv b \in \mathbb{R} \subset S` },
   { id: "symbols_arrows", latex: String.raw`A \to B \Rightarrow C \iff D \nearrow E` }
 ];
 
-function extractTokensFromMathML(mathmlString) {
+function parseMathMLDetails(mathmlString) {
   const tokens = [];
-  const tagRegex = /<(mi|mo|mn|mtext)[^>]*>(.*?)<\/\1>/gs;
+  const nodeTypes = [];
+
+  // Match all leaf text elements: <mi>, <mo>, <mn>, <mtext>
+  const leafRegex = /<(mi|mo|mn|mtext)\b[^>]*>(.*?)<\/\1>/gs;
   let match;
-  while ((match = tagRegex.exec(mathmlString)) !== null) {
+  while ((match = leafRegex.exec(mathmlString)) !== null) {
+    const tagName = match[1];
     const rawText = match[2].replace(/<[^>]+>/g, '').trim();
     if (rawText && rawText !== '&#x200b;' && rawText !== '\u200b') {
       const text = rawText
@@ -73,9 +83,17 @@ function extractTokensFromMathML(mathmlString) {
         .replace(/&amp;/g, '&')
         .replace(/&quot;/g, '"');
       tokens.push(text);
+      nodeTypes.push(tagName);
     }
   }
-  return tokens;
+
+  // Match structural tags
+  const structRegex = /<(mfrac|msqrt|mroot|mtable|msub|msup|msubsup|munder|mover|munderover)\b/g;
+  while ((match = structRegex.exec(mathmlString)) !== null) {
+    nodeTypes.push(match[1]);
+  }
+
+  return { tokens, nodeTypes };
 }
 
 function extractMetricsFromHTML(htmlString) {
@@ -131,22 +149,33 @@ function generateFixtures() {
 
   for (const item of allTargets) {
     try {
-      const mathml = katex.renderToString(item.latex, { output: 'mathml', displayMode: true });
-      const html = katex.renderToString(item.latex, { output: 'html', displayMode: true });
+      const mathmlDisplay = katex.renderToString(item.latex, { output: 'mathml', displayMode: true });
+      const htmlDisplay = katex.renderToString(item.latex, { output: 'html', displayMode: true });
+      const htmlText = katex.renderToString(item.latex, { output: 'html', displayMode: false });
       
-      const tokens = extractTokensFromMathML(mathml);
-      const metrics = extractMetricsFromHTML(html);
+      const { tokens, nodeTypes } = parseMathMLDetails(mathmlDisplay);
+      const displayMetrics = extractMetricsFromHTML(htmlDisplay);
+      const textMetrics = extractMetricsFromHTML(htmlText);
 
       fixtures.push({
         id: item.id,
         latex: item.latex,
         tokens: tokens,
-        metrics: metrics
+        nodeTypes: nodeTypes,
+        metrics: displayMetrics,
+        displayMetrics: displayMetrics,
+        textMetrics: textMetrics,
+        features: {
+          hasFraction: item.latex.includes(String.raw`\frac`) || item.latex.includes(String.raw`\cfrac`),
+          hasRadical: item.latex.includes(String.raw`\sqrt`),
+          hasMatrix: item.latex.includes(String.raw`\begin{`) || item.latex.includes(String.raw`matrix`),
+          hasLargeOp: item.latex.includes(String.raw`\sum`) || item.latex.includes(String.raw`\int`) || item.latex.includes(String.raw`\prod`),
+          hasAccent: item.latex.includes(String.raw`\hat`) || item.latex.includes(String.raw`\vec`) || item.latex.includes(String.raw`\bar`)
+        }
       });
       successCount++;
     } catch (err) {
       errorCount++;
-      // KaTeX may reject non-standard syntax in corpus
     }
   }
 
@@ -157,7 +186,7 @@ function generateFixtures() {
 
   const outputPath = path.join(outputDir, 'katex_geometry_goldens.json');
   fs.writeFileSync(outputPath, JSON.stringify(fixtures, null, 2), 'utf-8');
-  console.log(`Successfully generated ${successCount} KaTeX golden fixtures (skipped ${errorCount}) at: ${outputPath}`);
+  console.log(`Successfully generated ${successCount} KaTeX rich golden fixtures (skipped ${errorCount}) at: ${outputPath}`);
 }
 
 generateFixtures();
