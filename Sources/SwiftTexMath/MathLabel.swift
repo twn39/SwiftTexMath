@@ -33,6 +33,7 @@ public typealias MathLabelColor = NSColor
 /// label.mathFont = MathFont(name: .latinModern, size: 24)
 /// label.preferredMaxLayoutWidth = 280
 /// ```
+@MainActor
 open class MathLabel: MathLabelView {
     public var latex: String = "" {
         didSet { invalidateMath() }
@@ -427,7 +428,7 @@ open class MathLabel: MathLabelView {
 
 #if canImport(UIKit) && !os(watchOS)
 @MainActor
-extension MathLabel: UIEditMenuInteractionDelegate {
+extension MathLabel: @preconcurrency UIEditMenuInteractionDelegate {
     public func editMenuInteraction(
         _ interaction: UIEditMenuInteraction,
         menuFor configuration: UIEditMenuConfiguration,
