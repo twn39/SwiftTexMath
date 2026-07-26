@@ -35,7 +35,7 @@ final class LayoutGeometryCompletenessTests: XCTestCase {
         let display = try MathRenderer(environment: env).layout(latex: latex)
 
         guard display.children.count > 1,
-              case .list(_) = display.children[0],
+              case .list = display.children[0],
               case .list(let secondLine) = display.children[1] else {
             XCTFail("Expected multiple wrapped lines")
             return
@@ -90,4 +90,3 @@ final class LayoutGeometryCompletenessTests: XCTestCase {
         XCTAssertGreaterThan(display.descent, 0)
     }
 }
-

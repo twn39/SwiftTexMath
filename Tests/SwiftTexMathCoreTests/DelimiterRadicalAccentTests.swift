@@ -75,11 +75,11 @@ struct DelimiterRadicalAccentTests {
     @Test func bigDelimitersMonotonicHeight() throws {
         let plain = try renderer.layout(latex: "(")
         let big = try renderer.layout(latex: #"\big("#)
-        let Big = try renderer.layout(latex: #"\Big("#)
+        let big2 = try renderer.layout(latex: #"\Big("#)
         let bigg = try renderer.layout(latex: #"\bigg("#)
         #expect(big.ascent + big.descent >= plain.ascent + plain.descent)
-        #expect(Big.ascent + Big.descent >= big.ascent + big.descent)
-        #expect(bigg.ascent + bigg.descent >= Big.ascent + Big.descent)
+        #expect(big2.ascent + big2.descent >= big.ascent + big.descent)
+        #expect(bigg.ascent + bigg.descent >= big2.ascent + big2.descent)
     }
 
     @Test func leftRightScalesWithTallContent() throws {

@@ -140,8 +140,9 @@ enum TableLayout {
         var children: [DisplayNode] = []
         var y = totalAscent
 
-        func appendHLines(_ count: Int, at yCenter: inout CGFloat) {
-            guard count > 0 else { return }
+        func appendHLines(_ count: Int, startingAt yStart: CGFloat) -> CGFloat {
+            var yCenter = yStart
+            guard count > 0 else { return yCenter }
             yCenter -= hlinePad
             for i in 0..<count {
                 if i > 0 { yCenter -= vlineGap }
@@ -161,10 +162,12 @@ enum TableLayout {
                 yCenter -= ruleThickness / 2
             }
             yCenter -= hlinePad
+            return yCenter
         }
 
-        func appendVLines(_ count: Int, x: inout CGFloat) {
-            guard count > 0 else { return }
+        func appendVLines(_ count: Int, startingAt xStart: CGFloat) -> CGFloat {
+            var x = xStart
+            guard count > 0 else { return x }
             for i in 0..<count {
                 if i > 0 { x += vlineGap }
                 children.append(
@@ -181,18 +184,21 @@ enum TableLayout {
                 )
                 x += ruleThickness
             }
+            return x
         }
 
-        func appendInsert(_ boundary: Int, x: inout CGFloat, rowY: CGFloat) {
-            guard let display = insertDisplays[boundary] else { return }
+        func appendInsert(_ boundary: Int, startingAt xStart: CGFloat, rowY: CGFloat) -> CGFloat {
+            var x = xStart
+            guard let display = insertDisplays[boundary] else { return x }
             var placed = display
             placed.position = CGPoint(x: x, y: rowY)
             children.append(.list(placed))
             x += placed.width
+            return x
         }
 
         for (r, row) in cells.enumerated() {
-            appendHLines(hlines[r], at: &y)
+            y = appendHLines(hlines[r], startingAt: y)
             y -= rowAscent[r]
             var x: CGFloat = 0
 
@@ -203,9 +209,9 @@ enum TableLayout {
                 children.append(.list(placed))
             } else {
                 for c in 0..<colCount {
-                    appendVLines(vlines[c], x: &x)
+                    x = appendVLines(vlines[c], startingAt: x)
                     if insertDisplays[c] != nil {
-                        appendInsert(c, x: &x, rowY: y)
+                        x = appendInsert(c, startingAt: x, rowY: y)
                     }
 
                     if c < row.count {
@@ -231,8 +237,8 @@ enum TableLayout {
                     }
                 }
 
-                appendVLines(vlines[colCount], x: &x)
-                appendInsert(colCount, x: &x, rowY: y)
+                x = appendVLines(vlines[colCount], startingAt: x)
+                x = appendInsert(colCount, startingAt: x, rowY: y)
             }
 
             y -= rowDescent[r]
@@ -241,7 +247,7 @@ enum TableLayout {
             }
         }
 
-        appendHLines(hlines[cells.count], at: &y)
+        y = appendHLines(hlines[cells.count], startingAt: y)
 
         var leftFence = ""
         var rightFence = ""

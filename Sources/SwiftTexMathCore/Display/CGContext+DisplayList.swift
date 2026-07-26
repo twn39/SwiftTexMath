@@ -84,7 +84,6 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     }
 }
 
-
     private func draw(
         _ box: BoxDisplay,
         foregroundColor: CGColor,

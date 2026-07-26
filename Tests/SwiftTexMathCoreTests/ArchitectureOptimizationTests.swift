@@ -166,4 +166,3 @@ final class ArchitectureOptimizationTests: XCTestCase {
         XCTAssertGreaterThan(display.width, 0)
     }
 }
-

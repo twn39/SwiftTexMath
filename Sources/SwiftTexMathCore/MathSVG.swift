@@ -186,7 +186,7 @@ public enum MathSVG {
             for i in glyphs.indices {
                 let g = glyphs[i]
                 let p = positions[i]
-                var path: CGPath? = nil
+                var path: CGPath?
                 if g != 0 {
                     path = CTFontCreatePathForGlyph(ctFont, g, nil)
                 }
@@ -512,8 +512,10 @@ public enum MathSVG {
                 let c1 = points[0]
                 let c2 = points[1]
                 let p = points[2]
-                d +=
-                    "C\(fmt(c1.x, precision: precision)) \(fmt(c1.y, precision: precision)) \(fmt(c2.x, precision: precision)) \(fmt(c2.y, precision: precision)) \(fmt(p.x, precision: precision)) \(fmt(p.y, precision: precision))"
+                let c1Str = "\(fmt(c1.x, precision: precision)) \(fmt(c1.y, precision: precision))"
+                let c2Str = "\(fmt(c2.x, precision: precision)) \(fmt(c2.y, precision: precision))"
+                let pStr = "\(fmt(p.x, precision: precision)) \(fmt(p.y, precision: precision))"
+                d += "C\(c1Str) \(c2Str) \(pStr)"
             case .closeSubpath:
                 d += "Z"
             @unknown default:

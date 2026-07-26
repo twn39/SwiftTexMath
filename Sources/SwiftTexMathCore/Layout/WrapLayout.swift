@@ -343,8 +343,7 @@ enum WrapLayout {
         // Penalize breaks inside nested delimiters (open/close groups) so breaks prefer top-level.
         var openDepth = 0
         for k in 0..<index {
-            if line[k].atom.kind == .open { openDepth += 1 }
-            else if line[k].atom.kind == .close { openDepth = max(0, openDepth - 1) }
+            if line[k].atom.kind == .open { openDepth += 1 } else if line[k].atom.kind == .close { openDepth = max(0, openDepth - 1) }
         }
         let nestPenalty = openDepth * 150
 
@@ -363,8 +362,7 @@ enum WrapLayout {
         case .fraction, .radical, .inner, .table, .largeOperator:
             baseScore = 250 + endBias
         default:
-            if case .space = previous.payload { baseScore = 350 + endBias }
-            else if previous.kind == .close || previous.kind == .punctuation {
+            if case .space = previous.payload { baseScore = 350 + endBias } else if previous.kind == .close || previous.kind == .punctuation {
                 baseScore = 200 + endBias
             } else {
                 baseScore = allowMidWord ? 10 + endBias : -1
