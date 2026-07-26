@@ -87,29 +87,6 @@ enum TableLayout {
         while hlines.count < cells.count + 1 { hlines.append(0) }
         hlines = Array(hlines.prefix(cells.count + 1))
 
-        func vlineBandWidth(_ count: Int) -> CGFloat {
-            guard count > 0 else { return 0 }
-            return CGFloat(count) * ruleThickness + CGFloat(max(count - 1, 0)) * vlineGap
-        }
-
-        func hlineBandHeight(_ count: Int) -> CGFloat {
-            guard count > 0 else { return 0 }
-            return CGFloat(count) * ruleThickness
-                + CGFloat(max(count - 1, 0)) * vlineGap
-                + 2 * hlinePad
-        }
-
-        func boundaryExtraWidth(_ boundary: Int) -> CGFloat {
-            if boundary < insertDisplays.count, let display = insertDisplays[boundary] {
-                return display.width
-            }
-            // Default inter-column gap only between columns (boundaries 1..<colCount).
-            if boundary > 0, boundary < colCount {
-                return columnGap
-            }
-            return 0
-        }
-
         // Widen columns so full-width intertext rows fit.
         var intertextMaxWidth: CGFloat = 0
         for r in table.fullWidthRows where r < cells.count {
@@ -119,7 +96,8 @@ enum TableLayout {
         var contentWidth =
             columnWidths.reduce(0, +)
             + (0...colCount).reduce(CGFloat(0)) {
-                $0 + vlineBandWidth(vlines[$1]) + boundaryExtraWidth($1)
+                $0 + vlineBandWidth(vlines[$1], ruleThickness: ruleThickness, vlineGap: vlineGap)
+                    + boundaryExtraWidth($1, insertDisplays: insertDisplays, colCount: colCount, columnGap: columnGap)
             }
         if intertextMaxWidth > contentWidth {
             let extra = intertextMaxWidth - contentWidth
@@ -127,7 +105,9 @@ enum TableLayout {
             contentWidth = intertextMaxWidth
         }
 
-        let hlineHeight = hlines.reduce(CGFloat(0)) { $0 + hlineBandHeight($1) }
+        let hlineHeight = hlines.reduce(CGFloat(0)) {
+            $0 + hlineBandHeight($1, ruleThickness: ruleThickness, vlineGap: vlineGap, hlinePad: hlinePad)
+        }
         let totalHeight = zip(rowAscent, rowDescent).map(+).reduce(0, +)
             + CGFloat(max(cells.count - 1, 0)) * rowGap
             + hlineHeight
@@ -140,65 +120,16 @@ enum TableLayout {
         var children: [DisplayNode] = []
         var y = totalAscent
 
-        func appendHLines(_ count: Int, startingAt yStart: CGFloat) -> CGFloat {
-            var yCenter = yStart
-            guard count > 0 else { return yCenter }
-            yCenter -= hlinePad
-            for i in 0..<count {
-                if i > 0 { yCenter -= vlineGap }
-                yCenter -= ruleThickness / 2
-                children.append(
-                    .rule(
-                        RuleDisplay(
-                            thickness: ruleThickness,
-                            isVertical: false,
-                            ascent: ruleThickness / 2,
-                            descent: ruleThickness / 2,
-                            width: contentWidth,
-                            position: CGPoint(x: 0, y: yCenter)
-                        )
-                    )
-                )
-                yCenter -= ruleThickness / 2
-            }
-            yCenter -= hlinePad
-            return yCenter
-        }
-
-        func appendVLines(_ count: Int, startingAt xStart: CGFloat) -> CGFloat {
-            var x = xStart
-            guard count > 0 else { return x }
-            for i in 0..<count {
-                if i > 0 { x += vlineGap }
-                children.append(
-                    .rule(
-                        RuleDisplay(
-                            thickness: ruleThickness,
-                            isVertical: true,
-                            ascent: totalAscent,
-                            descent: totalDescent,
-                            width: ruleThickness,
-                            position: CGPoint(x: x, y: 0)
-                        )
-                    )
-                )
-                x += ruleThickness
-            }
-            return x
-        }
-
-        func appendInsert(_ boundary: Int, startingAt xStart: CGFloat, rowY: CGFloat) -> CGFloat {
-            var x = xStart
-            guard let display = insertDisplays[boundary] else { return x }
-            var placed = display
-            placed.position = CGPoint(x: x, y: rowY)
-            children.append(.list(placed))
-            x += placed.width
-            return x
-        }
-
         for (r, row) in cells.enumerated() {
-            y = appendHLines(hlines[r], startingAt: y)
+            y = appendHLines(
+                hlines[r],
+                startingAt: y,
+                ruleThickness: ruleThickness,
+                vlineGap: vlineGap,
+                hlinePad: hlinePad,
+                contentWidth: contentWidth,
+                children: &children
+            )
             y -= rowAscent[r]
             var x: CGFloat = 0
 
@@ -209,9 +140,23 @@ enum TableLayout {
                 children.append(.list(placed))
             } else {
                 for c in 0..<colCount {
-                    x = appendVLines(vlines[c], startingAt: x)
+                    x = appendVLines(
+                        vlines[c],
+                        startingAt: x,
+                        ruleThickness: ruleThickness,
+                        vlineGap: vlineGap,
+                        totalAscent: totalAscent,
+                        totalDescent: totalDescent,
+                        children: &children
+                    )
                     if insertDisplays[c] != nil {
-                        x = appendInsert(c, startingAt: x, rowY: y)
+                        x = appendInsert(
+                            c,
+                            startingAt: x,
+                            rowY: y,
+                            insertDisplays: insertDisplays,
+                            children: &children
+                        )
                     }
 
                     if c < row.count {
@@ -237,8 +182,22 @@ enum TableLayout {
                     }
                 }
 
-                x = appendVLines(vlines[colCount], startingAt: x)
-                x = appendInsert(colCount, startingAt: x, rowY: y)
+                x = appendVLines(
+                    vlines[colCount],
+                    startingAt: x,
+                    ruleThickness: ruleThickness,
+                    vlineGap: vlineGap,
+                    totalAscent: totalAscent,
+                    totalDescent: totalDescent,
+                    children: &children
+                )
+                x = appendInsert(
+                    colCount,
+                    startingAt: x,
+                    rowY: y,
+                    insertDisplays: insertDisplays,
+                    children: &children
+                )
             }
 
             y -= rowDescent[r]
@@ -247,7 +206,15 @@ enum TableLayout {
             }
         }
 
-        y = appendHLines(hlines[cells.count], startingAt: y)
+        y = appendHLines(
+            hlines[cells.count],
+            startingAt: y,
+            ruleThickness: ruleThickness,
+            vlineGap: vlineGap,
+            hlinePad: hlinePad,
+            contentWidth: contentWidth,
+            children: &children
+        )
 
         var leftFence = ""
         var rightFence = ""
@@ -280,25 +247,17 @@ enum TableLayout {
         var ascent = totalAscent
         var descent = totalDescent
 
-        func appendFence(_ nucleus: String) {
-            guard !nucleus.isEmpty else { return }
-            let sized = styleMetrics.sizedDelimiter(forNucleus: nucleus, height: glyphHeight)
-            var glyph = GlyphRun.from(
-                sized: sized,
-                text: nucleus,
-                font: styleFont,
-                metrics: styleMetrics,
-                centerOnAxis: true
-            )
-            glyph.position = CGPoint(x: x, y: 0)
-            ascent = max(ascent, glyph.ascent - glyph.shiftDown)
-            descent = max(descent, glyph.descent + glyph.shiftDown)
-            wrapped.append(.glyphs(glyph))
-            x += glyph.width
-        }
-
         if !leftFence.isEmpty {
-            appendFence(leftFence)
+            appendFence(
+                leftFence,
+                glyphHeight: glyphHeight,
+                styleFont: styleFont,
+                styleMetrics: styleMetrics,
+                x: &x,
+                ascent: &ascent,
+                descent: &descent,
+                wrapped: &wrapped
+            )
             x += padding
         }
         for var child in children {
@@ -310,9 +269,145 @@ enum TableLayout {
         x += contentWidth
         if !rightFence.isEmpty {
             x += padding
-            appendFence(rightFence)
+            appendFence(
+                rightFence,
+                glyphHeight: glyphHeight,
+                styleFont: styleFont,
+                styleMetrics: styleMetrics,
+                x: &x,
+                ascent: &ascent,
+                descent: &descent,
+                wrapped: &wrapped
+            )
         }
 
         return .list(DisplayList(ascent: ascent, descent: descent, width: x, children: wrapped))
+    }
+
+    private static func vlineBandWidth(_ count: Int, ruleThickness: CGFloat, vlineGap: CGFloat) -> CGFloat {
+        guard count > 0 else { return 0 }
+        return CGFloat(count) * ruleThickness + CGFloat(max(count - 1, 0)) * vlineGap
+    }
+
+    private static func hlineBandHeight(_ count: Int, ruleThickness: CGFloat, vlineGap: CGFloat, hlinePad: CGFloat) -> CGFloat {
+        guard count > 0 else { return 0 }
+        return CGFloat(count) * ruleThickness
+            + CGFloat(max(count - 1, 0)) * vlineGap
+            + 2 * hlinePad
+    }
+
+    private static func boundaryExtraWidth(_ boundary: Int, insertDisplays: [DisplayList?], colCount: Int, columnGap: CGFloat) -> CGFloat {
+        if boundary < insertDisplays.count, let display = insertDisplays[boundary] {
+            return display.width
+        }
+        if boundary > 0, boundary < colCount {
+            return columnGap
+        }
+        return 0
+    }
+
+    private static func appendHLines(
+        _ count: Int,
+        startingAt yStart: CGFloat,
+        ruleThickness: CGFloat,
+        vlineGap: CGFloat,
+        hlinePad: CGFloat,
+        contentWidth: CGFloat,
+        children: inout [DisplayNode]
+    ) -> CGFloat {
+        var yCenter = yStart
+        guard count > 0 else { return yCenter }
+        yCenter -= hlinePad
+        for i in 0..<count {
+            if i > 0 { yCenter -= vlineGap }
+            yCenter -= ruleThickness / 2
+            children.append(
+                .rule(
+                    RuleDisplay(
+                        thickness: ruleThickness,
+                        isVertical: false,
+                        ascent: ruleThickness / 2,
+                        descent: ruleThickness / 2,
+                        width: contentWidth,
+                        position: CGPoint(x: 0, y: yCenter)
+                    )
+                )
+            )
+            yCenter -= ruleThickness / 2
+        }
+        yCenter -= hlinePad
+        return yCenter
+    }
+
+    private static func appendVLines(
+        _ count: Int,
+        startingAt xStart: CGFloat,
+        ruleThickness: CGFloat,
+        vlineGap: CGFloat,
+        totalAscent: CGFloat,
+        totalDescent: CGFloat,
+        children: inout [DisplayNode]
+    ) -> CGFloat {
+        var x = xStart
+        guard count > 0 else { return x }
+        for i in 0..<count {
+            if i > 0 { x += vlineGap }
+            children.append(
+                .rule(
+                    RuleDisplay(
+                        thickness: ruleThickness,
+                        isVertical: true,
+                        ascent: totalAscent,
+                        descent: totalDescent,
+                        width: ruleThickness,
+                        position: CGPoint(x: x, y: 0)
+                    )
+                )
+            )
+            x += ruleThickness
+        }
+        return x
+    }
+
+    private static func appendInsert(
+        _ boundary: Int,
+        startingAt xStart: CGFloat,
+        rowY: CGFloat,
+        insertDisplays: [DisplayList?],
+        children: inout [DisplayNode]
+    ) -> CGFloat {
+        var x = xStart
+        guard let display = insertDisplays[boundary] else { return x }
+        var placed = display
+        placed.position = CGPoint(x: x, y: rowY)
+        children.append(.list(placed))
+        x += placed.width
+        return x
+    }
+
+    private static func appendFence(
+        _ nucleus: String,
+        glyphHeight: CGFloat,
+        styleFont: MathFont,
+        styleMetrics: FontMetrics,
+        x: inout CGFloat,
+        ascent: inout CGFloat,
+        descent: inout CGFloat,
+        wrapped: inout [DisplayNode]
+    ) {
+        guard !nucleus.isEmpty else { return }
+        let sized = styleMetrics.sizedDelimiter(forNucleus: nucleus, height: glyphHeight)
+        var glyph = GlyphRun.from(
+            sized: sized,
+            text: nucleus,
+            font: styleFont,
+            metrics: styleMetrics,
+            centerOnAxis: true
+        )
+        glyph.position = CGPoint(x: x, y: 0)
+        ascent = max(ascent, glyph.ascent - glyph.shiftDown)
+        descent = max(descent, glyph.descent + glyph.shiftDown)
+        wrapped.append(.glyphs(glyph))
+        x += glyph.width
     }
 }

@@ -39,27 +39,17 @@ enum DelimiterLayout {
         var ascent: CGFloat = 0
         var descent: CGFloat = 0
 
-        func appendDelimiter(_ nucleus: String) {
-            guard !nucleus.isEmpty else { return }
-            let sized = styleMetrics.sizedDelimiter(forNucleus: nucleus, height: glyphHeight)
-            var glyph = GlyphRun.from(
-                sized: sized,
-                text: nucleus,
-                font: styleFont,
-                metrics: styleMetrics,
-                centerOnAxis: true
-            )
-            glyph.position = CGPoint(x: x, y: 0)
-            let node = DisplayNode.glyphs(glyph)
-            // `DisplayNode` already folds `shiftDown` into visual ascent/descent.
-            ascent = max(ascent, node.ascent)
-            descent = max(descent, node.descent)
-            children.append(node)
-            x += glyph.width
-        }
-
         if !inner.leftBoundary.isEmpty {
-            appendDelimiter(inner.leftBoundary)
+            appendDelimiter(
+                inner.leftBoundary,
+                glyphHeight: glyphHeight,
+                styleFont: styleFont,
+                styleMetrics: styleMetrics,
+                x: &x,
+                ascent: &ascent,
+                descent: &descent,
+                children: &children
+            )
             if inner.delimiterHeight == nil || !segmentDisplays.isEmpty {
                 x += padding
             }
@@ -80,17 +70,63 @@ enum DelimiterLayout {
 
             if index < segments.middles.count {
                 x += padding
-                appendDelimiter(segments.middles[index])
+                appendDelimiter(
+                    segments.middles[index],
+                    glyphHeight: glyphHeight,
+                    styleFont: styleFont,
+                    styleMetrics: styleMetrics,
+                    x: &x,
+                    ascent: &ascent,
+                    descent: &descent,
+                    children: &children
+                )
                 x += padding
             }
         }
 
         if !inner.rightBoundary.isEmpty {
             x += padding
-            appendDelimiter(inner.rightBoundary)
+            appendDelimiter(
+                inner.rightBoundary,
+                glyphHeight: glyphHeight,
+                styleFont: styleFont,
+                styleMetrics: styleMetrics,
+                x: &x,
+                ascent: &ascent,
+                descent: &descent,
+                children: &children
+            )
         }
 
         return .list(DisplayList(ascent: ascent, descent: descent, width: x, children: children))
+    }
+
+    private static func appendDelimiter(
+        _ nucleus: String,
+        glyphHeight: CGFloat,
+        styleFont: MathFont,
+        styleMetrics: FontMetrics,
+        x: inout CGFloat,
+        ascent: inout CGFloat,
+        descent: inout CGFloat,
+        children: inout [DisplayNode]
+    ) {
+        guard !nucleus.isEmpty else { return }
+        let sized = styleMetrics.sizedDelimiter(forNucleus: nucleus, height: glyphHeight)
+        var glyph = GlyphRun.from(
+            sized: sized,
+            text: nucleus,
+            font: styleFont,
+            metrics: styleMetrics,
+            centerOnAxis: true
+        )
+        glyph.position = CGPoint(x: x, y: 0)
+        let node = DisplayNode.glyphs(glyph)
+        // `DisplayNode` already folds `shiftDown` into visual ascent/descent.
+        ascent = max(ascent, node.ascent)
+        descent = max(descent, node.descent)
+        children.append(node)
+        x += glyph.width
     }
 
     private struct Segments {
