@@ -517,3 +517,60 @@ public struct StackDisplay: Sendable, Hashable {
         self.position = position
     }
 }
+
+// MARK: - Text Token Extraction Helper
+
+extension DisplayList {
+    /// Extracts all non-empty text strings from glyph runs in traversal order.
+    public func extractTextTokens() -> [String] {
+        var tokens: [String] = []
+        for child in children {
+            tokens.append(contentsOf: child.extractTextTokens())
+        }
+        return tokens
+    }
+}
+
+extension DisplayNode {
+    public func extractTextTokens() -> [String] {
+        switch self {
+        case .list(let n):
+            return n.extractTextTokens()
+        case .glyphs(let n):
+            let text = n.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            return text.isEmpty ? [] : [text]
+        case .fraction(let n):
+            return n.numerator.extractTextTokens() + n.denominator.extractTextTokens()
+        case .radical(let n):
+            var res: [String] = []
+            if let deg = n.degree {
+                res.append(contentsOf: deg.extractTextTokens())
+            }
+            let radicalText = n.radicalGlyph.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !radicalText.isEmpty { res.append(radicalText) }
+            res.append(contentsOf: n.radicand.extractTextTokens())
+            return res
+        case .line(let n):
+            return n.inner.extractTextTokens()
+        case .largeOperator(let n):
+            var res: [String] = []
+            let text = n.nucleus.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !text.isEmpty { res.append(text) }
+            if let lower = n.lowerLimit { res.append(contentsOf: lower.extractTextTokens()) }
+            if let upper = n.upperLimit { res.append(contentsOf: upper.extractTextTokens()) }
+            return res
+        case .colored(let n):
+            return n.inner.extractTextTokens()
+        case .rule:
+            return []
+        case .box(let n):
+            return n.drawChild ? n.child.extractTextTokens() : []
+        case .stack(let n):
+            var res = n.base.extractTextTokens()
+            if let over = n.over { res.append(contentsOf: over.extractTextTokens()) }
+            if let under = n.under { res.append(contentsOf: under.extractTextTokens()) }
+            return res
+        }
+    }
+}
+

@@ -1,0 +1,3301 @@
+[
+  {
+    "id": "op_sin",
+    "latex": "\\sin(x)",
+    "tokens": [
+      "sin",
+      "⁡",
+      "(",
+      "x",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "op_cos",
+    "latex": "\\cos(x)",
+    "tokens": [
+      "cos",
+      "⁡",
+      "(",
+      "x",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "op_tan",
+    "latex": "\\tan(\\theta)",
+    "tokens": [
+      "tan",
+      "⁡",
+      "(",
+      "θ",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "op_trig_identity",
+    "latex": "\\sin^2(x) + \\cos^2(x) = 1",
+    "tokens": [
+      "sin",
+      "⁡",
+      "2",
+      "(",
+      "x",
+      ")",
+      "+",
+      "cos",
+      "⁡",
+      "2",
+      "(",
+      "x",
+      ")",
+      "=",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 1.1219,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3719
+    }
+  },
+  {
+    "id": "op_log_ln",
+    "latex": "\\ln(x) + \\log_{10}(y)",
+    "tokens": [
+      "ln",
+      "⁡",
+      "(",
+      "x",
+      ")",
+      "+",
+      "log",
+      "⁡",
+      "10",
+      "(",
+      "y",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "op_lim",
+    "latex": "\\lim_{n \\to \\infty} \\left(1 + \\frac{1}{n}\\right)^n = e",
+    "tokens": [
+      "lim",
+      "⁡",
+      "n",
+      "→",
+      "∞",
+      "(",
+      "1",
+      "+",
+      "1",
+      "n",
+      ")",
+      "n",
+      "=",
+      "e"
+    ],
+    "metrics": {
+      "ascentEm": 2.4543,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.4043
+    }
+  },
+  {
+    "id": "op_min_max",
+    "latex": "\\max(a, b) + \\min(c, d) + \\sup E + \\inf S",
+    "tokens": [
+      "max",
+      "⁡",
+      "(",
+      "a",
+      ",",
+      "b",
+      ")",
+      "+",
+      "min",
+      "⁡",
+      "(",
+      "c",
+      ",",
+      "d",
+      ")",
+      "+",
+      "sup",
+      "⁡",
+      "E",
+      "+",
+      "inf",
+      "⁡",
+      "S"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "op_custom_operatorname",
+    "latex": "\\operatorname{Hom}(A, B) \\otimes \\operatorname{Ker}(f)",
+    "tokens": [
+      "Hom",
+      "⁡",
+      "(",
+      "A",
+      ",",
+      "B",
+      ")",
+      "⊗",
+      "Ker",
+      "⁡",
+      "(",
+      "f",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "op_hyperbolic",
+    "latex": "\\sinh(x) + \\cosh(y) = \\tanh(z)",
+    "tokens": [
+      "sinh",
+      "⁡",
+      "(",
+      "x",
+      ")",
+      "+",
+      "cosh",
+      "⁡",
+      "(",
+      "y",
+      ")",
+      "=",
+      "tanh",
+      "⁡",
+      "(",
+      "z",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "frac_simple",
+    "latex": "\\frac{a}{b}",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    }
+  },
+  {
+    "id": "frac_complex",
+    "latex": "\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+    "tokens": [
+      "−",
+      "b",
+      "±",
+      "b",
+      "2",
+      "−",
+      "4",
+      "a",
+      "c",
+      "2",
+      "a"
+    ],
+    "metrics": {
+      "ascentEm": 2.2764,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.9624
+    }
+  },
+  {
+    "id": "frac_cfrac",
+    "latex": "a_0 + \\cfrac{1}{a_1 + \\cfrac{1}{a_2}}",
+    "tokens": [
+      "a",
+      "0",
+      "+",
+      "1",
+      "a",
+      "1",
+      "+",
+      "1",
+      "a",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 3.906,
+      "descentEm": 2.316,
+      "totalHeightEm": 6.2219999999999995
+    }
+  },
+  {
+    "id": "binom",
+    "latex": "\\binom{n}{k} = \\frac{n!}{k!(n-k)!}",
+    "tokens": [
+      "(",
+      "n",
+      "k",
+      ")",
+      "=",
+      "n",
+      "!",
+      "k",
+      "!",
+      "(",
+      "n",
+      "−",
+      "k",
+      ")",
+      "!"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "overset_underset",
+    "latex": "\\overset{\\text{def}}{=} A \\underset{x \\to 0}{\\longrightarrow} B",
+    "tokens": [
+      "=",
+      "def",
+      "A",
+      "⟶",
+      "x",
+      "→",
+      "0",
+      "B"
+    ],
+    "metrics": {
+      "ascentEm": 1.4114,
+      "descentEm": 0.7281,
+      "totalHeightEm": 2.1395
+    }
+  },
+  {
+    "id": "sqrt_simple",
+    "latex": "\\sqrt{x+1}",
+    "tokens": [
+      "x",
+      "+",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1256,
+      "totalHeightEm": 1.1656
+    }
+  },
+  {
+    "id": "sqrt_nth",
+    "latex": "\\sqrt[3]{x^2 + y^2}",
+    "tokens": [
+      "x",
+      "2",
+      "+",
+      "y",
+      "2",
+      "3"
+    ],
+    "metrics": {
+      "ascentEm": 1.24,
+      "descentEm": 0.2333,
+      "totalHeightEm": 1.4733
+    }
+  },
+  {
+    "id": "accents_single",
+    "latex": "\\hat{a} + \\bar{b} + \\vec{c} + \\dot{d} + \\ddot{e} + \\tilde{f}",
+    "tokens": [
+      "a^",
+      "+",
+      "bˉ",
+      "+",
+      "c⃗",
+      "+",
+      "d˙",
+      "+",
+      "e¨",
+      "+",
+      "f~"
+    ],
+    "metrics": {
+      "ascentEm": 1.1257,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.3200999999999998
+    }
+  },
+  {
+    "id": "accents_wide",
+    "latex": "\\widehat{AB} + \\widetilde{XYZ} + \\overrightarrow{PQ} + \\overleftarrow{MN}",
+    "tokens": [
+      "AB^",
+      "+",
+      "XYZ~",
+      "+",
+      "PQ→",
+      "+",
+      "MN←"
+    ],
+    "metrics": {
+      "ascentEm": 1.3998,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.5941999999999998
+    }
+  },
+  {
+    "id": "lines_over_under",
+    "latex": "\\overline{x+y} + \\underline{z+w}",
+    "tokens": [
+      "x+",
+      "y",
+      "‾",
+      "+",
+      "z",
+      "+",
+      "w",
+      "‾"
+    ],
+    "metrics": {
+      "ascentEm": 0.9778,
+      "descentEm": 0.2833,
+      "totalHeightEm": 1.2610999999999999
+    }
+  },
+  {
+    "id": "delim_paren",
+    "latex": "\\left( \\frac{a+1}{b+2} \\right)",
+    "tokens": [
+      "(",
+      "a",
+      "+",
+      "1",
+      "b",
+      "+",
+      "2",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "delim_brackets",
+    "latex": "\\left[ x + \\left\\{ y + z \\right\\} \\right]",
+    "tokens": [
+      "[",
+      "x",
+      "+",
+      "{",
+      "y",
+      "+",
+      "z",
+      "}",
+      "]"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "delim_norm_abs",
+    "latex": "\\left| x \\right| + \\left\\| v \\right\\| + \\langle u, v \\rangle",
+    "tokens": [
+      "∣",
+      "x",
+      "∣",
+      "+",
+      "∥",
+      "v",
+      "∥",
+      "+",
+      "⟨",
+      "u",
+      ",",
+      "v",
+      "⟩"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "delim_big_variants",
+    "latex": "\\big( \\Big[ \\bigg\\{ \\Bigg| x \\Bigg| \\bigg\\} \\Big] \\big)",
+    "tokens": [
+      "(",
+      "[",
+      "{",
+      "∣",
+      "x",
+      "∣",
+      "}",
+      "]",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    }
+  },
+  {
+    "id": "largeop_sum",
+    "latex": "\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}",
+    "tokens": [
+      "∑",
+      "i",
+      "=",
+      "1",
+      "n",
+      "i",
+      "2",
+      "=",
+      "n",
+      "(",
+      "n",
+      "+",
+      "1",
+      ")",
+      "(",
+      "2",
+      "n",
+      "+",
+      "1",
+      ")",
+      "6"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  },
+  {
+    "id": "largeop_prod",
+    "latex": "\\prod_{k=1}^{\\infty} \\left(1 - \\frac{1}{k^2}\\right)",
+    "tokens": [
+      "∏",
+      "k",
+      "=",
+      "1",
+      "∞",
+      "(",
+      "1",
+      "−",
+      "1",
+      "k",
+      "2",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.9535,
+      "descentEm": 1.3021,
+      "totalHeightEm": 4.2556
+    }
+  },
+  {
+    "id": "largeop_int",
+    "latex": "\\int_{0}^{1} x^2 dx = \\frac{1}{3}",
+    "tokens": [
+      "∫",
+      "0",
+      "1",
+      "x",
+      "2",
+      "d",
+      "x",
+      "=",
+      "1",
+      "3"
+    ],
+    "metrics": {
+      "ascentEm": 2.476,
+      "descentEm": 0.9119,
+      "totalHeightEm": 3.3879
+    }
+  },
+  {
+    "id": "largeop_multi_int",
+    "latex": "\\iint_D f(x,y) \\, dx \\, dy + \\iiint_V g(x,y,z) \\, dV",
+    "tokens": [
+      "∬",
+      "D",
+      "f",
+      "(",
+      "x",
+      ",",
+      "y",
+      ")",
+      "d",
+      "x",
+      "d",
+      "y",
+      "+",
+      "∭",
+      "V",
+      "g",
+      "(",
+      "x",
+      ",",
+      "y",
+      ",",
+      "z",
+      ")",
+      "d",
+      "V"
+    ],
+    "metrics": {
+      "ascentEm": 2.2717,
+      "descentEm": 0.9117,
+      "totalHeightEm": 3.1834
+    }
+  },
+  {
+    "id": "largeop_oint",
+    "latex": "\\oint_C F \\cdot dr = \\oiint_S (\\nabla \\times F) \\cdot dS",
+    "tokens": [
+      "∮",
+      "C",
+      "F",
+      "⋅",
+      "d",
+      "r",
+      "=",
+      "∯",
+      "S",
+      "(",
+      "∇",
+      "×",
+      "F",
+      ")",
+      "⋅",
+      "d",
+      "S"
+    ],
+    "metrics": {
+      "ascentEm": 2.2719,
+      "descentEm": 0.9119,
+      "totalHeightEm": 3.1838
+    }
+  },
+  {
+    "id": "matrix_pmatrix",
+    "latex": "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}",
+    "tokens": [
+      "(",
+      "1",
+      "0",
+      "0",
+      "1",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "matrix_bmatrix",
+    "latex": "\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}",
+    "tokens": [
+      "[",
+      "a",
+      "b",
+      "c",
+      "d",
+      "]"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "matrix_vmatrix",
+    "latex": "\\begin{vmatrix} x & y \\\\ z & w \\end{vmatrix}",
+    "tokens": [
+      "∣",
+      "x",
+      "y",
+      "z",
+      "w",
+      "∣"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "env_cases",
+    "latex": "f(x) = \\begin{cases} x^2 & x \\ge 0 \\\\ -x & x < 0 \\end{cases}",
+    "tokens": [
+      "f",
+      "(",
+      "x",
+      ")",
+      "=",
+      "{",
+      "x",
+      "2",
+      "x",
+      "≥",
+      "0",
+      "−",
+      "x",
+      "x",
+      "<",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    }
+  },
+  {
+    "id": "env_aligned",
+    "latex": "\\begin{aligned} a &= b + c \\\\ d &= e + f \\end{aligned}",
+    "tokens": [
+      "a",
+      "=",
+      "b",
+      "+",
+      "c",
+      "d",
+      "=",
+      "e",
+      "+",
+      "f"
+    ],
+    "metrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    }
+  },
+  {
+    "id": "env_array",
+    "latex": "\\begin{array}{c|c} 1 & 2 \\\\ \\hline 3 & 4 \\end{array}",
+    "tokens": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "env_substack",
+    "latex": "\\sum_{\\substack{0 \\le i \\le n \\\\ 0 \\le j \\le m}} P(i,j)",
+    "tokens": [
+      "∑",
+      "0",
+      "≤",
+      "i",
+      "≤",
+      "n",
+      "0",
+      "≤",
+      "j",
+      "≤",
+      "m",
+      "P",
+      "(",
+      "i",
+      ",",
+      "j",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 3.0514,
+      "descentEm": 2.0014,
+      "totalHeightEm": 5.0527999999999995
+    }
+  },
+  {
+    "id": "fonts_math",
+    "latex": "\\mathbf{v} + \\mathrm{d}x + \\mathit{f}(x) + \\mathsf{A} + \\mathtt{code} + \\mathcal{L} + \\mathbb{R} + \\mathfrak{g}",
+    "tokens": [
+      "v",
+      "+",
+      "d",
+      "x",
+      "+",
+      "f",
+      "(",
+      "x",
+      ")",
+      "+",
+      "A",
+      "+",
+      "c",
+      "o",
+      "d",
+      "e",
+      "+",
+      "L",
+      "+",
+      "R",
+      "+",
+      "g"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "symbols_greek",
+    "latex": "\\alpha + \\beta + \\gamma = \\pi + \\theta + \\Omega + \\Delta",
+    "tokens": [
+      "α",
+      "+",
+      "β",
+      "+",
+      "γ",
+      "=",
+      "π",
+      "+",
+      "θ",
+      "+",
+      "Ω",
+      "+",
+      "Δ"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "symbols_relations",
+    "latex": "x \\le y \\ge z \\neq w \\approx a \\equiv b \\in \\mathbb{R} \\subset S",
+    "tokens": [
+      "x",
+      "≤",
+      "y",
+      "≥",
+      "z",
+      "≠",
+      "w",
+      "≈",
+      "a",
+      "≡",
+      "b",
+      "∈",
+      "R",
+      "⊂",
+      "S"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "symbols_arrows",
+    "latex": "A \\to B \\Rightarrow C \\iff D \\nearrow E",
+    "tokens": [
+      "A",
+      "→",
+      "B",
+      "⇒",
+      "C",
+      "⟺",
+      "D",
+      "↗",
+      "E"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/cancel_tex",
+    "latex": "\\cancel{x}",
+    "tokens": [
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 0.4306,
+      "descentEm": 0,
+      "totalHeightEm": 0.4306
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/frac_tex",
+    "latex": "\\frac{1}{2}",
+    "tokens": [
+      "1",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/greek_tex",
+    "latex": "\\alpha+\\beta=\\gamma",
+    "tokens": [
+      "α",
+      "+",
+      "β",
+      "=",
+      "γ"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/hat_sub_tex",
+    "latex": "\\hat{x}_i",
+    "tokens": [
+      "x^",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 0.8444,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.9944000000000001
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/left_right_frac_tex",
+    "latex": "\\left(\\frac{a}{b}\\right)",
+    "tokens": [
+      "(",
+      "a",
+      "b",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1.836,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.5220000000000002
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/mathbf_tex",
+    "latex": "\\mathbf{R}",
+    "tokens": [
+      "R"
+    ],
+    "metrics": {
+      "ascentEm": 0.6861,
+      "descentEm": 0,
+      "totalHeightEm": 0.6861
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/pmatrix_tex",
+    "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}",
+    "tokens": [
+      "(",
+      "a",
+      "b",
+      "c",
+      "d",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/pythagoras_tex",
+    "latex": "x^2+y^2",
+    "tokens": [
+      "x",
+      "2",
+      "+",
+      "y",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 1.0585,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.2529
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/sqrt_root_tex",
+    "latex": "\\sqrt[3]{x}",
+    "tokens": [
+      "x",
+      "3"
+    ],
+    "metrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1908,
+      "totalHeightEm": 1.2308000000000001
+    }
+  },
+  {
+    "id": "corpus/fixture/baseline/sum_scripts_tex",
+    "latex": "\\sum_{i=1}^{n} i",
+    "tokens": [
+      "∑",
+      "i",
+      "=",
+      "1",
+      "n",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/binom_tex",
+    "latex": "\\binom{n}{k}",
+    "tokens": [
+      "(",
+      "n",
+      "k",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/bmod_tex",
+    "latex": "a \\bmod b",
+    "tokens": [
+      "a",
+      "mod",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/dbinom_tex",
+    "latex": "\\dbinom{n}{k}",
+    "tokens": [
+      "(",
+      "n",
+      "k",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/displaystyle_sum_tex",
+    "latex": "\\displaystyle{\\sum}",
+    "tokens": [
+      "∑"
+    ],
+    "metrics": {
+      "ascentEm": 1.6,
+      "descentEm": 0.55,
+      "totalHeightEm": 2.1500000000000004
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/mathbin_tex",
+    "latex": "\\mathbin{+}x",
+    "tokens": [
+      "+",
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 0.6667,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.75
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/mathop_tex",
+    "latex": "\\mathop{\\sum}",
+    "tokens": [
+      "∑"
+    ],
+    "metrics": {
+      "ascentEm": 1.6,
+      "descentEm": 0.55,
+      "totalHeightEm": 2.1500000000000004
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/mathrel_tex",
+    "latex": "a\\mathrel{=}b",
+    "tokens": [
+      "a",
+      "=",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/mod_infix_tex",
+    "latex": "a \\mod n",
+    "tokens": [
+      "a",
+      "m",
+      "o",
+      "d",
+      "n"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/notin_tex",
+    "latex": "\\notin",
+    "tokens": [
+      "∉"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/operatorname_rank_tex",
+    "latex": "\\operatorname{rank}",
+    "tokens": [
+      "rank",
+      "⁡"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/overset_tex",
+    "latex": "\\overset{a}{b}",
+    "tokens": [
+      "b",
+      "a"
+    ],
+    "metrics": {
+      "ascentEm": 1.2958,
+      "descentEm": 0,
+      "totalHeightEm": 1.2958
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/phantom_xy_tex",
+    "latex": "\\phantom{x}y",
+    "tokens": [
+      "x",
+      "y"
+    ],
+    "metrics": {
+      "ascentEm": 0.625,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.8194
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/pmod_tex",
+    "latex": "a \\equiv b \\pmod{n}",
+    "tokens": [
+      "a",
+      "≡",
+      "b",
+      "(",
+      "m",
+      "o",
+      "d",
+      "n",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/pod_tex",
+    "latex": "a \\pod{n}",
+    "tokens": [
+      "a",
+      "(",
+      "n",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/stackrel_tex",
+    "latex": "\\stackrel{def}{=}",
+    "tokens": [
+      "=",
+      "d",
+      "e",
+      "f"
+    ],
+    "metrics": {
+      "ascentEm": 1.2001,
+      "descentEm": 0,
+      "totalHeightEm": 1.2001
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/sum_display_tex",
+    "latex": "\\sum_{i=1}^{n} i",
+    "tokens": [
+      "∑",
+      "i",
+      "=",
+      "1",
+      "n",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/tag_inline_tex",
+    "latex": "x=1\\tag{1}",
+    "tokens": [
+      "x",
+      "=",
+      "1",
+      "(1)"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/tbinom_tex",
+    "latex": "\\tbinom{n}{k}",
+    "tokens": [
+      "(",
+      "n",
+      "k",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    }
+  },
+  {
+    "id": "corpus/fixture/coverage/underbrace_tex",
+    "latex": "\\underbrace{a+b}_{c}",
+    "tokens": [
+      "a",
+      "+",
+      "b",
+      "⏟",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 1.9272,
+      "descentEm": 1.2327,
+      "totalHeightEm": 3.1599
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/aligned_tex",
+    "latex": "\\begin{aligned} a&=b+c \\\\ d&=e \\end{aligned}",
+    "tokens": [
+      "a",
+      "=",
+      "b",
+      "+",
+      "c",
+      "d",
+      "=",
+      "e"
+    ],
+    "metrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/choose_tex",
+    "latex": "{n \\choose k}",
+    "tokens": [
+      "(",
+      "n",
+      "k",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/displaystyle_tex",
+    "latex": "\\displaystyle{\\frac{1}{2}}",
+    "tokens": [
+      "1",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/gathered_tex",
+    "latex": "\\begin{gathered} a+b \\\\ c \\end{gathered}",
+    "tokens": [
+      "a",
+      "+",
+      "b",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/genfrac_binom_tex",
+    "latex": "\\genfrac{(}{)}{0pt}{}{n}{k}",
+    "tokens": [
+      "(",
+      "n",
+      "k",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/genfrac_frac_tex",
+    "latex": "\\genfrac{}{}{0.4pt}{0}{a}{b}",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/hskip_tex",
+    "latex": "a\\hskip1em b",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/kern_tex",
+    "latex": "a\\kern0.5em b",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/middle_tex",
+    "latex": "\\left( a \\middle| b \\right)",
+    "tokens": [
+      "(",
+      "a",
+      "|",
+      "b",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/mkern_tex",
+    "latex": "a\\mkern18mu b",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/smallmatrix_tex",
+    "latex": "\\begin{smallmatrix} a & b \\\\ c & d \\end{smallmatrix}",
+    "tokens": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "metrics": {
+      "ascentEm": 1.3322,
+      "descentEm": 0.4161,
+      "totalHeightEm": 1.7483
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/split_tex",
+    "latex": "\\begin{split} a&=b \\\\ &=c \\end{split}",
+    "tokens": [
+      "a",
+      "=",
+      "b",
+      "=",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/substack_tex",
+    "latex": "\\sum_{\\substack{i=1\\\\i\\neq j}}^{n} x_i",
+    "tokens": [
+      "∑",
+      "i",
+      "=",
+      "1",
+      "i",
+      "≠",
+      "j",
+      "n",
+      "x",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 3.6773,
+      "descentEm": 2.0259,
+      "totalHeightEm": 5.7032
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/tag_tex",
+    "latex": "x=y \\tag{1}",
+    "tokens": [
+      "x",
+      "=",
+      "y",
+      "(1)"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/fixture/p1/textstyle_tex",
+    "latex": "\\textstyle{\\frac{1}{2}}",
+    "tokens": [
+      "1",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 1.1901,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.5351
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/001",
+    "latex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+    "tokens": [
+      "x",
+      "=",
+      "−",
+      "b",
+      "±",
+      "b",
+      "2",
+      "−",
+      "4",
+      "a",
+      "c",
+      "2",
+      "a"
+    ],
+    "metrics": {
+      "ascentEm": 2.2764,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.9624
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/002",
+    "latex": "2 = \\left( \\frac{\\left(3-x\\right) \\times 2}{3-x} \\right)",
+    "tokens": [
+      "2",
+      "=",
+      "(",
+      "(",
+      "3",
+      "−",
+      "x",
+      ")",
+      "×",
+      "2",
+      "3",
+      "−",
+      "x",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/003",
+    "latex": "x = y < z \\le 1",
+    "tokens": [
+      "x",
+      "=",
+      "y",
+      "<",
+      "z",
+      "≤",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 0.7719,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9663
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/004",
+    "latex": "\\int_0^\\infty f(x) \\, dx",
+    "tokens": [
+      "∫",
+      "0",
+      "∞",
+      "f",
+      "(",
+      "x",
+      ")",
+      "d",
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 2.3262,
+      "descentEm": 0.9119,
+      "totalHeightEm": 3.2381
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/005",
+    "latex": "\\sqrt{\\sqrt{\\sqrt{x}}}",
+    "tokens": [
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 2.44,
+      "descentEm": 0.6631,
+      "totalHeightEm": 3.1031
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/006",
+    "latex": "\\begin{pmatrix} & b \\\\ c & \\end{pmatrix}",
+    "tokens": [
+      "(",
+      "b",
+      "c",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/007",
+    "latex": "\\text{a b }   \\text{ c}",
+    "tokens": [
+      "a b  c"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/008",
+    "latex": "\\left. \\frac{d}{dt} \\right|_{t=0}",
+    "tokens": [
+      "d",
+      "d",
+      "t",
+      "∣",
+      "t",
+      "=",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 2.4497,
+      "descentEm": 0.9997,
+      "totalHeightEm": 3.4494
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/009",
+    "latex": "\\overbrace{a+b}^{\\text{term}}",
+    "tokens": [
+      "a+",
+      "b",
+      "⏞",
+      "term"
+    ],
+    "metrics": {
+      "ascentEm": 2.0563,
+      "descentEm": 0.0833,
+      "totalHeightEm": 2.1395999999999997
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/010",
+    "latex": "\\max_B X",
+    "tokens": [
+      "max",
+      "⁡",
+      "B",
+      "X"
+    ],
+    "metrics": {
+      "ascentEm": 1.4277,
+      "descentEm": 0.7443,
+      "totalHeightEm": 2.1719999999999997
+    }
+  },
+  {
+    "id": "corpus/rust/compatibility/011",
+    "latex": "\\left\\langle f', g \\right\\rangle = \\dfrac{1}{2}",
+    "tokens": [
+      "⟨",
+      "f",
+      "′",
+      ",",
+      "g",
+      "⟩",
+      "=",
+      "1",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/024",
+    "latex": "\\begin{bmatrix} a & b \\\\ c & d \\\\ \\end{bmatrix}",
+    "tokens": [
+      "[",
+      "a",
+      "b",
+      "c",
+      "d",
+      "]"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/025",
+    "latex": "\\begin{matrix} a & b \\\\ c & d \\end{matrix}",
+    "tokens": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/026",
+    "latex": "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}",
+    "tokens": [
+      "(",
+      "1",
+      "0",
+      "0",
+      "1",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/027",
+    "latex": "\\begin{align} x &= 1 \\\\ y &= 2 \\end{align}",
+    "tokens": [
+      "x",
+      "=",
+      "1",
+      "y",
+      "=",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/028",
+    "latex": "\\begin{cases} 0 & x < 0 \\\\ 1 & x \\ge 0 \\end{cases}",
+    "tokens": [
+      "{",
+      "0",
+      "x",
+      "<",
+      "0",
+      "1",
+      "x",
+      "≥",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/029",
+    "latex": "\\begin{cases} \\frac{1}{2} & -1 \\le x < 0 \\\\ 1 - x^2 & \\text{otherwise} \\end{cases}",
+    "tokens": [
+      "{",
+      "1",
+      "2",
+      "−",
+      "1",
+      "≤",
+      "x",
+      "<",
+      "0",
+      "1",
+      "−",
+      "x",
+      "2",
+      "otherwise"
+    ],
+    "metrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/030",
+    "latex": "\\begin{array}{r|cc} x & y & z \\end{array}",
+    "tokens": [
+      "x",
+      "y",
+      "z"
+    ],
+    "metrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/031",
+    "latex": "\\begin{matrix} a \\\\ b \\\\[2em] c \\end{matrix}",
+    "tokens": [
+      "a",
+      "b",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 5.6,
+      "descentEm": 2.55,
+      "totalHeightEm": 8.149999999999999
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_environments/032",
+    "latex": "\\begin{bmatrix} 1 & V_i^* \\\\ V_i & W_{ii} \\\\ \\end{bmatrix} \\succeq 0",
+    "tokens": [
+      "[",
+      "1",
+      "V",
+      "i",
+      "∗",
+      "V",
+      "i",
+      "W",
+      "i",
+      "i",
+      "]",
+      "⪰",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 2.4,
+      "descentEm": 0.95,
+      "totalHeightEm": 3.3499999999999996
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/033",
+    "latex": "x_i^2 + y_i^2 = 1",
+    "tokens": [
+      "x",
+      "i",
+      "2",
+      "+",
+      "y",
+      "i",
+      "2",
+      "=",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 1.1111,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3580999999999999
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/034",
+    "latex": "\\left[ \\sqrt[3]{x} \\right]",
+    "tokens": [
+      "[",
+      "x",
+      "3",
+      "]"
+    ],
+    "metrics": {
+      "ascentEm": 1.2,
+      "descentEm": 0.35,
+      "totalHeightEm": 1.5499999999999998
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/035",
+    "latex": "\\sum_{i=1}^n",
+    "tokens": [
+      "∑",
+      "i",
+      "=",
+      "1",
+      "n"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/036",
+    "latex": "\\oint_{(x,y)\\in C} x^3\\, dx + 4y^2\\, dy",
+    "tokens": [
+      "∮",
+      "(",
+      "x",
+      ",",
+      "y",
+      ")",
+      "∈",
+      "C",
+      "x",
+      "3",
+      "d",
+      "x",
+      "+",
+      "4",
+      "y",
+      "2",
+      "d",
+      "y"
+    ],
+    "metrics": {
+      "ascentEm": 2.447,
+      "descentEm": 1.0869,
+      "totalHeightEm": 3.5339
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/037",
+    "latex": "x=\\frac{{\\color{Blue}-b}\\pm\\sqrt{\\color{Red}b^2-4ac}}{\\color{Green}2a}",
+    "tokens": [
+      "x",
+      "=",
+      "−",
+      "b",
+      "±",
+      "b",
+      "2",
+      "−",
+      "4",
+      "a",
+      "c",
+      "2",
+      "a"
+    ],
+    "metrics": {
+      "ascentEm": 2.2764,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.9624
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/038",
+    "latex": "\\color{Blue}x^2\\color{Black}+\\color{Orange}2x\\color{Black}-\\color{LimeGreen}1",
+    "tokens": [
+      "x",
+      "2",
+      "+",
+      "2",
+      "x",
+      "−",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 0.9474,
+      "descentEm": 0.0833,
+      "totalHeightEm": 1.0307
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/039",
+    "latex": "\\frac{a}{b} 42",
+    "tokens": [
+      "a",
+      "b",
+      "42"
+    ],
+    "metrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/040",
+    "latex": "\\alpha + \\infty \\le \\sum_{i=1}",
+    "tokens": [
+      "α",
+      "+",
+      "∞",
+      "≤",
+      "∑",
+      "i",
+      "=",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 2.3277,
+      "descentEm": 1.2777,
+      "totalHeightEm": 3.6054000000000004
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/041",
+    "latex": "\\ne \\implies \\iff \\coloncolonequals \\sube \\dArr \\Rarr",
+    "tokens": [
+      "≠",
+      "⟹",
+      "⟺",
+      "∷=",
+      "⊆",
+      "⇓",
+      "⇒"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/042",
+    "latex": "a \\, b \\: c \\; d \\! e \\enspace f \\enskip g \\quad h \\qquad i",
+    "tokens": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "⁣",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/043",
+    "latex": "\\% \\$ \\{ \\} \\_ \\& \\#",
+    "tokens": [
+      "%",
+      "$",
+      "{",
+      "}",
+      "_",
+      "&",
+      "#"
+    ],
+    "metrics": {
+      "ascentEm": 1.06,
+      "descentEm": 0.31,
+      "totalHeightEm": 1.37
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/044",
+    "latex": "\\sin x + \\log y",
+    "tokens": [
+      "sin",
+      "⁡",
+      "x",
+      "+",
+      "log",
+      "⁡",
+      "y"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/045",
+    "latex": "a \\quad b \\, c",
+    "tokens": [
+      "a",
+      "b",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/046",
+    "latex": "\\dim p, \\deg q, \\det m, \\ker\\phi",
+    "tokens": [
+      "dim",
+      "⁡",
+      "p",
+      ",",
+      "deg",
+      "⁡",
+      "q",
+      ",",
+      "det",
+      "⁡",
+      "m",
+      ",",
+      "ker",
+      "⁡",
+      "ϕ"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/049",
+    "latex": "\\varGamma \\varDelta \\varTheta \\varLambda \\varXi \\varPi \\varSigma \\varPhi \\varUpsilon \\varOmega",
+    "tokens": [
+      "Γ",
+      "Δ",
+      "Θ",
+      "Λ",
+      "Ξ",
+      "Π",
+      "Σ",
+      "Φ",
+      "Υ",
+      "Ω"
+    ],
+    "metrics": {
+      "ascentEm": 0.6833,
+      "descentEm": 0,
+      "totalHeightEm": 0.6833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/050",
+    "latex": "\\left \\uparrow \\frac{a}{b} \\right \\downarrow \\quad",
+    "tokens": [
+      "↑",
+      "a",
+      "b",
+      "↓"
+    ],
+    "metrics": {
+      "ascentEm": 1.837,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.523
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/051",
+    "latex": "x + \\phantom{y + z} + a",
+    "tokens": [
+      "x",
+      "+",
+      "y",
+      "+",
+      "z",
+      "+",
+      "a"
+    ],
+    "metrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9722000000000001
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/052",
+    "latex": "3.14",
+    "tokens": [
+      "3.14"
+    ],
+    "metrics": {
+      "ascentEm": 0.6444,
+      "descentEm": 0,
+      "totalHeightEm": 0.6444
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/053",
+    "latex": "1.5 + 0.5",
+    "tokens": [
+      "1.5",
+      "+",
+      "0.5"
+    ],
+    "metrics": {
+      "ascentEm": 0.7278,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8111
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/054",
+    "latex": "\\left\\langle x \\right\\rangle",
+    "tokens": [
+      "⟨",
+      "x",
+      "⟩"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/055",
+    "latex": "\\left\\lfloor x \\right\\rfloor",
+    "tokens": [
+      "⌊",
+      "x",
+      "⌋"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/056",
+    "latex": "\\left\\lceil x \\right\\rceil",
+    "tokens": [
+      "⌈",
+      "x",
+      "⌉"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/057",
+    "latex": "\\left\\lVert x \\right\\rVert",
+    "tokens": [
+      "∥",
+      "x",
+      "∥"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/058",
+    "latex": "\\dfrac{1}{n}",
+    "tokens": [
+      "1",
+      "n"
+    ],
+    "metrics": {
+      "ascentEm": 2.0074,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6934
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/059",
+    "latex": "\\operatorname{rank}(A)",
+    "tokens": [
+      "rank",
+      "⁡",
+      "(",
+      "A",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/060",
+    "latex": "a \\not\\in B",
+    "tokens": [
+      "a",
+      "∉",
+      "B"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/061",
+    "latex": "A \\not\\subset B",
+    "tokens": [
+      "A",
+      "⊄",
+      "B"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/062",
+    "latex": "a \\not= b",
+    "tokens": [
+      "a",
+      "≠",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/063",
+    "latex": "a \\not\\equiv b",
+    "tokens": [
+      "a",
+      "≢",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/064",
+    "latex": "\\left< a, b \\right>",
+    "tokens": [
+      "<",
+      "a",
+      ",",
+      "b",
+      ">"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/065",
+    "latex": "k \\; : \\; \\mathbb{R}^n \\times \\mathbb{R}^n \\; \\rightarrow \\mathbb{R}, \\qquad\n(s, t) \\mapsto \\left< \\Phi(s), \\Phi(t) \\right>",
+    "tokens": [
+      "k",
+      ":",
+      "R",
+      "n",
+      "×",
+      "R",
+      "n",
+      "→",
+      "R",
+      ",",
+      "(",
+      "s",
+      ",",
+      "t",
+      ")",
+      "↦",
+      "<",
+      "Φ",
+      "(",
+      "s",
+      ")",
+      ",",
+      "Φ",
+      "(",
+      "t",
+      ")",
+      ">"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/066",
+    "latex": "\\nabla f(x) = \\begin{bmatrix} 1 & 1 & 1 \\\\ 2x_1 & 2x_2 & -2x_3 \\\\ 2x_1 & -x_3 & -x_2 \\end{bmatrix}",
+    "tokens": [
+      "∇",
+      "f",
+      "(",
+      "x",
+      ")",
+      "=",
+      "[",
+      "1",
+      "1",
+      "1",
+      "2",
+      "x",
+      "1",
+      "2",
+      "x",
+      "2",
+      "−",
+      "2",
+      "x",
+      "3",
+      "2",
+      "x",
+      "1",
+      "−",
+      "x",
+      "3",
+      "−",
+      "x",
+      "2",
+      "]"
+    ],
+    "metrics": {
+      "ascentEm": 3.6,
+      "descentEm": 1.55,
+      "totalHeightEm": 5.15
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/067",
+    "latex": "\\begin{align} a \\\\ \\begin{bmatrix} 1 \\\\ 2 \\end{bmatrix} \\\\ b \\end{align}",
+    "tokens": [
+      "a",
+      "[",
+      "1",
+      "2",
+      "]",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 5.4,
+      "descentEm": 2.45,
+      "totalHeightEm": 7.8500000000000005
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/068",
+    "latex": "\\text{max}  \\quad   0.25 L•X \\\\\n    \\text{    s.t.} \\quad   \\mathrm{diag}(X) = e \\\\\n                 \\qquad X \\succeq 0",
+    "tokens": [
+      "max",
+      "0.25",
+      "L",
+      "•",
+      "X",
+      "s.t.",
+      "d",
+      "i",
+      "a",
+      "g",
+      "(",
+      "X",
+      ")",
+      "=",
+      "e",
+      "X",
+      "⪰",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/069",
+    "latex": "W = V V^* \\quad \\iff \\quad W_{ii} = | V_i |^2, \\quad W_{ik} = V_i \\; \\overline{V_k}, \\quad \\forall i, \\, k \\in \\{ 1, \\ldots, N \\}",
+    "tokens": [
+      "W",
+      "=",
+      "V",
+      "V",
+      "∗",
+      "⟺",
+      "W",
+      "i",
+      "i",
+      "=",
+      "∣",
+      "V",
+      "i",
+      "∣",
+      "2",
+      ",",
+      "W",
+      "i",
+      "k",
+      "=",
+      "V",
+      "i",
+      "Vk‾",
+      ",",
+      "∀",
+      "i",
+      ",",
+      "k",
+      "∈",
+      "{",
+      "1",
+      ",",
+      "…",
+      ",",
+      "N",
+      "}"
+    ],
+    "metrics": {
+      "ascentEm": 1.1141,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3641
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/070",
+    "latex": "a^{b^c}",
+    "tokens": [
+      "a",
+      "b",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 0.93,
+      "descentEm": 0,
+      "totalHeightEm": 0.93
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/071",
+    "latex": "\\mathbf{X} + \\mathbb{R}",
+    "tokens": [
+      "X",
+      "+",
+      "R"
+    ],
+    "metrics": {
+      "ascentEm": 0.7694,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8527
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/072",
+    "latex": "x = 1 \\text{ if } y > 0",
+    "tokens": [
+      "x",
+      "=",
+      "1",
+      "if",
+      "y",
+      ">",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/073",
+    "latex": "\\hat{y} + \\vec{v} + \\bar{x} + \\dot{x}",
+    "tokens": [
+      "y^",
+      "+",
+      "v⃗",
+      "+",
+      "xˉ",
+      "+",
+      "x˙"
+    ],
+    "metrics": {
+      "ascentEm": 0.8889,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.0833
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/074",
+    "latex": "\\operatorname{\\underset{\\mathit{j\\,\\ne\\,i}}{median}} X_{i,j}",
+    "tokens": [
+      "medianj ≠ i",
+      "⁡",
+      "X",
+      "i",
+      ",",
+      "j"
+    ],
+    "metrics": {
+      "ascentEm": 1.5827,
+      "descentEm": 0.8882,
+      "totalHeightEm": 2.4709
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/075",
+    "latex": "x + \\textcolor{red}{y + z} = 1",
+    "tokens": [
+      "x",
+      "+",
+      "y",
+      "+",
+      "z",
+      "=",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.9722000000000001
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/076",
+    "latex": "{a + \\color{blue} b + c} + d",
+    "tokens": [
+      "a",
+      "+",
+      "b",
+      "+",
+      "c",
+      "+",
+      "d"
+    ],
+    "metrics": {
+      "ascentEm": 0.7778,
+      "descentEm": 0.0833,
+      "totalHeightEm": 0.8611000000000001
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/077",
+    "latex": "\\boxed{\\colorbox{#FF0000}{x}}",
+    "tokens": [
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 1.7106,
+      "descentEm": 0.64,
+      "totalHeightEm": 2.3506
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/078",
+    "latex": "\\begin{align} x &= \\color{red} y + 1 \\\\ \\textcolor{blue}{x - 1} &= y \\end{align}",
+    "tokens": [
+      "x",
+      "=",
+      "y",
+      "+",
+      "1",
+      "x",
+      "−",
+      "1",
+      "=",
+      "y"
+    ],
+    "metrics": {
+      "ascentEm": 2.7,
+      "descentEm": 1.1,
+      "totalHeightEm": 3.8000000000000003
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/079",
+    "latex": "\\sum_{i=1}^{\\infty} \\sin(x_i) \\quad \\text{and} \\quad \\lim_{n \\to \\infty} \\frac{1}{n}",
+    "tokens": [
+      "∑",
+      "i",
+      "=",
+      "1",
+      "∞",
+      "sin",
+      "⁡",
+      "(",
+      "x",
+      "i",
+      ")",
+      "and",
+      "lim",
+      "⁡",
+      "n",
+      "→",
+      "∞",
+      "1",
+      "n"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/080",
+    "latex": "\\underbrace{a + b + c}_{= X}",
+    "tokens": [
+      "a",
+      "+",
+      "b",
+      "+",
+      "c",
+      "⏟",
+      "=",
+      "X"
+    ],
+    "metrics": {
+      "ascentEm": 2.1041,
+      "descentEm": 1.4097,
+      "totalHeightEm": 3.5138
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/081",
+    "latex": "\\overbrace{x^2 + y^2}",
+    "tokens": [
+      "x2+",
+      "y",
+      "2",
+      "⏞"
+    ],
+    "metrics": {
+      "ascentEm": 1.7065,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.9008999999999998
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/082",
+    "latex": "{}_1^2 X",
+    "tokens": [
+      "1",
+      "2",
+      "X"
+    ],
+    "metrics": {
+      "ascentEm": 1.1111,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3580999999999999
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/083",
+    "latex": "{}_a^b X_c^d",
+    "tokens": [
+      "a",
+      "b",
+      "X",
+      "c",
+      "d"
+    ],
+    "metrics": {
+      "ascentEm": 1.1461,
+      "descentEm": 0.247,
+      "totalHeightEm": 1.3931
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/084",
+    "latex": "\\frac{\\cancel{x} + y}{\\cancel{x}}",
+    "tokens": [
+      "x",
+      "+",
+      "y",
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 1.9463,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.6323
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/085",
+    "latex": "\\xcancel{Math}",
+    "tokens": [
+      "M",
+      "a",
+      "t",
+      "h"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/086",
+    "latex": "\\overline{x + y}",
+    "tokens": [
+      "x+",
+      "y",
+      "‾"
+    ],
+    "metrics": {
+      "ascentEm": 0.9778,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1722
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/087",
+    "latex": "\\bar{x}",
+    "tokens": [
+      "xˉ"
+    ],
+    "metrics": {
+      "ascentEm": 0.5678,
+      "descentEm": 0,
+      "totalHeightEm": 0.5678
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/088",
+    "latex": "\\mathbf{A}",
+    "tokens": [
+      "A"
+    ],
+    "metrics": {
+      "ascentEm": 0.6861,
+      "descentEm": 0,
+      "totalHeightEm": 0.6861
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/089",
+    "latex": "\\mathbb{R}",
+    "tokens": [
+      "R"
+    ],
+    "metrics": {
+      "ascentEm": 0.6889,
+      "descentEm": 0,
+      "totalHeightEm": 0.6889
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/090",
+    "latex": "f'",
+    "tokens": [
+      "f",
+      "′"
+    ],
+    "metrics": {
+      "ascentEm": 0.9963,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1906999999999999
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/091",
+    "latex": "f''",
+    "tokens": [
+      "f",
+      "′",
+      "′"
+    ],
+    "metrics": {
+      "ascentEm": 0.9963,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.1906999999999999
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/092",
+    "latex": "f'(x)",
+    "tokens": [
+      "f",
+      "′",
+      "(",
+      "x",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1.0519,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.3019
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/093",
+    "latex": "\\dfrac{a}{b}",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/094",
+    "latex": "\\tfrac{a}{b}",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 1.0404,
+      "descentEm": 0.345,
+      "totalHeightEm": 1.3854
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/095",
+    "latex": "\\operatorname{tr}(A)",
+    "tokens": [
+      "tr",
+      "⁡",
+      "(",
+      "A",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/096",
+    "latex": "\\mathrm{d}x",
+    "tokens": [
+      "d",
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/rust/e2e_rendering/097",
+    "latex": "\\int f(x) \\mathrm{d} x",
+    "tokens": [
+      "∫",
+      "f",
+      "(",
+      "x",
+      ")",
+      "d",
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 2.2222,
+      "descentEm": 0.8622,
+      "totalHeightEm": 3.0844
+    }
+  },
+  {
+    "id": "corpus/rust/boundary_test/098",
+    "latex": "\\text{你好，世界！🙋‍♂️ 123 α} + \\sum_{i=1}^n x_i",
+    "tokens": [
+      "你好，世界！🙋‍♂️ 123 α",
+      "+",
+      "∑",
+      "i",
+      "=",
+      "1",
+      "n",
+      "x",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/099",
+    "latex": "123",
+    "tokens": [
+      "123"
+    ],
+    "metrics": {
+      "ascentEm": 0.6444,
+      "descentEm": 0,
+      "totalHeightEm": 0.6444
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/100",
+    "latex": "abc",
+    "tokens": [
+      "a",
+      "b",
+      "c"
+    ],
+    "metrics": {
+      "ascentEm": 0.6944,
+      "descentEm": 0,
+      "totalHeightEm": 0.6944
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/101",
+    "latex": "\\frac{a}{12}",
+    "tokens": [
+      "a",
+      "12"
+    ],
+    "metrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/102",
+    "latex": "x + y = 2",
+    "tokens": [
+      "x",
+      "+",
+      "y",
+      "=",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 0.6667,
+      "descentEm": 0.1944,
+      "totalHeightEm": 0.8611
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/103",
+    "latex": "{a + b}^2",
+    "tokens": [
+      "a",
+      "+",
+      "b",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 0.9818,
+      "descentEm": 0.0833,
+      "totalHeightEm": 1.0651
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/104",
+    "latex": "\\sqrt{x}",
+    "tokens": [
+      "x"
+    ],
+    "metrics": {
+      "ascentEm": 1.04,
+      "descentEm": 0.1908,
+      "totalHeightEm": 1.2308000000000001
+    }
+  },
+  {
+    "id": "corpus/rust/parser_atoms/105",
+    "latex": "\\left( x \\right)",
+    "tokens": [
+      "(",
+      "x",
+      ")"
+    ],
+    "metrics": {
+      "ascentEm": 1,
+      "descentEm": 0.25,
+      "totalHeightEm": 1.25
+    }
+  },
+  {
+    "id": "corpus/rust/styling_and_scripts/106",
+    "latex": "x^2",
+    "tokens": [
+      "x",
+      "2"
+    ],
+    "metrics": {
+      "ascentEm": 0.8641,
+      "descentEm": 0,
+      "totalHeightEm": 0.8641
+    }
+  },
+  {
+    "id": "corpus/rust/styling_and_scripts/107",
+    "latex": "a_i",
+    "tokens": [
+      "a",
+      "i"
+    ],
+    "metrics": {
+      "ascentEm": 0.5806,
+      "descentEm": 0.15,
+      "totalHeightEm": 0.7306
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/108",
+    "latex": "\\frac { a } { b }",
+    "tokens": [
+      "a",
+      "b"
+    ],
+    "metrics": {
+      "ascentEm": 1.7936,
+      "descentEm": 0.686,
+      "totalHeightEm": 2.4796
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/109",
+    "latex": "\\lim_{x \\to 0}",
+    "tokens": [
+      "lim",
+      "⁡",
+      "x",
+      "→",
+      "0"
+    ],
+    "metrics": {
+      "ascentEm": 1.4115,
+      "descentEm": 0.7171,
+      "totalHeightEm": 2.1286
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/110",
+    "latex": "\\injlim, \\varinjlim, \\projlim, \\varprojlim",
+    "tokens": [
+      "inj lim",
+      "⁡",
+      ",",
+      "l",
+      "i",
+      "m",
+      "→",
+      "⁡",
+      ",",
+      "proj lim",
+      "⁡",
+      ",",
+      "l",
+      "i",
+      "m",
+      "←",
+      "⁡"
+    ],
+    "metrics": {
+      "ascentEm": 1.2164,
+      "descentEm": 0.522,
+      "totalHeightEm": 1.7384
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/111",
+    "latex": "\\prime, \\backprime, f^\\prime, f', f'', f^{(3)}, \\dot y, \\ddot y",
+    "tokens": [
+      "′",
+      ",",
+      "‵",
+      ",",
+      "f",
+      "′",
+      ",",
+      "f",
+      "′",
+      ",",
+      "f",
+      "′",
+      "′",
+      ",",
+      "f",
+      "(",
+      "3",
+      ")",
+      ",",
+      "y˙",
+      ",",
+      "y¨"
+    ],
+    "metrics": {
+      "ascentEm": 1.1324,
+      "descentEm": 0.1944,
+      "totalHeightEm": 1.3268
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/112",
+    "latex": "( \\bigl( \\Bigl( \\biggl( \\Biggl( \\dots \\Biggr] \\biggr] \\Bigr] \\bigr] ]",
+    "tokens": [
+      "(",
+      "(",
+      "(",
+      "(",
+      "(",
+      "…",
+      "]",
+      "]",
+      "]",
+      "]",
+      "]"
+    ],
+    "metrics": {
+      "ascentEm": 3,
+      "descentEm": 1.25,
+      "totalHeightEm": 4.25
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/113",
+    "latex": "\\int\\limits_0^1",
+    "tokens": [
+      "∫",
+      "0",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 3.6905,
+      "descentEm": 1.5782,
+      "totalHeightEm": 5.2687
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/114",
+    "latex": "\\sum\\nolimits_0^1",
+    "tokens": [
+      "∑",
+      "0",
+      "1"
+    ],
+    "metrics": {
+      "ascentEm": 1.8537,
+      "descentEm": 0.5997,
+      "totalHeightEm": 2.4534
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/115",
+    "latex": "\\iint_D f",
+    "tokens": [
+      "∬",
+      "D",
+      "f"
+    ],
+    "metrics": {
+      "ascentEm": 2.2717,
+      "descentEm": 0.9117,
+      "totalHeightEm": 3.1834
+    }
+  },
+  {
+    "id": "corpus/rust/limits_and_spacing/116",
+    "latex": "\\bigvee_{i=1}^n",
+    "tokens": [
+      "⋁",
+      "i",
+      "=",
+      "1",
+      "n"
+    ],
+    "metrics": {
+      "ascentEm": 2.9291,
+      "descentEm": 1.2777,
+      "totalHeightEm": 4.2068
+    }
+  }
+]

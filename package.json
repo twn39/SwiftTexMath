@@ -1,0 +1,12 @@
+{
+  "name": "swift-tex-math-tools",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "generate:goldens": "node scripts/generate_katex_fixtures.mjs"
+  },
+  "devDependencies": {
+    "katex": "^0.16.21"
+  }
+}
