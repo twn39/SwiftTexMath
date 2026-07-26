@@ -248,12 +248,12 @@ open class MathLabel: MathLabelView {
 
     #if canImport(UIKit) && !os(watchOS)
     /// Aligns with surrounding UILabel text when used in baseline-aligned stacks.
-    public override var firstBaselineOffsetFromTop: CGFloat {
+    open var firstBaselineOffsetFromTop: CGFloat {
         let ascent = displayList?.ascent ?? max(mathFont.size * 0.8, 12)
         return contentInsets.top + ascent
     }
 
-    public override var lastBaselineOffsetFromBottom: CGFloat {
+    open var lastBaselineOffsetFromBottom: CGFloat {
         let descent = displayList?.descent ?? max(mathFont.size * 0.2, 4)
         return contentInsets.bottom + descent
     }
@@ -426,6 +426,7 @@ open class MathLabel: MathLabelView {
 }
 
 #if canImport(UIKit) && !os(watchOS)
+@MainActor
 extension MathLabel: UIEditMenuInteractionDelegate {
     public func editMenuInteraction(
         _ interaction: UIEditMenuInteraction,
