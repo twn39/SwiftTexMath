@@ -56,13 +56,13 @@ jobs:
         uses: actions/cache@v4
         id: tex-cache
         with:
-          # BasicTeX installs under /usr/local/texlive on Intel and Apple Silicon GH runners.
           path: |
             /usr/local/texlive
             /Library/TeX
-          key: texlive-basictex-macos-15-v1-${{ hashFiles('scripts/tex_oracle/**', 'scripts/oracle_catalog.json') }}
+          # Bump when package set or driver changes.
+          key: texlive-basictex-macos-15-v2-${{ hashFiles('scripts/tex_oracle/**', 'scripts/oracle_catalog.json') }}
           restore-keys: |
-            texlive-basictex-macos-15-v1-
+            texlive-basictex-macos-15-v2-
 
       - name: Install BasicTeX + packages
         if: steps.tex-cache.outputs.cache-hit != 'true'
@@ -71,7 +71,6 @@ jobs:
           brew install --cask basictex
           echo "/Library/TeX/texbin" >> "$GITHUB_PATH"
           export PATH="/Library/TeX/texbin:$PATH"
-          # BasicTeX ships a minimal tree; pull only what the oracle needs.
           # Math font comes from the repo bundle (latinmodern-math.otf), not TeX Live.
           sudo tlmgr update --self
           sudo tlmgr install \
@@ -80,17 +79,23 @@ jobs:
             latex-bin \
             tools \
             amsmath \
-            geometry \
             unicode-math \
             fontspec \
             lualibs \
-            luaotfload
+            luaotfload \
+            l3kernel \
+            l3packages \
+            xcolor \
+            etoolbox
+
       - name: Ensure TeX on PATH
         run: |
           echo "/Library/TeX/texbin" >> "$GITHUB_PATH"
           export PATH="/Library/TeX/texbin:$PATH"
           which lualatex || which xelatex
           lualatex --version | head -2 || xelatex --version | head -2
+          kpsewhich unicode-math.sty
+          kpsewhich fontspec.sty
 
       - name: Check oracle dependencies
         run: |
@@ -110,8 +115,34 @@ jobs:
 
       - name: Generate TeX oracle fixture
         run: |
+          set -euo pipefail
           export PATH="/Library/TeX/texbin:$PATH"
-          python3 scripts/tex_oracle/tex_oracle.py --write-fixture --engine lualatex
+          WORK="$RUNNER_TEMP/stm_tex_oracle_work"
+          set +e
+          python3 scripts/tex_oracle/tex_oracle.py \
+            --write-fixture \
+            --engine lualatex \
+            --keep-work \
+            -w "$WORK"
+          rc=$?
+          set -e
+
+          echo "oracle exit code: $rc"
+          if [[ -d "$WORK" ]]; then
+            echo "work dir listing:"
+            ls -la "$WORK" || true
+            if [[ -f "$WORK/measure.log" ]]; then
+              echo "## measure.log (tail)" >> "$GITHUB_STEP_SUMMARY"
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+              tail -n 100 "$WORK/measure.log" >> "$GITHUB_STEP_SUMMARY" || true
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+              echo "--- measure.log tail ---"
+              tail -n 100 "$WORK/measure.log" || true
+            fi
+            # Show any metrics TSV for diagnosis
+            find "$WORK" -name '*.tsv' -print -exec head -5 {} \; || true
+          fi
+
           python3 - <<'PY'
           import json
           from pathlib import Path
@@ -120,14 +151,17 @@ jobs:
           status = data.get("status")
           measured = data.get("measuredCount") or 0
           print(f"status={status} measured={measured} items={data.get('itemCount')}")
+          tail = data.get("compileLogTail") or ""
+          if tail:
+              print("--- compileLogTail ---")
+              print(tail[-4000:])
           if status != "ok":
-              tail = data.get("compileLogTail") or ""
-              print("--- compile log tail ---")
-              print(tail[-3000:])
               raise SystemExit(f"expected status=ok, got {status!r}")
           if measured < 20:
               raise SystemExit(f"expected measuredCount >= 20, got {measured}")
           PY
+
+          exit "$rc"
 
       - name: Upload TeX oracle fixture
         uses: actions/upload-artifact@v4
