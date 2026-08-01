@@ -42,12 +42,11 @@ struct TeXGeometryOracleTests {
             Bundle.module.url(forResource: "tex_oracle_metrics", withExtension: "json"),
             Bundle.module.resourceURL?
                 .appendingPathComponent("Fixtures")
-                .appendingPathComponent("tex_oracle_metrics.json"),
+                .appendingPathComponent("tex_oracle_metrics.json")
         ]
         for url in candidates.compactMap({ $0 }) where FileManager.default.fileExists(atPath: url.path) {
             if let data = try? Data(contentsOf: url),
-               let cat = try? JSONDecoder().decode(Catalog.self, from: data)
-            {
+               let cat = try? JSONDecoder().decode(Catalog.self, from: data) {
                 return cat
             }
         }
@@ -71,7 +70,7 @@ struct TeXGeometryOracleTests {
 
     private static let gradeA: Set<String> = [
         "var_x", "var_y", "digits", "sum_plain", "rel_eq", "chain",
-        "script_x2", "sub_xi", "sin_theta", "log", "alpha_beta", "mathbb_R",
+        "script_x2", "sub_xi", "sin_theta", "log", "alpha_beta", "mathbb_R"
     ]
 
     // MARK: - Skeleton always runs

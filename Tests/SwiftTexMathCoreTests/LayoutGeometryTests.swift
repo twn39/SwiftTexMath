@@ -839,8 +839,7 @@ struct InkProjectionClearanceTests {
         let minClearPx = max(1.0, gapMinPt * scale * 0.30)
 
         for item in LayoutClearance.placedFractions(in: result.display)
-            where item.fraction.ruleThickness >= 0.05
-        {
+            where item.fraction.ruleThickness >= 0.05 {
             let ruleY = item.origin.y + item.fraction.ruleOffset
             let x0 = pixelX(mathX: item.origin.x)
             let x1 = pixelX(mathX: item.origin.x + item.fraction.width)

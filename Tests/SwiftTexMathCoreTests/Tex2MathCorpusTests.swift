@@ -156,8 +156,7 @@ struct Tex2MathCorpusTests {
                 let kinds = BroadLayoutCatalog.kindCounts(display)
                 if latexLower.contains("\\frac") || latexLower.contains("\\dfrac")
                     || latexLower.contains("\\tfrac") || latexLower.contains("\\cfrac")
-                    || latexLower.contains("\\binom") || latexLower.contains("\\choose")
-                {
+                    || latexLower.contains("\\binom") || latexLower.contains("\\choose") {
                     if kinds["fraction", default: 0] < 1 {
                         failures.append("missing fraction node: \(entry.id)")
                     }
@@ -168,8 +167,7 @@ struct Tex2MathCorpusTests {
                     }
                 }
                 if latexLower.contains("\\sum") || latexLower.contains("\\prod")
-                    || latexLower.contains("\\int")
-                {
+                    || latexLower.contains("\\int") {
                     if kinds["largeOperator", default: 0] < 1 && kinds["glyphs", default: 0] < 1 {
                         failures.append("missing large op: \(entry.id)")
                     }

@@ -38,3 +38,4 @@ DerivedData/
 # Reference implementations (local clones; not part of the package)
 third_party/
 node_modules
+__pycache__

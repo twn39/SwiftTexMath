@@ -210,8 +210,7 @@ struct KaTeXCrossValidationTests {
             if feat.hasFraction, kinds["fraction", default: 0] < 1 {
                 // Some KaTeX "fraction" flags include genfrac/binom variants that may lower differently.
                 if golden.latex.contains("\\frac") || golden.latex.contains("\\cfrac")
-                    || golden.latex.contains("\\dfrac") || golden.latex.contains("\\tfrac")
-                {
+                    || golden.latex.contains("\\dfrac") || golden.latex.contains("\\tfrac") {
                     mismatches += 1
                 }
             }
@@ -221,8 +220,7 @@ struct KaTeXCrossValidationTests {
             if feat.hasLargeOp {
                 let hasOp = kinds["largeOperator", default: 0] >= 1 || kinds["glyphs", default: 0] >= 1
                 if !hasOp, golden.latex.contains("\\sum") || golden.latex.contains("\\int")
-                    || golden.latex.contains("\\prod")
-                {
+                    || golden.latex.contains("\\prod") {
                     mismatches += 1
                 }
             }

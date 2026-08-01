@@ -164,7 +164,7 @@ struct LayoutFingerprint: Equatable {
         (#"\left|x\right|"#, 1500...4500, 1500...3500),
         (#"a_{i,j}^{k}"#, 1500...4500, 1500...4000),
         (#"\cancel{abc}"#, 2000...6000, 1000...3000),
-        (#"\overrightarrow{AB}"#, 2000...7000, 1200...3500),
+        (#"\overrightarrow{AB}"#, 2000...7000, 1200...3500)
     ]
     for (latex, widthBand, heightBand) in cases {
         let fp = try LayoutFingerprint.capture(latex: latex)
@@ -182,7 +182,7 @@ struct LayoutFingerprint: Equatable {
         (#"\cancel{x}"#, "box", 1),
         (#"\overset{a}{=}"#, "stack", 1),
         (#"\colorbox{red}{x}"#, "colorbox", 1),
-        (#"\begin{array}{|c|} \hline a \\ \hline \end{array}"#, "rule", 1),
+        (#"\begin{array}{|c|} \hline a \\ \hline \end{array}"#, "rule", 1)
     ]
     for (latex, kind, minCount) in samples {
         let fp = try LayoutFingerprint.capture(latex: latex)

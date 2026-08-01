@@ -176,7 +176,7 @@ enum BroadLayoutCatalog {
         .init(id: "partial", latex: #"\partial_x f"#, ascent: 14.32, descent: 7.474, width: 28.288),
         .init(id: "nabla", latex: #"\nabla\cdot\vec{F}"#, ascent: 18.82, descent: 0.66, width: 48.5689),
         .init(id: "tag_eq", latex: #"a+b\tag{1}"#, ascent: 14.96, descent: 4.96, width: 89.1689,
-              tokenHints: ["a", "b"]),
+              tokenHints: ["a", "b"])
     ]
 
     static let sizeTolerance: CGFloat = 0.05
@@ -492,7 +492,7 @@ struct BroadLayoutRelativeTests {
             #"\frac{1}{2}"#,
             #"\sum_{i=1}^{n} i"#,
             #"\begin{pmatrix} a & b \\ c & d \end{pmatrix}"#,
-            #"x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}"#,
+            #"x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}"#
         ]
         let env = MathEnvironment(font: MathFont(name: .latinModern, size: 20), style: .display)
         for latex in sample {
