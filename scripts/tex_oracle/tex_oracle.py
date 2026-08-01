@@ -180,16 +180,19 @@ def generate_tex(
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", iid):
             raise SystemExit(f"unsafe catalog id for TeX write: {iid!r}")
         latex = latex_escape_math(it["latex"])
-        # Isolate each measurement; continue after recoverable issues when possible.
+        # Isolate each measurement.
+        # IMPORTANT: after ``\number\wd0`` a plain space is *eaten* as the number
+        # terminator and does NOT appear in the written file — use ``\space`` or
+        # ``|`` delimiters so the parser sees five fields.
         body_lines.append(f"% --- {iid} ---")
         body_lines.append(r"\begingroup")
         body_lines.append(rf"\setbox0=\hbox{{${latex}$}}%")
         body_lines.append(
-            rf"\immediate\write\stmmetrics{{{iid} text \number\wd0 \number\ht0 \number\dp0}}%"
+            rf"\immediate\write\stmmetrics{{{iid}|text|\number\wd0|\number\ht0|\number\dp0}}%"
         )
         body_lines.append(rf"\setbox0=\hbox{{$\displaystyle {latex}$}}%")
         body_lines.append(
-            rf"\immediate\write\stmmetrics{{{iid} display \number\wd0 \number\ht0 \number\dp0}}%"
+            rf"\immediate\write\stmmetrics{{{iid}|display|\number\wd0|\number\ht0|\number\dp0}}%"
         )
         body_lines.append(r"\endgroup")
         body_lines.append("")
@@ -207,7 +210,7 @@ def generate_tex(
 \pagestyle{{empty}}
 \newwrite\stmmetrics
 \immediate\openout\stmmetrics=\jobname-metrics.tsv
-% columns: id mode width_sp height_sp depth_sp
+% columns: id|mode|width_sp|height_sp|depth_sp  (sp integers; | avoids TeX space-eating)
 \begin{{document}}
 """
     ending = r"""
@@ -238,37 +241,104 @@ def sp_to_em(sp: float, font_size_pt: float) -> float:
     return pt / font_size_pt
 
 
+def _parse_dim_token(token: str) -> Optional[tuple[float, str]]:
+    """
+    Parse a TeX dimension token into (value, unit).
+
+    Accepts:
+      - pure sp integers from ``\\number\\wd0``: ``655360``
+      - ``\\the\\wd0`` style: ``10.5pt`` / ``10.5sp``
+    """
+    token = token.strip()
+    if not token:
+        return None
+    m = re.fullmatch(r"([+-]?(?:\d+(?:\.\d*)?|\.\d+))(pt|sp|em|mm|cm|in|bp|dd|cc|nd|nc|pc)?", token)
+    if not m:
+        return None
+    value = float(m.group(1))
+    unit = m.group(2) or "sp"
+    return value, unit
+
+
+def _to_em(value: float, unit: str, font_size_pt: float) -> float:
+    if unit == "em":
+        return value
+    if unit == "sp":
+        return sp_to_em(value, font_size_pt)
+    # remaining are physical units TeX reports via \the — convert via pt
+    pt_per = {
+        "pt": 1.0,
+        "bp": 72.27 / 72.0,
+        "in": 72.27,
+        "cm": 72.27 / 2.54,
+        "mm": 72.27 / 25.4,
+        "pc": 12.0,
+        "dd": 1238.0 / 1157.0,
+        "cc": 12.0 * 1238.0 / 1157.0,
+        "nd": 685.0 / 642.0,
+        "nc": 12.0 * 685.0 / 642.0,
+    }
+    pt = value * pt_per.get(unit, 1.0)
+    return pt / font_size_pt
+
+
 def parse_metrics_tsv(path: Path, font_size_pt: float) -> dict[str, dict[str, Any]]:
     """
     Returns { id: { "display": Metrics, "text": Metrics } }.
+
+    Accepts pipe-separated (preferred) or whitespace-separated lines:
+      id|mode|width|height|depth
+      id mode width height depth
     """
     by_id: dict[str, dict[str, Any]] = {}
     if not path.is_file():
         return by_id
-    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+    raw = path.read_text(encoding="utf-8", errors="replace")
+    skipped = 0
+    for line in raw.splitlines():
         line = line.strip()
         if not line or line.startswith("%"):
             continue
-        parts = line.split()
+        if "|" in line:
+            parts = [p.strip() for p in line.split("|")]
+        else:
+            parts = line.split()
         if len(parts) < 5:
+            skipped += 1
             continue
         iid, mode, w_s, h_s, d_s = parts[0], parts[1], parts[2], parts[3], parts[4]
+        mode = mode.lower()
+        if mode not in ("display", "text"):
+            skipped += 1
+            continue
         try:
-            w_sp, h_sp, d_sp = float(w_s), float(h_s), float(d_s)
+            w_p = _parse_dim_token(w_s)
+            h_p = _parse_dim_token(h_s)
+            d_p = _parse_dim_token(d_s)
+            if not w_p or not h_p or not d_p:
+                skipped += 1
+                continue
+            w_em = _to_em(w_p[0], w_p[1], font_size_pt)
+            h_em = _to_em(h_p[0], h_p[1], font_size_pt)
+            d_em = _to_em(d_p[0], d_p[1], font_size_pt)
         except ValueError:
+            skipped += 1
             continue
         metrics = {
-            "heightEm": sp_to_em(h_sp, font_size_pt),
-            "depthEm": sp_to_em(d_sp, font_size_pt),
-            "totalHeightEm": sp_to_em(h_sp + d_sp, font_size_pt),
-            "widthEm": sp_to_em(w_sp, font_size_pt),
-            "widthSp": int(w_sp),
-            "heightSp": int(h_sp),
-            "depthSp": int(d_sp),
+            "heightEm": h_em,
+            "depthEm": d_em,
+            "totalHeightEm": h_em + d_em,
+            "widthEm": w_em,
         }
-        slot = by_id.setdefault(iid, {})
-        if mode in ("display", "text"):
-            slot[mode] = metrics
+        by_id.setdefault(iid, {})[mode] = metrics
+
+    if not by_id and raw.strip():
+        sample = "\n".join(raw.splitlines()[:5])
+        print(
+            f"warning: parse_metrics_tsv got 0 rows from {path} "
+            f"(skipped={skipped}). sample:\n{sample}",
+            file=sys.stderr,
+        )
     return by_id
 
 
