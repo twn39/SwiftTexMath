@@ -1,0 +1,166 @@
+{
+  "description": "Shared geometry oracle formula catalog (KaTeX + TeX).",
+  "fontHint": "SwiftTexMath Latin Modern @ 20pt; TeX should use same OTF when possible.",
+  "items": [
+    {
+      "id": "var_x",
+      "latex": "x"
+    },
+    {
+      "id": "var_y",
+      "latex": "y"
+    },
+    {
+      "id": "digits",
+      "latex": "012"
+    },
+    {
+      "id": "sum_plain",
+      "latex": "a+b"
+    },
+    {
+      "id": "rel_eq",
+      "latex": "a=b"
+    },
+    {
+      "id": "chain",
+      "latex": "a+b+c"
+    },
+    {
+      "id": "frac_12",
+      "latex": "\\frac{1}{2}"
+    },
+    {
+      "id": "frac_ab",
+      "latex": "\\frac{a}{b}"
+    },
+    {
+      "id": "dfrac",
+      "latex": "\\dfrac{a}{b}"
+    },
+    {
+      "id": "tfrac",
+      "latex": "\\tfrac{a}{b}"
+    },
+    {
+      "id": "sqrt_2",
+      "latex": "\\sqrt{2}"
+    },
+    {
+      "id": "sqrt_x",
+      "latex": "\\sqrt{x}"
+    },
+    {
+      "id": "sqrt_frac",
+      "latex": "\\sqrt{\\frac{a}{b}}"
+    },
+    {
+      "id": "frac_sqrt",
+      "latex": "\\frac{\\sqrt{a}}{b}"
+    },
+    {
+      "id": "script_x2",
+      "latex": "x^2"
+    },
+    {
+      "id": "sub_xi",
+      "latex": "x_i"
+    },
+    {
+      "id": "dual_script",
+      "latex": "x_i^j"
+    },
+    {
+      "id": "sum_limits",
+      "latex": "\\sum_{i=1}^{n}"
+    },
+    {
+      "id": "prod_limits",
+      "latex": "\\prod_{k=1}^{n}"
+    },
+    {
+      "id": "int_01",
+      "latex": "\\int_0^1"
+    },
+    {
+      "id": "lim",
+      "latex": "\\lim_{x\\to\\infty}"
+    },
+    {
+      "id": "binom",
+      "latex": "\\binom{n}{k}"
+    },
+    {
+      "id": "left_right_frac",
+      "latex": "\\left(\\frac{a}{b}\\right)"
+    },
+    {
+      "id": "middle",
+      "latex": "\\left(a\\middle|b\\right)"
+    },
+    {
+      "id": "pmatrix",
+      "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}"
+    },
+    {
+      "id": "sin_theta",
+      "latex": "\\sin\\theta"
+    },
+    {
+      "id": "log",
+      "latex": "\\log x"
+    },
+    {
+      "id": "partial",
+      "latex": "\\frac{\\partial f}{\\partial x}"
+    },
+    {
+      "id": "quad",
+      "latex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}"
+    },
+    {
+      "id": "hat_x",
+      "latex": "\\hat{x}"
+    },
+    {
+      "id": "overline",
+      "latex": "\\overline{abc}"
+    },
+    {
+      "id": "vec",
+      "latex": "\\vec{v}"
+    },
+    {
+      "id": "alpha_beta",
+      "latex": "\\alpha+\\beta"
+    },
+    {
+      "id": "paren_sum",
+      "latex": "(a+b)(c+d)"
+    },
+    {
+      "id": "nested_frac",
+      "latex": "\\frac{\\frac{a}{b}}{\\frac{c}{d}}"
+    },
+    {
+      "id": "cfrac",
+      "latex": "\\cfrac{1}{1+\\cfrac{1}{x}}"
+    },
+    {
+      "id": "cases",
+      "latex": "\\begin{cases} x & x>0 \\\\ -x & x\\le 0 \\end{cases}"
+    },
+    {
+      "id": "mathbb_R",
+      "latex": "\\mathbb{R}"
+    },
+    {
+      "id": "operatorname",
+      "latex": "\\operatorname{rank} A"
+    },
+    {
+      "id": "exp_ipi",
+      "latex": "e^{i\\pi}+1=0"
+    }
+  ]
+}

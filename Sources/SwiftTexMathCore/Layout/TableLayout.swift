@@ -130,7 +130,7 @@ enum TableLayout {
             contentWidth = intertextMaxWidth
         }
 
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let tagGap = styleMetrics.mathUnit * 18
         let tagTargetWidth = env.maxWidth > 0 ? max(env.maxWidth, contentWidth) : contentWidth

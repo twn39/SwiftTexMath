@@ -1,0 +1,145 @@
+# TeX geometry oracle — measures formulas with LuaTeX/XeTeX and compares to STM.
+# Separate from the main CI gate so BasicTeX install cost does not slow every PR build.
+#
+# Triggers: PR / push to main, weekly schedule, manual dispatch.
+# Fails the job if TeX is present but metrics generation or comparison fails.
+
+name: TeX Oracle
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "Sources/**"
+      - "Tests/**"
+      - "scripts/tex_oracle/**"
+      - "scripts/oracle_catalog.json"
+      - ".github/workflows/tex-oracle.yml"
+      - "docs/tex-oracle.md"
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "Sources/**"
+      - "Tests/**"
+      - "scripts/tex_oracle/**"
+      - "scripts/oracle_catalog.json"
+      - ".github/workflows/tex-oracle.yml"
+      - "docs/tex-oracle.md"
+  schedule:
+    # Monday 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: tex-oracle-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tex-oracle:
+    name: TeX oracle (macOS)
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.1"
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Cache TeX Live (BasicTeX tree)
+        uses: actions/cache@v4
+        id: tex-cache
+        with:
+          # BasicTeX installs under /usr/local/texlive on Intel and Apple Silicon GH runners.
+          path: |
+            /usr/local/texlive
+            /Library/TeX
+          key: texlive-basictex-macos-15-v1-${{ hashFiles('scripts/tex_oracle/**', 'scripts/oracle_catalog.json') }}
+          restore-keys: |
+            texlive-basictex-macos-15-v1-
+
+      - name: Install BasicTeX + packages
+        if: steps.tex-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          brew install --cask basictex
+          echo "/Library/TeX/texbin" >> "$GITHUB_PATH"
+          export PATH="/Library/TeX/texbin:$PATH"
+          # BasicTeX ships a minimal tree; pull only what the oracle needs.
+          # Math font comes from the repo bundle (latinmodern-math.otf), not TeX Live.
+          sudo tlmgr update --self
+          sudo tlmgr install \
+            luatex \
+            latex \
+            latex-bin \
+            tools \
+            amsmath \
+            geometry \
+            unicode-math \
+            fontspec \
+            lualibs \
+            luaotfload
+      - name: Ensure TeX on PATH
+        run: |
+          echo "/Library/TeX/texbin" >> "$GITHUB_PATH"
+          export PATH="/Library/TeX/texbin:$PATH"
+          which lualatex || which xelatex
+          lualatex --version | head -2 || xelatex --version | head -2
+
+      - name: Check oracle dependencies
+        run: |
+          export PATH="/Library/TeX/texbin:$PATH"
+          python3 scripts/tex_oracle/tex_oracle.py --check-deps
+          python3 - <<'PY'
+          import json, subprocess, sys
+          out = subprocess.check_output(
+              [sys.executable, "scripts/tex_oracle/tex_oracle.py", "--check-deps"],
+              text=True,
+          )
+          info = json.loads(out)
+          print(json.dumps(info, indent=2))
+          if not info.get("ok"):
+              raise SystemExit("TeX oracle deps not ok on CI runner")
+          PY
+
+      - name: Generate TeX oracle fixture
+        run: |
+          export PATH="/Library/TeX/texbin:$PATH"
+          python3 scripts/tex_oracle/tex_oracle.py --write-fixture --engine lualatex
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("Tests/SwiftTexMathCoreTests/Fixtures/tex_oracle_metrics.json")
+          data = json.loads(p.read_text())
+          status = data.get("status")
+          measured = data.get("measuredCount") or 0
+          print(f"status={status} measured={measured} items={data.get('itemCount')}")
+          if status != "ok":
+              tail = data.get("compileLogTail") or ""
+              print("--- compile log tail ---")
+              print(tail[-3000:])
+              raise SystemExit(f"expected status=ok, got {status!r}")
+          if measured < 20:
+              raise SystemExit(f"expected measuredCount >= 20, got {measured}")
+          PY
+
+      - name: Upload TeX oracle fixture
+        uses: actions/upload-artifact@v4
+        with:
+          name: tex-oracle-metrics
+          path: Tests/SwiftTexMathCoreTests/Fixtures/tex_oracle_metrics.json
+          if-no-files-found: error
+
+      - name: Run TeX geometry oracle tests
+        run: |
+          export PATH="/Library/TeX/texbin:$PATH"
+          swift test --filter TeXGeometryOracle
+
+      - name: Run related external oracle suite (KaTeX fixture, no Node required)
+        run: swift test --filter "ExternalGeometryOracle|Script scale"

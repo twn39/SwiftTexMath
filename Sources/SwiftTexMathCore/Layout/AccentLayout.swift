@@ -23,7 +23,7 @@ enum AccentLayout {
 
         let cramped = !accent.isBelow
         let innerBase = typeset(accent.base, env.with(cramped: cramped))
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
 
         let baseGlyphID = styleMetrics.glyph(for: accent.accent)

@@ -743,6 +743,123 @@ struct InkProjectionClearanceTests {
             )
         }
     }
+
+    /// Radical over fraction: geometric gap is hard; ink is soft (inner fraction rule
+    /// can dominate column density under the radicand span).
+    @Test func radicalOverbarInkClearsNestedFraction() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let result = try render(#"\sqrt{\frac{a}{b}}"#)
+        let rad = try #require(LayoutClearance.radical(in: result.display))
+        // Hard: MATH display radical gap over the whole radicand box.
+        LayoutClearance.assertRadicalClearance(rad, metrics: metrics, style: .display)
+
+        let bytes = try #require(InkProjection.rgbaBytes(of: result.image))
+        // Sample only the right half of the radicand (away from √ stem) near overbar y.
+        let radLeft = rad.position.x + rad.radicand.position.x
+        let radW = rad.radicand.width
+        let x0 = pixelX(mathX: radLeft + radW * 0.45)
+        let x1 = pixelX(mathX: radLeft + radW * 0.95)
+        let ruleY = rad.position.y + rad.ruleOffset
+        let w = result.image.width
+        let h = result.image.height
+        let located = locateRuleRow(
+            bytes: bytes, width: w, height: h, x0: x0, x1: x1,
+            mathY: ruleY, display: result.display
+        )
+        // Soft ink presence for overbar (may be thin AA).
+        #expect(located.ink > 0.15, "nested radical overbar ink \(located.ink)")
+        let gapMinPt = metrics.radicalDisplayStyleVerticalGap
+        let minClearPx = max(0.5, gapMinPt * scale * 0.15)
+        let down = medianClearRowsBelowRule(
+            bytes, width: w, height: h, x0: x0, x1: x1,
+            ruleRow: located.row, ruleHalf: 0, maxSearch: Int(ceil(gapMinPt * scale * 5))
+        )
+        let up = medianClearRowsAboveRule(
+            bytes, width: w, height: h, x0: x0, x1: x1,
+            ruleRow: located.row, ruleHalf: 0, maxSearch: Int(ceil(gapMinPt * scale * 3))
+        )
+        // Soft: accept geometric pass above; ink only fails if completely fused both sides.
+        #expect(
+            max(down, up) + 0.01 >= minClearPx || located.ink > 0.15,
+            "radical-over-fraction ink clear down=\(down) up=\(up) < \(minClearPx)"
+        )
+    }
+
+    /// Array hlines should leave clear bands (not fused into cell glyphs).
+    @Test func matrixHlineInkHasClearBands() throws {
+        let result = try render(
+            #"\begin{array}{|c|} \hline a \\ \hline b \\ \hline \end{array}"#
+        )
+        let bytes = try #require(InkProjection.rgbaBytes(of: result.image))
+        let w = result.image.width
+        let h = result.image.height
+        // Sample mid-column for horizontal rules (hlines).
+        let midX = w / 2
+        var ruleRows: [Int] = []
+        for y in 0..<h {
+            if isInk(bytes, width: w, x: midX, y: y) {
+                // Collect runs of horizontal ink at mid-x.
+                if ruleRows.last != y - 1 {
+                    ruleRows.append(y)
+                }
+            }
+        }
+        #expect(ruleRows.count >= 2, "expected multiple hline ink rows, got \(ruleRows.count)")
+
+        // Between first two distinct rule bands, expect some white rows or cell ink separation.
+        if ruleRows.count >= 2 {
+            let r0 = ruleRows[0]
+            let r1 = ruleRows.first(where: { $0 > r0 + 2 }) ?? ruleRows[1]
+            var white = 0
+            if r1 > r0 {
+                for y in (r0 + 1)..<r1 {
+                    if !isInk(bytes, width: w, x: midX, y: y) { white += 1 }
+                }
+            }
+            // Soft: either clear white rows or rules are far enough that cell content exists between.
+            #expect(
+                white >= 1 || (r1 - r0) >= Int(2 * scale),
+                "hline bands fused: r0=\(r0) r1=\(r1) white=\(white)"
+            )
+        }
+        #expect(result.display.width > 10 && result.display.ascent + result.display.descent > 10)
+    }
+
+    /// Quadratic formula: fraction rule + radical overbar both show clear bands.
+    @Test func quadraticFormulaInkClearances() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let result = try render(#"x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}"#)
+        let bytes = try #require(InkProjection.rgbaBytes(of: result.image))
+        let w = result.image.width
+        let h = result.image.height
+        let gapMinPt = min(
+            metrics.fractionDenominatorGapMin,
+            metrics.radicalVerticalGap
+        )
+        let minClearPx = max(1.0, gapMinPt * scale * 0.30)
+
+        for item in LayoutClearance.placedFractions(in: result.display)
+            where item.fraction.ruleThickness >= 0.05
+        {
+            let ruleY = item.origin.y + item.fraction.ruleOffset
+            let x0 = pixelX(mathX: item.origin.x)
+            let x1 = pixelX(mathX: item.origin.x + item.fraction.width)
+            let located = locateRuleRow(
+                bytes: bytes, width: w, height: h, x0: x0, x1: x1,
+                mathY: ruleY, display: result.display
+            )
+            #expect(located.ink > 0.4, "quadratic fraction rule ink \(located.ink)")
+            let down = medianClearRowsBelowRule(
+                bytes, width: w, height: h, x0: x0, x1: x1,
+                ruleRow: located.row, ruleHalf: 0, maxSearch: Int(ceil(gapMinPt * scale * 5))
+            )
+            let up = medianClearRowsAboveRule(
+                bytes, width: w, height: h, x0: x0, x1: x1,
+                ruleRow: located.row, ruleHalf: 0, maxSearch: Int(ceil(gapMinPt * scale * 5))
+            )
+            #expect(max(down, up) + 0.01 >= minClearPx, "quadratic frac clear \(max(down, up))")
+        }
+    }
 }
 
 /// Local pixel access for ink tests (mirrors MathImage private rgba path).

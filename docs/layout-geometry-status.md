@@ -63,10 +63,18 @@ tex2math corpus deep structure/ink checks.
 
 ## Clearance invariants (MATH-driven)
 
-These assert **gaps** and **alignments**, not absolute sizes:
+These assert **gaps** and **alignments**, not absolute sizes.
 
-- Fraction numerator / denominator vs rule (`Fraction*GapMin`)
-- Radical overbar vs radicand (`Radical*VerticalGap`)
+Style selection (`FontMetrics+Style.swift`): **display** uses `*DisplayStyle*`
+constants; **text / script / scriptscript** share the non-display set.
+
+- Fraction numerator / denominator vs rule (`fraction*GapMin(for: style)`)
+- Zero-thickness genfrac (`\binom` / `\atop` / `\choose`): **stack gap**
+  `≥ numGap + denGap` around the math axis (not rule clearance)
+- Radical overbar vs radicand (`radicalVerticalGap(for: style)`)
+- Nested corpus (Phase 1): `\sqrt{\frac{a}{b}}`, `\frac{\sqrt{a}}{\sqrt{b}}`,
+  deep fractions, quadratic formula, matrix/pmatrix with fractions, aligned
+  — see `NestedGeometryHardeningTests.swift`
 - Overline / underline vs content (`OverbarVerticalGap` / `UnderbarVerticalGap`)
 - Large-op nucleus centered on math axis; limit gaps (`Upper/LowerLimitGapMin`)
 - Dual scripts `x_i^j` (`SubSuperscriptGapMin`)
@@ -80,6 +88,8 @@ These assert **gaps** and **alignments**, not absolute sizes:
 - Stretchy horizontal assemblies (`\overrightarrow`, `\overbrace`) scale width monotonically with base
 - Phantom and Smash box invariants (`\phantom`, `\hphantom`, `\vphantom`, `\smash`, `\smash[t]`, `\smash[b]`)
 - WrapLayout penalizes breaks inside nested groups so multi-line wrap prefers top-level operators
+- **Ink projection** (PNG @ 3×): fraction rules, radical overbars (incl. nested √+frac),
+  array hlines, quadratic formula — `InkProjectionClearanceTests`
 
 ## When to update
 
@@ -88,8 +98,17 @@ These assert **gaps** and **alignments**, not absolute sizes:
 2. Prefer clearance tests for new constructs (stable across small metric tweaks).
 3. Golden PNGs under `Tests/SwiftTexMathCoreTests/Goldens/` are a second signal;
    regenerate with the project’s golden update path when intentional.
+4. New MATH constants → [math-constants-coverage.md](math-constants-coverage.md).
+5. Stretchy / multi-font changes → `StretchyAssemblyHardeningTests`,
+   `MultiFontClearanceTests` (relative gaps, not absolute pt).
+6. External engine bands → [tex-oracle.md](tex-oracle.md); regenerate KaTeX fixture with
+   `node scripts/katex_oracle.mjs -o Tests/.../katex_oracle_metrics.json`.
 
 ## Related
 
 - [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md) — wrap, tag, serializer caveats
+- [math-constants-coverage.md](math-constants-coverage.md) — MATH table wiring audit
+- [tex-oracle.md](tex-oracle.md) — KaTeX/TeX external geometry oracle
 - `LayoutClearanceHelpers.swift` — helpers for tree inspection in tests
+- `NestedGeometryHardeningTests.swift` — Phase-1 nested clearance corpus
+- `ScriptScaleAndOracleTests.swift` — MATH script scale + KaTeX graded bands

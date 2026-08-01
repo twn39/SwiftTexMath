@@ -12,14 +12,13 @@ enum RadicalLayout {
         let radicandEnv = env.with(cramped: true)
         var radicand = typeset(radical.radicand, radicandEnv)
 
-        let gap = env.style == .display
-            ? metrics.radicalDisplayStyleVerticalGap
-            : metrics.radicalVerticalGap
-        let rule = metrics.radicalRuleThickness
-        let extra = metrics.radicalExtraAscender
-
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        // Prefer style-scaled metrics so script/scriptscript radicals scale gaps with size.
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
+
+        let gap = styleMetrics.radicalVerticalGap(for: env.style)
+        let rule = styleMetrics.radicalRuleThickness
+        let extra = styleMetrics.radicalExtraAscender
 
         // Cover radicand + gap + rule so the radical sign is tall enough for the overbar.
         let needed = radicand.ascent + radicand.descent + gap + rule
@@ -37,8 +36,8 @@ enum RadicalLayout {
         if let deg = radical.degree {
             let degEnv = env.with(style: .scriptScript)
             degree = typeset(deg, degEnv)
-            degreeWidth = metrics.radicalKernBeforeDegree + (degree?.width ?? 0)
-                + metrics.radicalKernAfterDegree
+            degreeWidth = styleMetrics.radicalKernBeforeDegree + (degree?.width ?? 0)
+                + styleMetrics.radicalKernAfterDegree
         }
 
         // Overbar center: radicand top + vertical gap + half rule (stroke is centered).
@@ -59,10 +58,10 @@ enum RadicalLayout {
         // OpenType: raise degree bottom by RadicalDegreeBottomRaisePercent of total height.
         if var deg = degree {
             let totalHeight = ascent + descent
-            let raise = totalHeight * metrics.radicalDegreeBottomRaisePercent
+            let raise = totalHeight * styleMetrics.radicalDegreeBottomRaisePercent
             // Bottom of degree at −descent + raise → baseline = that + deg.descent
             deg.position = CGPoint(
-                x: metrics.radicalKernBeforeDegree,
+                x: styleMetrics.radicalKernBeforeDegree,
                 y: -descent + raise + deg.descent
             )
             ascent = max(ascent, deg.position.y + deg.ascent)

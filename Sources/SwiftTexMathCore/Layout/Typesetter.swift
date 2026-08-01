@@ -95,7 +95,10 @@ public enum Typesetter {
         var suppressNumbering = false
         var lineLabels: [String] = []
 
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(
+            name: env.font.name,
+            size: metrics.styleFontSize(baseSize: env.font.size, style: env.style)
+        )
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let layoutCtx = { (e: MathEnvironment) in
             LayoutContext(
@@ -410,7 +413,7 @@ public enum Typesetter {
         enlarge: Bool,
         centerOnAxis: Bool
     ) -> DisplayNode {
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let text = MathVariantMapper.mapNucleus(atom.nucleus, variant: env.variant, kind: atom.kind)
         let measureText = text.isEmpty ? " " : text

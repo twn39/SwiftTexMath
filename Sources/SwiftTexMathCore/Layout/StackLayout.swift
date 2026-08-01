@@ -80,7 +80,7 @@ enum StackLayout {
         metrics: FontMetrics,
         fonts: any FontProviding
     ) -> DisplayList {
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let baseGlyph = styleMetrics.glyph(for: nucleus)
         let sized = styleMetrics.sizedHorizontal(baseGlyph, coveringWidth: width)

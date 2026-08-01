@@ -1,0 +1,17 @@
+{
+  "generator": "scripts/tex_oracle/tex_oracle.py",
+  "status": "unavailable",
+  "unit": "em",
+  "fontSizePt": 10.0,
+  "engine": null,
+  "enginePath": null,
+  "font": null,
+  "note": "Placeholder fixture. Regenerate with TeX installed: python3 scripts/tex_oracle/tex_oracle.py --write-fixture (or ./scripts/tex_oracle/run.sh). See docs/tex-oracle.md.",
+  "depsNotes": [
+    "Committed as status=unavailable so CI without TeX stays green. Replace when LuaTeX/XeTeX metrics are generated."
+  ],
+  "measuredCount": 0,
+  "itemCount": 0,
+  "compileLogTail": null,
+  "items": []
+}

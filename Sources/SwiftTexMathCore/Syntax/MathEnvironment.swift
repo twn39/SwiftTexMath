@@ -93,7 +93,16 @@ public struct MathEnvironment: Sendable, Hashable {
         return copy
     }
 
+    /// Style font size using fixed fallback multipliers (`MathStyle.sizeMultiplier`).
+    /// Prefer ``styleFontSize(using:)`` when MATH metrics are available so
+    /// `ScriptPercentScaleDown` / `ScriptScriptPercentScaleDown` are honored.
     public var styleFontSize: CGFloat {
         font.size * style.sizeMultiplier
+    }
+
+    /// Style font size from OpenType MATH script scale percentages when `metrics` is set.
+    public func styleFontSize(using metrics: (any FontMetricsProtocol)?) -> CGFloat {
+        guard let metrics else { return styleFontSize }
+        return metrics.styleFontSize(baseSize: font.size, style: style)
     }
 }

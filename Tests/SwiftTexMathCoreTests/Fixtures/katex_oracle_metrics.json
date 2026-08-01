@@ -1,0 +1,648 @@
+{
+  "generator": "katex_oracle.mjs",
+  "katexVersion": "0.16.47",
+  "unit": "em",
+  "note": "Heights/depths from katex.__renderToDomTree; width summed from DomTree when missing on root.",
+  "items": [
+    {
+      "id": "var_x",
+      "latex": "x",
+      "display": {
+        "heightEm": 0.43056,
+        "depthEm": 0,
+        "totalHeightEm": 0.43056,
+        "widthEm": 0.57153
+      },
+      "text": {
+        "heightEm": 0.43056,
+        "depthEm": 0,
+        "totalHeightEm": 0.43056,
+        "widthEm": 0.57153
+      }
+    },
+    {
+      "id": "var_y",
+      "latex": "y",
+      "display": {
+        "heightEm": 0.43056,
+        "depthEm": 0.19444,
+        "totalHeightEm": 0.625,
+        "widthEm": 0.49028
+      },
+      "text": {
+        "heightEm": 0.43056,
+        "depthEm": 0.19444,
+        "totalHeightEm": 0.625,
+        "widthEm": 0.49028
+      }
+    },
+    {
+      "id": "digits",
+      "latex": "012",
+      "display": {
+        "heightEm": 0.64444,
+        "depthEm": 0,
+        "totalHeightEm": 0.64444,
+        "widthEm": 0.5
+      },
+      "text": {
+        "heightEm": 0.64444,
+        "depthEm": 0,
+        "totalHeightEm": 0.64444,
+        "widthEm": 0.5
+      }
+    },
+    {
+      "id": "sum_plain",
+      "latex": "a+b",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0.08333,
+        "totalHeightEm": 0.77777,
+        "widthEm": 1.73554
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0.08333,
+        "totalHeightEm": 0.77777,
+        "widthEm": 1.73554
+      }
+    },
+    {
+      "id": "rel_eq",
+      "latex": "a=b",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.73554
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.73554
+      }
+    },
+    {
+      "id": "chain",
+      "latex": "a+b+c",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0.08333,
+        "totalHeightEm": 0.77777,
+        "widthEm": 2.9460800000000003
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0.08333,
+        "totalHeightEm": 0.77777,
+        "widthEm": 2.9460800000000003
+      }
+    },
+    {
+      "id": "frac_12",
+      "latex": "\\frac{1}{2}",
+      "display": {
+        "heightEm": 1.32144,
+        "depthEm": 0.686,
+        "totalHeightEm": 2.00744,
+        "widthEm": 1
+      },
+      "text": {
+        "heightEm": 0.845108,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.190108,
+        "widthEm": 1
+      }
+    },
+    {
+      "id": "frac_ab",
+      "latex": "\\frac{a}{b}",
+      "display": {
+        "heightEm": 1.10756,
+        "depthEm": 0.686,
+        "totalHeightEm": 1.7935600000000003,
+        "widthEm": 0.95776
+      },
+      "text": {
+        "heightEm": 0.695392,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.040392,
+        "widthEm": 0.95776
+      }
+    },
+    {
+      "id": "dfrac",
+      "latex": "\\dfrac{a}{b}",
+      "display": {
+        "heightEm": 1.10756,
+        "depthEm": 0.686,
+        "totalHeightEm": 1.7935600000000003,
+        "widthEm": 0.95776
+      },
+      "text": {
+        "heightEm": 1.10756,
+        "depthEm": 0.686,
+        "totalHeightEm": 1.7935600000000003,
+        "widthEm": 0.95776
+      }
+    },
+    {
+      "id": "tfrac",
+      "latex": "\\tfrac{a}{b}",
+      "display": {
+        "heightEm": 0.695392,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.040392,
+        "widthEm": 0.95776
+      },
+      "text": {
+        "heightEm": 0.695392,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.040392,
+        "widthEm": 0.95776
+      }
+    },
+    {
+      "id": "sqrt_2",
+      "latex": "\\sqrt{2}",
+      "display": {
+        "heightEm": 0.956095,
+        "depthEm": 0.08390500000000001,
+        "totalHeightEm": 1.04,
+        "widthEm": 0.5
+      },
+      "text": {
+        "heightEm": 0.90722,
+        "depthEm": 0.13278,
+        "totalHeightEm": 1.04,
+        "widthEm": 0.5
+      }
+    },
+    {
+      "id": "sqrt_x",
+      "latex": "\\sqrt{x}",
+      "display": {
+        "heightEm": 0.8491550000000001,
+        "depthEm": 0.190845,
+        "totalHeightEm": 1.04,
+        "widthEm": 0.57153
+      },
+      "text": {
+        "heightEm": 0.8002800000000001,
+        "depthEm": 0.23972,
+        "totalHeightEm": 1.04,
+        "widthEm": 0.57153
+      }
+    },
+    {
+      "id": "sqrt_frac",
+      "latex": "\\sqrt{\\frac{a}{b}}",
+      "display": {
+        "heightEm": 1.5446550000000001,
+        "depthEm": 0.8953449999999998,
+        "totalHeightEm": 2.44,
+        "widthEm": 0.95776
+      },
+      "text": {
+        "heightEm": 0.860196,
+        "depthEm": 0.37980400000000003,
+        "totalHeightEm": 1.24,
+        "widthEm": 0.95776
+      }
+    },
+    {
+      "id": "frac_sqrt",
+      "latex": "\\frac{\\sqrt{a}}{b}",
+      "display": {
+        "heightEm": 1.47728,
+        "depthEm": 0.686,
+        "totalHeightEm": 2.16328,
+        "widthEm": 0.95776
+      },
+      "text": {
+        "heightEm": 1.038,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.383,
+        "widthEm": 0.95776
+      }
+    },
+    {
+      "id": "script_x2",
+      "latex": "x^2",
+      "display": {
+        "heightEm": 0.8641079999999999,
+        "depthEm": 0,
+        "totalHeightEm": 0.8641079999999999,
+        "widthEm": 1.07153
+      },
+      "text": {
+        "heightEm": 0.8141079999999999,
+        "depthEm": 0,
+        "totalHeightEm": 0.8141079999999999,
+        "widthEm": 1.07153
+      }
+    },
+    {
+      "id": "sub_xi",
+      "latex": "x_i",
+      "display": {
+        "heightEm": 0.43056,
+        "depthEm": 0.15,
+        "totalHeightEm": 0.58056,
+        "widthEm": 0.91604
+      },
+      "text": {
+        "heightEm": 0.43056,
+        "depthEm": 0.15,
+        "totalHeightEm": 0.58056,
+        "widthEm": 0.91604
+      }
+    },
+    {
+      "id": "dual_script",
+      "latex": "x_i^j",
+      "display": {
+        "heightEm": 0.9425719999999999,
+        "depthEm": 0.276864,
+        "totalHeightEm": 1.219436,
+        "widthEm": 1.32785
+      },
+      "text": {
+        "heightEm": 0.942572,
+        "depthEm": 0.276864,
+        "totalHeightEm": 1.219436,
+        "widthEm": 1.32785
+      }
+    },
+    {
+      "id": "sum_limits",
+      "latex": "\\sum_{i=1}^{n}",
+      "display": {
+        "heightEm": 1.6513970000000002,
+        "depthEm": 1.277669,
+        "totalHeightEm": 2.929066,
+        "widthEm": 3.66697
+      },
+      "text": {
+        "heightEm": 0.804292,
+        "depthEm": 0.29971000000000003,
+        "totalHeightEm": 1.104002,
+        "widthEm": 3.27808
+      }
+    },
+    {
+      "id": "prod_limits",
+      "latex": "\\prod_{k=1}^{n}",
+      "display": {
+        "heightEm": 1.6513970000000002,
+        "depthEm": 1.302113,
+        "totalHeightEm": 2.9535100000000005,
+        "widthEm": 3.6763899999999996
+      },
+      "text": {
+        "heightEm": 0.804292,
+        "depthEm": 0.29971000000000003,
+        "totalHeightEm": 1.104002,
+        "widthEm": 3.3430599999999995
+      }
+    },
+    {
+      "id": "int_01",
+      "latex": "\\int_0^1",
+      "display": {
+        "heightEm": 1.5640080000000003,
+        "depthEm": 0.9119499999999999,
+        "totalHeightEm": 2.4759580000000003,
+        "widthEm": 1.55556
+      },
+      "text": {
+        "heightEm": 1.0090080000000001,
+        "depthEm": 0.35582,
+        "totalHeightEm": 1.3648280000000002,
+        "widthEm": 1.47222
+      }
+    },
+    {
+      "id": "lim",
+      "latex": "\\lim_{x\\to\\infty}",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0.7,
+        "totalHeightEm": 1.39444,
+        "widthEm": 3.96043
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0.15,
+        "totalHeightEm": 0.84444,
+        "widthEm": 3.96043
+      }
+    },
+    {
+      "id": "binom",
+      "latex": "\\binom{n}{k}",
+      "display": {
+        "heightEm": 1.45,
+        "depthEm": 0.95003,
+        "totalHeightEm": 2.40003,
+        "widthEm": 2.59305
+      },
+      "text": {
+        "heightEm": 0.85,
+        "depthEm": 0.35001,
+        "totalHeightEm": 1.20001,
+        "widthEm": 2.03751
+      }
+    },
+    {
+      "id": "left_right_frac",
+      "latex": "\\left(\\frac{a}{b}\\right)",
+      "display": {
+        "heightEm": 1.15,
+        "depthEm": 0.686,
+        "totalHeightEm": 1.8359999999999999,
+        "widthEm": 2.1522
+      },
+      "text": {
+        "heightEm": 0.85,
+        "depthEm": 0.35001,
+        "totalHeightEm": 1.20001,
+        "widthEm": 1.8744399999999999
+      }
+    },
+    {
+      "id": "middle",
+      "latex": "\\left(a\\middle|b\\right)",
+      "display": {
+        "heightEm": 0.75,
+        "depthEm": 0.25,
+        "totalHeightEm": 1,
+        "widthEm": 2.01332
+      },
+      "text": {
+        "heightEm": 0.75,
+        "depthEm": 0.25,
+        "totalHeightEm": 1,
+        "widthEm": 2.01332
+      }
+    },
+    {
+      "id": "pmatrix",
+      "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}",
+      "display": {
+        "heightEm": 1.45,
+        "depthEm": 0.95003,
+        "totalHeightEm": 2.40003,
+        "widthEm": 3.38323
+      },
+      "text": {
+        "heightEm": 1.45,
+        "depthEm": 0.95003,
+        "totalHeightEm": 2.40003,
+        "widthEm": 3.38323
+      }
+    },
+    {
+      "id": "sin_theta",
+      "latex": "\\sin\\theta",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.6972300000000002
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.6972300000000002
+      }
+    },
+    {
+      "id": "log",
+      "latex": "\\log x",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0.19444,
+        "totalHeightEm": 0.8888799999999999,
+        "widthEm": 1.84931
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0.19444,
+        "totalHeightEm": 0.8888799999999999,
+        "widthEm": 1.84931
+      }
+    },
+    {
+      "id": "partial",
+      "latex": "\\frac{\\partial f}{\\partial x}",
+      "display": {
+        "heightEm": 1.3714399999999998,
+        "depthEm": 0.686,
+        "totalHeightEm": 2.0574399999999997,
+        "widthEm": 2.12292
+      },
+      "text": {
+        "heightEm": 0.9322159999999999,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.277216,
+        "widthEm": 2.12292
+      }
+    },
+    {
+      "id": "quad",
+      "latex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+      "display": {
+        "heightEm": 1.590389,
+        "depthEm": 0.686,
+        "totalHeightEm": 2.276389,
+        "widthEm": 7.530929999999999
+      },
+      "text": {
+        "heightEm": 1.039482,
+        "depthEm": 0.345,
+        "totalHeightEm": 1.384482,
+        "widthEm": 7.530929999999999
+      }
+    },
+    {
+      "id": "hat_x",
+      "latex": "\\hat{x}",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.07153
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.07153
+      }
+    },
+    {
+      "id": "overline",
+      "latex": "\\overline{abc}",
+      "display": {
+        "heightEm": 0.89444,
+        "depthEm": 0,
+        "totalHeightEm": 0.89444,
+        "widthEm": 0.9613499999999999
+      },
+      "text": {
+        "heightEm": 0.89444,
+        "depthEm": 0,
+        "totalHeightEm": 0.89444,
+        "widthEm": 0.9613499999999999
+      }
+    },
+    {
+      "id": "vec",
+      "latex": "\\vec{v}",
+      "display": {
+        "heightEm": 0.714,
+        "depthEm": 0,
+        "totalHeightEm": 0.714,
+        "widthEm": 0.48472
+      },
+      "text": {
+        "heightEm": 0.714,
+        "depthEm": 0,
+        "totalHeightEm": 0.714,
+        "widthEm": 0.48472
+      }
+    },
+    {
+      "id": "alpha_beta",
+      "latex": "\\alpha+\\beta",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0.19444,
+        "totalHeightEm": 0.8888799999999999,
+        "widthEm": 1.98311
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0.19444,
+        "totalHeightEm": 0.8888799999999999,
+        "widthEm": 1.98311
+      }
+    },
+    {
+      "id": "paren_sum",
+      "latex": "(a+b)(c+d)",
+      "display": {
+        "heightEm": 0.75,
+        "depthEm": 0.25,
+        "totalHeightEm": 1,
+        "widthEm": 5.022130000000001
+      },
+      "text": {
+        "heightEm": 0.75,
+        "depthEm": 0.25,
+        "totalHeightEm": 1,
+        "widthEm": 5.022130000000001
+      }
+    },
+    {
+      "id": "nested_frac",
+      "latex": "\\frac{\\frac{a}{b}}{\\frac{c}{d}}",
+      "display": {
+        "heightEm": 1.4303919999999999,
+        "depthEm": 1.0310000000000001,
+        "totalHeightEm": 2.461392,
+        "widthEm": 1.9110099999999999
+      },
+      "text": {
+        "heightEm": 1.03488,
+        "depthEm": 0.5857999999999999,
+        "totalHeightEm": 1.62068,
+        "widthEm": 1.9110099999999999
+      }
+    },
+    {
+      "id": "cfrac",
+      "latex": "\\cfrac{1}{1+\\cfrac{1}{x}}",
+      "display": {
+        "heightEm": 1.5899999999999999,
+        "depthEm": 2.166,
+        "totalHeightEm": 3.756,
+        "widthEm": 2.84931
+      },
+      "text": {
+        "heightEm": 1.5899999999999999,
+        "depthEm": 2.166,
+        "totalHeightEm": 3.756,
+        "widthEm": 2.84931
+      }
+    },
+    {
+      "id": "cases",
+      "latex": "\\begin{cases} x & x>0 \\\\ -x & x\\le 0 \\end{cases}",
+      "display": {
+        "heightEm": 1.75,
+        "depthEm": 1.25003,
+        "totalHeightEm": 3.0000299999999998,
+        "widthEm": 6.42502
+      },
+      "text": {
+        "heightEm": 1.75,
+        "depthEm": 1.25003,
+        "totalHeightEm": 3.0000299999999998,
+        "widthEm": 6.42502
+      }
+    },
+    {
+      "id": "mathbb_R",
+      "latex": "\\mathbb{R}",
+      "display": {
+        "heightEm": 0.68889,
+        "depthEm": 0,
+        "totalHeightEm": 0.68889,
+        "widthEm": 0.72222
+      },
+      "text": {
+        "heightEm": 0.68889,
+        "depthEm": 0,
+        "totalHeightEm": 0.68889,
+        "widthEm": 0.72222
+      }
+    },
+    {
+      "id": "operatorname",
+      "latex": "\\operatorname{rank} A",
+      "display": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.14167
+      },
+      "text": {
+        "heightEm": 0.69444,
+        "depthEm": 0,
+        "totalHeightEm": 0.69444,
+        "widthEm": 1.14167
+      }
+    },
+    {
+      "id": "exp_ipi",
+      "latex": "e^{i\\pi}+1=0",
+      "display": {
+        "heightEm": 0.8746639999999999,
+        "depthEm": 0.08333,
+        "totalHeightEm": 0.9579939999999999,
+        "widthEm": 3.3657
+      },
+      "text": {
+        "heightEm": 0.824664,
+        "depthEm": 0.08333,
+        "totalHeightEm": 0.907994,
+        "widthEm": 3.3657
+      }
+    }
+  ]
+}

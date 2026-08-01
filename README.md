@@ -3,6 +3,7 @@
 Native, high-performance LaTeX math rendering engine for Apple platforms written in Swift.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/twn39/SwiftTexMath/ci.yml?branch=main&label=CI&style=flat-square&logo=github-actions)](https://github.com/twn39/SwiftTexMath/actions/workflows/ci.yml)
+[![TeX Oracle](https://img.shields.io/github/actions/workflow/status/twn39/SwiftTexMath/tex-oracle.yml?branch=main&label=TeX%20Oracle&style=flat-square&logo=latex)](https://github.com/twn39/SwiftTexMath/actions/workflows/tex-oracle.yml)
 [![Swift 6.1+](https://img.shields.io/badge/Swift-6.1%2B-orange.svg?style=flat-square&logo=swift)](https://swift.org)
 [![Platforms](https://img.shields.io/badge/Platforms-macOS%2014+%20%7C%20iOS%2017+%20%7C%20tvOS%2017+%20%7C%20watchOS%2010+%20%7C%20visionOS%201+-blue.svg?style=flat-square&logo=apple)](https://developer.apple.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)]()

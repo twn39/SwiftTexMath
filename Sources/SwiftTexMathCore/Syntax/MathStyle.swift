@@ -43,6 +43,9 @@ public enum MathStyle: Int, Sendable, Hashable, CaseIterable {
         }
     }
 
+    /// Fallback scale when MATH metrics are unavailable.
+    /// Prefer ``FontMetrics/sizeMultiplier(for:)`` (`ScriptPercentScaleDown` /
+    /// `ScriptScriptPercentScaleDown`) during layout.
     public var sizeMultiplier: CGFloat {
         switch self {
         case .display, .text: return 1

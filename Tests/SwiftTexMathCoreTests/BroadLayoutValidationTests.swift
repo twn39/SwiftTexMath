@@ -354,17 +354,8 @@ struct BroadLayoutClearanceTests {
         let metrics = try #require(LayoutClearance.metrics())
         let display = try BroadLayoutCatalog.renderer.layout(latex: c.latex)
         let rad = try #require(LayoutClearance.radical(in: display), "\(c.id): missing radical")
-        // Accept text or display MATH radical vertical gap (nested style contexts vary).
-        let gap = min(metrics.radicalVerticalGap, metrics.radicalDisplayStyleVerticalGap)
-        let clearance = LayoutClearance.gapAbove(
-            contentTop: rad.radicand.ascent,
-            ruleOffset: rad.ruleOffset,
-            ruleThickness: rad.ruleThickness
-        )
-        let ok =
-            clearance + 0.01 >= metrics.radicalVerticalGap
-            || clearance + 0.01 >= metrics.radicalDisplayStyleVerticalGap
-        #expect(ok, "\(c.id): radical clearance \(clearance) < gap (min \(gap))")
+        // Soft: outer style unknown for catalog mix; accept text or display gap.
+        LayoutClearance.assertRadicalClearanceSoft(rad, metrics: metrics)
     }
 
     /// Zero-thickness genfrac (binom) still produces a fraction node with positive size.

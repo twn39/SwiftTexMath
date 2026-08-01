@@ -27,7 +27,10 @@ behavior is approximated rather than fully TeX-faithful.
 | Topic | Behavior |
 |---|---|
 | **Custom `FontProviding` & `FontMetricsProtocol`** | SwiftUI `DisplayProvider` automatically caches parse & layout results for all `FontProviding` instances. Custom metric providers and test doubles conform to `FontMetricsProtocol`. |
-| **Missing glyphs** | Falls back to the text fallback font / system UI font; metrics may not match MATH spacing. |
+| **Missing glyphs** | Falls back to the text fallback font / system UI font (`GlyphRun.usesSystemFallback` / `fallbackFontName`); metrics may not match MATH spacing. Tests: `MissingGlyphHardeningTests`. |
+| **Script scale** | Layout uses OpenType `ScriptPercentScaleDown` / `ScriptScriptPercentScaleDown` via `FontMetrics.sizeMultiplier(for:)` (LM: 0.70 / 0.50). `MathStyle.sizeMultiplier` is fallback only when metrics are missing. |
+| **External oracle** | KaTeX DomTree (`ExternalGeometryOracleTests` + `scripts/katex_oracle.mjs`). TeX box oracle skeleton (`scripts/tex_oracle/`, `TeXGeometryOracleTests`); fixture defaults to `status=unavailable` without LuaTeX/XeTeX. See [tex-oracle.md](tex-oracle.md). |
+| **Multi-font geometry** | Absolute LM 20pt goldens are Latin Modern only. Relative clearances also run on XITS (and smoke on other bundled fonts) via `MultiFontClearanceTests`. |
 | **Export** | `MathImage` (bitmap/PNG), `MathPDF` (vector PDF), `MathSVG` (vector SVG via glyph outlines + stroked rules). SVG does not embed font files; missing outline glyphs fall back to system outline then portable `<text>`. |
 
 ## UI façade
@@ -52,4 +55,6 @@ behavior is approximated rather than fully TeX-faithful.
 |---|---|
 | **Golden PNGs** | Tolerant pixel match (AA variance). Prefer running goldens on CI macOS. Expanded catalog (~33 fixtures) covers binom, limits, cases, tags, etc. |
 | **Geometry goldens** | Absolute sizes at Latin Modern 20pt; core set in `LayoutGeometryTests` (±0.02) plus broad catalog in `BroadLayoutValidationTests` (±0.05). See [layout-geometry-status.md](layout-geometry-status.md). |
-| **Multi-layer validation** | Size + structure/tokens + MATH clearance + raster fingerprints + KaTeX soft bands + tex2math corpus deep checks. Not pixel-identical to TeX/KaTeX. |
+| **Style-aware MATH gaps** | Display vs text/script constants via `FontMetrics` helpers (`fraction*GapMin(for:)`, `radicalVerticalGap(for:)`). Nested radicals under text-style numerators use **text** radical gaps (correct TeX behavior), not display. |
+| **Binom / atop stacks** | Zero-thickness genfrac validates **stack separation** (`numGap+denGap`), not fraction-rule clearance. |
+| **Multi-layer validation** | Size + structure/tokens + style-aware MATH clearance + nested corpus + ink projection + raster fingerprints + KaTeX soft bands + tex2math corpus. Not pixel-identical to TeX/KaTeX. |

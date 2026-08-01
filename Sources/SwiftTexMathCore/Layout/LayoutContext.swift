@@ -29,7 +29,9 @@ struct LayoutContext {
     }
 
     func styleMetrics(for env: MathEnvironment) -> FontMetrics {
-        let font = MathFont(name: env.font.name, size: env.styleFontSize)
+        // Script scales come from MATH table on the current metrics object (unitless %).
+        let size = metrics.styleFontSize(baseSize: env.font.size, style: env.style)
+        let font = MathFont(name: env.font.name, size: size)
         return fonts.metrics(for: font)
             ?? fonts.metrics(for: env.font)
             ?? metrics

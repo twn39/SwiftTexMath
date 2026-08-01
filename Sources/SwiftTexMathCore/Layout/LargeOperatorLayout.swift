@@ -9,7 +9,7 @@ enum LargeOperatorLayout {
         fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         var glyphIDs = styleMetrics.glyphs(for: atom.nucleus)
         if env.style == .display, glyphIDs.count == 1 {

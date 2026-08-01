@@ -1,0 +1,19 @@
+# Historical example — the real workflow is:
+#   .github/workflows/tex-oracle.yml
+#
+# Prefer editing that file. This fragment is kept only as a short reference.
+
+# name: TeX Oracle
+# on: [workflow_dispatch]
+# jobs:
+#   tex-oracle:
+#     runs-on: macos-15
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: swift-actions/setup-swift@v2
+#         with: { swift-version: "6.1" }
+#       - run: brew install --cask basictex
+#       - run: echo /Library/TeX/texbin >> $GITHUB_PATH
+#       - run: sudo tlmgr install luatex unicode-math fontspec amsmath geometry latex-bin luaotfload
+#       - run: python3 scripts/tex_oracle/tex_oracle.py --write-fixture
+#       - run: swift test --filter TeXGeometryOracle

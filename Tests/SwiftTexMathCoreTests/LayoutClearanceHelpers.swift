@@ -219,42 +219,203 @@ enum LayoutClearance {
         }
     }
 
-    /// Assert numerator/denominator clear the fraction rule using MATH gap mins.
-    static func assertFractionRuleClearances(
-        _ frac: FractionDisplay,
-        metrics: FontMetrics,
-        sourceLocation: SourceLocation = #_sourceLocation
-    ) {
+    // MARK: - Style-aware fraction / radical clearances
+
+    /// Stack gap between numerator bottom and denominator top (rule-independent).
+    static func stackGap(of frac: FractionDisplay) -> CGFloat {
+        let numBottom = frac.numeratorOffset - frac.numerator.descent
         let denTop = -frac.denominatorOffset + frac.denominator.ascent
-        let denClear = gapAbove(
+        return numBottom - denTop
+    }
+
+    static func numeratorRuleClearance(of frac: FractionDisplay) -> CGFloat {
+        let numBottom = frac.numeratorOffset - frac.numerator.descent
+        return numBottom - (frac.ruleOffset + frac.ruleThickness / 2)
+    }
+
+    static func denominatorRuleClearance(of frac: FractionDisplay) -> CGFloat {
+        let denTop = -frac.denominatorOffset + frac.denominator.ascent
+        return gapAbove(
             contentTop: denTop,
             ruleOffset: frac.ruleOffset,
             ruleThickness: frac.ruleThickness
         )
-        let denMin = min(
-            metrics.fractionDenominatorGapMin,
-            metrics.fractionDenominatorDisplayStyleGapMin
-        )
-        // Accept either text or display gap (style may nest).
-        let denOK =
-            denClear + 0.01 >= metrics.fractionDenominatorGapMin
-            || denClear + 0.01 >= metrics.fractionDenominatorDisplayStyleGapMin
-        #expect(
-            denOK,
-            "denominator clearance \(denClear) < gap mins (text \(metrics.fractionDenominatorGapMin), display \(metrics.fractionDenominatorDisplayStyleGapMin)); floor \(denMin)",
-            sourceLocation: sourceLocation
-        )
+    }
 
-        let numBottom = frac.numeratorOffset - frac.numerator.descent
-        let numClear = numBottom - (frac.ruleOffset + frac.ruleThickness / 2)
-        let numOK =
-            numClear + 0.01 >= metrics.fractionNumeratorGapMin
-            || numClear + 0.01 >= metrics.fractionNumeratorDisplayStyleGapMin
+    static func radicalOverbarClearance(of rad: RadicalDisplay) -> CGFloat {
+        gapAbove(
+            contentTop: rad.radicand.ascent,
+            ruleOffset: rad.ruleOffset,
+            ruleThickness: rad.ruleThickness
+        )
+    }
+
+    /// Assert numerator/denominator clear the fraction rule using MATH gap mins.
+    ///
+    /// - When `style` is provided, uses style-specific gap constants (strict).
+    /// - When `style` is nil, accepts either text or display mins (nested contexts).
+    /// - When `ruleThickness ≈ 0` (`\binom` / `\atop`), delegates to stack-gap assert.
+    static func assertFractionRuleClearances(
+        _ frac: FractionDisplay,
+        metrics: FontMetrics,
+        style: MathStyle? = nil,
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) {
+        if frac.ruleThickness < 0.05 {
+            assertStackFractionClearance(
+                frac, metrics: metrics, style: style ?? .display,
+                sourceLocation: sourceLocation
+            )
+            return
+        }
+
+        let numGap: CGFloat
+        let denGap: CGFloat
+        if let style {
+            numGap = metrics.fractionNumeratorGapMin(for: style)
+            denGap = metrics.fractionDenominatorGapMin(for: style)
+        } else {
+            numGap = min(
+                metrics.fractionNumeratorGapMin,
+                metrics.fractionNumeratorDisplayStyleGapMin
+            )
+            denGap = min(
+                metrics.fractionDenominatorGapMin,
+                metrics.fractionDenominatorDisplayStyleGapMin
+            )
+        }
+
+        let denClear = denominatorRuleClearance(of: frac)
+        let numClear = numeratorRuleClearance(of: frac)
+
+        if let style {
+            #expect(
+                denClear + 0.01 >= denGap,
+                "denominator clearance \(denClear) < style \(style) gap \(denGap)",
+                sourceLocation: sourceLocation
+            )
+            #expect(
+                numClear + 0.01 >= numGap,
+                "numerator clearance \(numClear) < style \(style) gap \(numGap)",
+                sourceLocation: sourceLocation
+            )
+        } else {
+            let denOK =
+                denClear + 0.01 >= metrics.fractionDenominatorGapMin
+                || denClear + 0.01 >= metrics.fractionDenominatorDisplayStyleGapMin
+            #expect(
+                denOK,
+                "denominator clearance \(denClear) < gap mins (text \(metrics.fractionDenominatorGapMin), display \(metrics.fractionDenominatorDisplayStyleGapMin))",
+                sourceLocation: sourceLocation
+            )
+            let numOK =
+                numClear + 0.01 >= metrics.fractionNumeratorGapMin
+                || numClear + 0.01 >= metrics.fractionNumeratorDisplayStyleGapMin
+            #expect(
+                numOK,
+                "numerator clearance \(numClear)",
+                sourceLocation: sourceLocation
+            )
+        }
+    }
+
+    /// Zero-thickness genfrac (`\binom`, `\atop`, `\choose`): require stack separation.
+    static func assertStackFractionClearance(
+        _ frac: FractionDisplay,
+        metrics: FontMetrics,
+        style: MathStyle = .display,
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) {
+        let numGap = metrics.fractionNumeratorGapMin(for: style)
+        let denGap = metrics.fractionDenominatorGapMin(for: style)
+        let minStack = numGap + denGap
+        let gap = stackGap(of: frac)
         #expect(
-            numOK,
-            "numerator clearance \(numClear)",
+            gap + 0.01 >= minStack,
+            "stack gap \(gap) < min \(minStack) (numGap \(numGap)+denGap \(denGap)) for style \(style)",
             sourceLocation: sourceLocation
         )
+        // Num should sit above axis; den below (soft: allow equal for tiny content).
+        #expect(
+            frac.numeratorOffset + 0.01 >= metrics.axisHeight,
+            "numerator offset \(frac.numeratorOffset) should clear axis \(metrics.axisHeight)",
+            sourceLocation: sourceLocation
+        )
+    }
+
+    /// Radical overbar clearance for a known outer style.
+    static func assertRadicalClearance(
+        _ rad: RadicalDisplay,
+        metrics: FontMetrics,
+        style: MathStyle,
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) {
+        let gapMin = metrics.radicalVerticalGap(for: style)
+        let clearance = radicalOverbarClearance(of: rad)
+        #expect(
+            clearance + 0.01 >= gapMin,
+            "radical clearance \(clearance) < style \(style) gap \(gapMin)",
+            sourceLocation: sourceLocation
+        )
+    }
+
+    /// Soft radical assert: accept text or display gap (unknown nesting style).
+    static func assertRadicalClearanceSoft(
+        _ rad: RadicalDisplay,
+        metrics: FontMetrics,
+        sourceLocation: SourceLocation = #_sourceLocation
+    ) {
+        let clearance = radicalOverbarClearance(of: rad)
+        let ok =
+            clearance + 0.01 >= metrics.radicalVerticalGap
+            || clearance + 0.01 >= metrics.radicalDisplayStyleVerticalGap
+        #expect(
+            ok,
+            "radical clearance \(clearance) < gaps (text \(metrics.radicalVerticalGap), display \(metrics.radicalDisplayStyleVerticalGap))",
+            sourceLocation: sourceLocation
+        )
+    }
+
+    /// Every radical in the tree (depth-first).
+    static func allRadicals(in display: DisplayList) -> [RadicalDisplay] {
+        var out: [RadicalDisplay] = []
+        collectRadicals(display, into: &out)
+        return out
+    }
+
+    private static func collectRadicals(_ display: DisplayList, into out: inout [RadicalDisplay]) {
+        for child in display.children {
+            collectRadicals(child, into: &out)
+        }
+    }
+
+    private static func collectRadicals(_ node: DisplayNode, into out: inout [RadicalDisplay]) {
+        switch node {
+        case .radical(let rad):
+            out.append(rad)
+            collectRadicals(rad.radicand, into: &out)
+            if let degree = rad.degree { collectRadicals(degree, into: &out) }
+        case .list(let list):
+            collectRadicals(list, into: &out)
+        case .fraction(let frac):
+            collectRadicals(frac.numerator, into: &out)
+            collectRadicals(frac.denominator, into: &out)
+        case .largeOperator(let op):
+            if let upper = op.upperLimit { collectRadicals(upper, into: &out) }
+            if let lower = op.lowerLimit { collectRadicals(lower, into: &out) }
+        case .line(let line):
+            collectRadicals(line.inner, into: &out)
+        case .colored(let colored):
+            collectRadicals(colored.inner, into: &out)
+        case .box(let box):
+            collectRadicals(box.child, into: &out)
+        case .stack(let stack):
+            collectRadicals(stack.base, into: &out)
+            if let over = stack.over { collectRadicals(over, into: &out) }
+            if let under = stack.under { collectRadicals(under, into: &out) }
+        case .glyphs, .rule:
+            break
+        }
     }
 
     static func firstGlyphRun(in node: DisplayNode) -> GlyphRun? {

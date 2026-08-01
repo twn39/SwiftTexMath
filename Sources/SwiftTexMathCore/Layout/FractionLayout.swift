@@ -34,25 +34,15 @@ enum FractionLayout {
 
         // Offsets are relative to the surrounding math baseline (TeX Appendix G).
         // The fraction rule is centered on the math axis, not on the baseline.
+        // Gaps/shifts follow style-aware MATH constants (display vs text/script).
         let axis = metrics.axisHeight
         let thickness = fraction.hasRule ? metrics.fractionRuleThickness : 0
         let ruleOffset = fraction.hasRule ? axis : 0
 
-        let numShift: CGFloat
-        let denShift: CGFloat
-        let numGap: CGFloat
-        let denGap: CGFloat
-        if env.style == .display {
-            numShift = metrics.fractionNumeratorDisplayStyleShiftUp
-            denShift = metrics.fractionDenominatorDisplayStyleShiftDown
-            numGap = metrics.fractionNumeratorDisplayStyleGapMin
-            denGap = metrics.fractionDenominatorDisplayStyleGapMin
-        } else {
-            numShift = metrics.fractionNumeratorShiftUp
-            denShift = metrics.fractionDenominatorShiftDown
-            numGap = metrics.fractionNumeratorGapMin
-            denGap = metrics.fractionDenominatorGapMin
-        }
+        let numShift = metrics.fractionNumeratorShiftUp(for: env.style)
+        let denShift = metrics.fractionDenominatorShiftDown(for: env.style)
+        let numGap = metrics.fractionNumeratorGapMin(for: env.style)
+        let denGap = metrics.fractionDenominatorGapMin(for: env.style)
 
         // Default shifts from the MATH table, then raise/lower to honor min gaps.
         var numeratorOffset = numShift
@@ -70,7 +60,8 @@ enum FractionLayout {
                 denominatorOffset = minDen
             }
         } else {
-            // `\atop` / stack without a rule: keep a minimum separation around the axis.
+            // `\atop` / `\binom` / stack without a rule: minimum separation around the axis.
+            // Target stack gap between num bottom and den top is ≥ numGap + denGap.
             let minNum = axis + numGap + numerator.descent
             if numeratorOffset < minNum {
                 numeratorOffset = minNum
@@ -78,6 +69,17 @@ enum FractionLayout {
             let minDen = denominator.ascent + denGap - axis
             if denominatorOffset < minDen {
                 denominatorOffset = minDen
+            }
+            // Extra guard: if axis placement still leaves content too close (tall nested
+            // num/den), push further so the clear stack gap is preserved.
+            let numBottom = numeratorOffset - numerator.descent
+            let denTop = -denominatorOffset + denominator.ascent
+            let stackGap = numBottom - denTop
+            let minStack = numGap + denGap
+            if stackGap + 0.001 < minStack {
+                let need = minStack - stackGap
+                numeratorOffset += need / 2
+                denominatorOffset += need / 2
             }
         }
 

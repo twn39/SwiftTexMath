@@ -9,7 +9,7 @@ enum DelimiterLayout {
         fonts: any FontProviding = FontRegistry.shared,
         typeset: (MathList, MathEnvironment) -> DisplayList
     ) -> DisplayNode {
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
 
         let segments = splitOnBoundaries(inner.contents)
@@ -18,7 +18,7 @@ enum DelimiterLayout {
 
         let glyphHeight: CGFloat
         if let multiplier = inner.delimiterHeight {
-            glyphHeight = env.styleFontSize * multiplier
+            glyphHeight = metrics.styleFontSize(baseSize: env.font.size, style: env.style) * multiplier
         } else {
             var ascent: CGFloat = 0
             var descent: CGFloat = 0

@@ -19,7 +19,7 @@ enum WrapLayout {
         makeNode: (MathAtom, LayoutContext) -> DisplayNode
     ) -> DisplayList {
         let maxWidth = env.maxWidth
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleFont = MathFont(name: env.font.name, size: metrics.styleFontSize(baseSize: env.font.size, style: env.style))
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
 
         var env = env
