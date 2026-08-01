@@ -33,17 +33,33 @@ public struct MathAtom: Sendable, Hashable {
         case stack(Stack)
         /// Equation tag (`\tag` / `\tag*`) — laid out flush-right when `maxWidth > 0`.
         case tag(Tag)
+        /// `\label{name}` — layout-neutral marker for cross-references.
+        case label(String)
+        /// `\ref{name}` / `\eqref{name}` — resolved at typeset via ``EquationLabelMap``.
+        case ref(name: String, parenthesize: Bool)
     }
 
-    /// `\tag{…}` / `\tag*{…}` equation label.
+    /// `\tag{…}` / `\tag*{…}` / `\notag` equation label.
     public struct Tag: Sendable, Hashable {
         public var contents: MathList
         /// When true (`\tag`), wrap contents in parentheses; `\tag*` leaves bare.
         public var parenthesize: Bool
+        /// When true (`\notag`), suppress auto equation numbers and emit no visible label.
+        public var suppress: Bool
 
-        public init(contents: MathList, parenthesize: Bool = true) {
+        public init(
+            contents: MathList,
+            parenthesize: Bool = true,
+            suppress: Bool = false
+        ) {
             self.contents = contents
             self.parenthesize = parenthesize
+            self.suppress = suppress
+        }
+
+        /// `\notag` — no visible tag; blocks auto-numbering for the line/row.
+        public static var notag: Tag {
+            Tag(contents: MathList(), parenthesize: false, suppress: true)
         }
     }
 

@@ -40,6 +40,14 @@ enum MacroCommands {
             try appendTag(parser: &parser, list: &list, prev: &prev, parenthesize: true)
         case "tag*":
             try appendTag(parser: &parser, list: &list, prev: &prev, parenthesize: false)
+        case "notag":
+            appendNotag(list: &list, prev: &prev)
+        case "label":
+            try appendLabel(parser: &parser, list: &list, prev: &prev)
+        case "ref":
+            try appendRef(parser: &parser, list: &list, prev: &prev, parenthesize: false)
+        case "eqref":
+            try appendRef(parser: &parser, list: &list, prev: &prev, parenthesize: true)
         case "bra":
             try appendBraKet(
                 parser: &parser,

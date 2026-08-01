@@ -14,6 +14,8 @@ enum WrapLayout {
         env: MathEnvironment,
         metrics: FontMetrics,
         fonts: any FontProviding,
+        equationCounter: EquationCounter? = nil,
+        labelMap: EquationLabelMap? = nil,
         makeNode: (MathAtom, LayoutContext) -> DisplayNode
     ) -> DisplayList {
         let maxWidth = env.maxWidth
@@ -24,6 +26,7 @@ enum WrapLayout {
         var items: [PlacedAtom] = []
         var prevKind: AtomKind?
         var pendingTag: DisplayNode?
+        var suppressNumbering = false
 
         for atom in list.atoms {
             if case .style(let style) = atom.payload {
@@ -53,13 +56,28 @@ enum WrapLayout {
             if atom.kind == .boundary { continue }
 
             // Defer tags to the last line (flush-right); do not participate in wrapping.
-            if case .tag = atom.payload {
-                var childEnv = env
-                childEnv.maxWidth = 0
-                pendingTag = makeNode(
-                    atom,
-                    LayoutContext(env: childEnv, metrics: styleMetrics, fonts: fonts)
-                )
+            if case .tag(let tag) = atom.payload {
+                if tag.suppress {
+                    suppressNumbering = true
+                    pendingTag = nil
+                } else {
+                    suppressNumbering = false
+                    var childEnv = env
+                    childEnv.maxWidth = 0
+                    pendingTag = makeNode(
+                        atom,
+                        LayoutContext(
+                            env: childEnv,
+                            metrics: styleMetrics,
+                            fonts: fonts,
+                            equationCounter: equationCounter,
+                            labelMap: labelMap
+                        )
+                    )
+                }
+                continue
+            }
+            if case .label = atom.payload {
                 continue
             }
 
@@ -82,10 +100,41 @@ enum WrapLayout {
             childEnv.maxWidth = max(0, maxWidth)
             let node = makeNode(
                 atom,
-                LayoutContext(env: childEnv, metrics: styleMetrics, fonts: fonts)
+                LayoutContext(
+                    env: childEnv,
+                    metrics: styleMetrics,
+                    fonts: fonts,
+                    equationCounter: equationCounter,
+                    labelMap: labelMap
+                )
             )
             items.append(PlacedAtom(atom: atom, node: node, spacingBefore: spacing))
             prevKind = atom.kind
+        }
+
+        // Auto-number the wrapped paragraph as a single equation when requested.
+        if pendingTag == nil,
+           !suppressNumbering,
+           env.numberEquations,
+           env.style == .display,
+           !items.isEmpty,
+           let counter = equationCounter {
+            let auto = MathAtom.Tag(
+                contents: Typesetter.numberList(counter.take()),
+                parenthesize: true
+            )
+            var childEnv = env
+            childEnv.maxWidth = 0
+            let ctx = LayoutContext(
+                env: childEnv,
+                metrics: styleMetrics,
+                fonts: fonts,
+                equationCounter: equationCounter,
+                labelMap: labelMap
+            )
+            pendingTag = .list(
+                Typesetter.makeTagDisplay(auto, env: childEnv, typeset: ctx.childTypesetter())
+            )
         }
 
         guard !items.isEmpty || pendingTag != nil else { return DisplayList() }

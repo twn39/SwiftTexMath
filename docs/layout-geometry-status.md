@@ -30,6 +30,37 @@ clearance tests using MATH table minima (+0.01 slack).
 | `x_i^j` | 17.48 | 8.22 | 18.33 | Dual scripts |
 | `\begin{pmatrix} a & b \\ c & d \end{pmatrix}` | 25.92 | 15.92 | ~71.94 | Matrix centered on math axis |
 
+### Broad catalog (±0.05 pt)
+
+Extended table-driven goldens live in
+`Tests/SwiftTexMathCoreTests/BroadLayoutValidationTests.swift` (`BroadLayoutCatalog`,
+70+ formulas). Representative entries (LM Math @ 20pt display):
+
+| Expression | Ascent | Descent | Width |
+|---|---:|---:|---:|
+| `\binom{n}{k}` | 22.38 | 13.94 | 12.00 |
+| `\dfrac{a}{b}` | 22.38 | 13.94 | 10.58 |
+| `\tfrac{a}{b}` | 14.07 | 7.05 | 7.41 |
+| `\prod_{i=1}^{n}` | 29.34 | 21.82 | 25.56 |
+| `\sqrt{\frac{a}{b}}` | 26.94 | 21.86 | 30.58 |
+| `\begin{bmatrix}1&2\\3&4\end{bmatrix}` | 26.00 | 16.00 | 64.40 |
+| `\begin{cases}…\end{cases}` | 29.00 | 19.00 | 103.43 |
+| `\underbrace{a+b+c}_{3}` | 13.88 | 20.65 | 88.24 |
+| `\sin^2\theta+\cos^2\theta=1` | 18.84 | 1.68 | 154.87 |
+| quadratic formula | 37.18 | 13.94 | 159.57 |
+
+Layers exercised by the broad suite:
+
+1. Absolute size goldens  
+2. Display-tree structure + token hints  
+3. Fraction / radical MATH clearances (subset)  
+4. Raster checksum determinism  
+5. Relative style / wrap / export (SVG/PDF) invariants  
+
+Also expanded: PNG goldens (`Goldens/`), fingerprint bands
+(`SnapshotFingerprintTests`), KaTeX cross-validation soft bands, and
+tex2math corpus deep structure/ink checks.
+
 ## Clearance invariants (MATH-driven)
 
 These assert **gaps** and **alignments**, not absolute sizes:

@@ -77,4 +77,47 @@ extension MacroCommands {
         list.append(atom)
         prev = atom
     }
+
+    /// `\notag` — suppress auto equation numbering for this line/row (no visible label).
+    static func appendNotag(list: inout MathList, prev: inout MathAtom?) {
+        let atom = MathAtom(kind: .ordinary, payload: .tag(.notag))
+        list.append(atom)
+        prev = atom
+    }
+
+    /// `\label{name}` — layout-neutral marker (cross-ref resolution is best-effort via `\ref`).
+    static func appendLabel(
+        parser: inout MathParser,
+        list: inout MathList,
+        prev: inout MathAtom?
+    ) throws {
+        let name = try parser.readBracedName()
+        guard !name.isEmpty else {
+            throw ParseError(code: .invalidCommand, message: "\\label requires a non-empty name")
+        }
+        let atom = MathAtom(kind: .ordinary, nucleus: "", payload: .label(name))
+        list.append(atom)
+        // Do not update `prev` — labels are invisible and should not affect scripts/limits.
+        _ = prev
+    }
+
+    /// `\ref{name}` / `\eqref{name}` — resolved at typeset; unknown names render as `??` / `(??)`.
+    static func appendRef(
+        parser: inout MathParser,
+        list: inout MathList,
+        prev: inout MathAtom?,
+        parenthesize: Bool
+    ) throws {
+        let name = try parser.readBracedName()
+        guard !name.isEmpty else {
+            throw ParseError(code: .invalidCommand, message: "\\ref requires a non-empty name")
+        }
+        let atom = MathAtom(
+            kind: .ordinary,
+            nucleus: "",
+            payload: .ref(name: name, parenthesize: parenthesize)
+        )
+        list.append(atom)
+        prev = atom
+    }
 }

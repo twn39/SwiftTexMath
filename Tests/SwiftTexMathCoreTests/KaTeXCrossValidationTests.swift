@@ -112,6 +112,8 @@ struct KaTeXCrossValidationTests {
     @Test func testLayoutGeometryAndBoundingMetrics() throws {
         let fontSize: CGFloat = 20 // 1em = 20pt
         var testedFormulaCount = 0
+        var simpleCount = 0
+        var simpleOutliers = 0
         let displayRenderer = renderer(for: .display)
 
         for golden in Self.goldens {
@@ -132,11 +134,38 @@ struct KaTeXCrossValidationTests {
 
             if expectedHeightPt > 0 {
                 let ratio = actualHeightPt / expectedHeightPt
-                #expect(ratio >= 0.15 && ratio <= 4.50, "Height ratio for \(golden.id) (\(actualHeightPt)pt vs \(expectedHeightPt)pt) should be in expected bounds")
+                // Hard band: engines differ on stretchy delims, scripts, and axis placement.
+                #expect(
+                    ratio >= 0.15 && ratio <= 4.50,
+                    "Height ratio for \(golden.id) (\(actualHeightPt)pt vs \(expectedHeightPt)pt) should be in expected bounds"
+                )
+
+                // Soft tracking: simple formulas should usually land in a tighter band.
+                // Skip known pathological corpus ids (extreme KaTeX vs STM divergence).
+                let skipSoft = golden.id.contains("e2e_rendering/068")
+                    || golden.id.contains("e2e_rendering/077")
+                let feat = golden.features
+                let isSimple = feat == nil
+                    || !(feat!.hasFraction || feat!.hasRadical || feat!.hasMatrix
+                        || feat!.hasLargeOp || feat!.hasAccent)
+                if isSimple, !skipSoft {
+                    simpleCount += 1
+                    if ratio < 0.45 || ratio > 2.20 {
+                        simpleOutliers += 1
+                    }
+                }
             }
         }
 
         #expect(testedFormulaCount >= 100, "Should successfully validate geometry for 100+ formulas")
+        // Allow a small fraction of simple outliers (font metric / spacing differences vs KaTeX).
+        if simpleCount > 20 {
+            let outlierRate = Double(simpleOutliers) / Double(simpleCount)
+            #expect(
+                outlierRate <= 0.30,
+                "Simple formula height outlier rate \(outlierRate) (\(simpleOutliers)/\(simpleCount)) should be ≤ 30%"
+            )
+        }
     }
 
     @Test func testBothDisplayStyleAndTextStyleLayout() throws {
@@ -163,5 +192,119 @@ struct KaTeXCrossValidationTests {
         }
 
         #expect(testedCount >= 100, "Should validate both styles across 100+ formulas")
+    }
+
+    /// Feature flags from KaTeX goldens should match display-tree structure when present.
+    @Test func testFeatureFlagsMatchDisplayStructure() throws {
+        let displayRenderer = renderer(for: .display)
+        var checked = 0
+        var mismatches = 0
+
+        for golden in Self.goldens {
+            guard let feat = golden.features,
+                  let display = try? displayRenderer.layout(latex: golden.latex)
+            else { continue }
+            checked += 1
+            let kinds = BroadLayoutCatalog.kindCounts(display)
+
+            if feat.hasFraction, kinds["fraction", default: 0] < 1 {
+                // Some KaTeX "fraction" flags include genfrac/binom variants that may lower differently.
+                if golden.latex.contains("\\frac") || golden.latex.contains("\\cfrac")
+                    || golden.latex.contains("\\dfrac") || golden.latex.contains("\\tfrac")
+                {
+                    mismatches += 1
+                }
+            }
+            if feat.hasRadical, kinds["radical", default: 0] < 1, golden.latex.contains("\\sqrt") {
+                mismatches += 1
+            }
+            if feat.hasLargeOp {
+                let hasOp = kinds["largeOperator", default: 0] >= 1 || kinds["glyphs", default: 0] >= 1
+                if !hasOp, golden.latex.contains("\\sum") || golden.latex.contains("\\int")
+                    || golden.latex.contains("\\prod")
+                {
+                    mismatches += 1
+                }
+            }
+            if feat.hasAccent {
+                // Accents may be glyph lists rather than a dedicated node.
+                let tokens = display.extractTextTokens()
+                if tokens.isEmpty && display.children.isEmpty {
+                    mismatches += 1
+                }
+            }
+        }
+
+        #expect(checked >= 50, "feature-flag subset should cover 50+ goldens")
+        let rate = Double(mismatches) / Double(max(checked, 1))
+        #expect(rate <= 0.15, "feature structure mismatch rate \(rate) (\(mismatches)/\(checked))")
+    }
+
+    /// Width soft-band vs KaTeX height (engines differ; catch only pathological collapse/blowup).
+    @Test func testWidthAndHeightNotPathologicalVsKaTeX() throws {
+        let fontSize: CGFloat = 20
+        let displayRenderer = renderer(for: .display)
+        var checked = 0
+        var bad = 0
+
+        for golden in Self.goldens {
+            guard let display = try? displayRenderer.layout(latex: golden.latex) else { continue }
+            checked += 1
+            let target = golden.displayMetrics ?? golden.metrics
+            let expectedH = CGFloat(target.totalHeightEm) * fontSize
+            let actualH = display.ascent + display.descent
+
+            if display.width <= 0, actualH <= 0 {
+                bad += 1
+                continue
+            }
+            // Pathological: 50× taller/shorter than KaTeX, or wider than 100em with tiny KaTeX height.
+            if expectedH > 0 {
+                let ratio = actualH / expectedH
+                if ratio < 0.08 || ratio > 8.0 {
+                    bad += 1
+                }
+            }
+            if display.width > fontSize * 100 {
+                bad += 1
+            }
+        }
+
+        #expect(checked >= 100)
+        let rate = Double(bad) / Double(max(checked, 1))
+        #expect(rate <= 0.08, "pathological geometry rate \(rate) (\(bad)/\(checked))")
+    }
+
+    /// Content: digit / letter nucleus from latex should appear for simple alphanumeric formulas.
+    @Test func testSimpleAlphanumericContentSurvivesLayout() throws {
+        let displayRenderer = renderer(for: .display)
+        var checked = 0
+        var missing = 0
+        let simple = Self.goldens.filter { g in
+            let f = g.features
+            return f == nil
+                || !(f!.hasFraction || f!.hasRadical || f!.hasMatrix || f!.hasLargeOp || f!.hasAccent)
+        }
+
+        for golden in simple.prefix(80) {
+            guard let display = try? displayRenderer.layout(latex: golden.latex) else { continue }
+            checked += 1
+            let tokens = display.extractTextTokens()
+            let folded = BroadLayoutCatalog.foldMathTokens(tokens)
+            // Pull single-letter tokens expected from KaTeX golden token list.
+            let letterTokens = golden.tokens.filter { $0.count == 1 && $0.first!.isLetter }
+            for t in letterTokens.prefix(3) {
+                let ok = BroadLayoutCatalog.tokensContainHint(tokens, hint: t)
+                    || folded.contains(t.lowercased())
+                if !ok {
+                    missing += 1
+                    break
+                }
+            }
+        }
+        #expect(checked >= 20)
+        let rate = Double(missing) / Double(max(checked, 1))
+        // Engines differ on symbol substitution; allow a generous miss rate.
+        #expect(rate <= 0.50, "simple content miss rate \(rate) (\(missing)/\(checked))")
     }
 }

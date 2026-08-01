@@ -33,7 +33,23 @@ enum GoldenFixtures {
         .init(name: "primes", latex: #"f'(x)+g''(x)"#, style: .display, fontSize: 20, maxWidth: 0),
         .init(name: "oiint", latex: #"\oiint_S F\cdot dS"#, style: .display, fontSize: 20, maxWidth: 0),
         .init(name: "cfrac", latex: #"\cfrac[l]{1}{1+\cfrac{1}{x}}"#, style: .display, fontSize: 18, maxWidth: 0),
-        .init(name: "array_at", latex: #"\begin{array}{c@{\,}c} a & b \end{array}"#, style: .display, fontSize: 20, maxWidth: 0)
+        .init(name: "array_at", latex: #"\begin{array}{c@{\,}c} a & b \end{array}"#, style: .display, fontSize: 20, maxWidth: 0),
+        // Expanded visual coverage
+        .init(name: "binom", latex: #"\binom{n}{k}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "sum_limits", latex: #"\sum_{i=1}^{n} i"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "int_limits", latex: #"\int_0^1 x\,dx"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "bmatrix", latex: #"\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "cases", latex: #"\begin{cases} x & x>0 \\ -x & x\le 0 \end{cases}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "sqrt_frac", latex: #"\sqrt{\frac{a}{b}}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "underbrace", latex: #"\underbrace{a+b+c}_{3}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "overrightarrow", latex: #"\overrightarrow{AB}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "hat_multi", latex: #"\hat{xyz}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "sin_identity", latex: #"\sin^2\theta+\cos^2\theta=1"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "left_right_frac", latex: #"\left(\frac{a}{b}\right)"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "tag_display", latex: #"a+b=c\tag{1}"#, style: .display, fontSize: 20, maxWidth: 120),
+        .init(name: "align_env", latex: #"\begin{aligned} a&=b\\ c&=d \end{aligned}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "nested_scripts", latex: #"x^{y^z}"#, style: .display, fontSize: 20, maxWidth: 0),
+        .init(name: "mathbb_set", latex: #"x\in\mathbb{R}"#, style: .display, fontSize: 20, maxWidth: 0)
     ]
 
     static let renderOptions = MathImage.Options(

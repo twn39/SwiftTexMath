@@ -149,7 +149,22 @@ struct LayoutFingerprint: Equatable {
         (#"a+b"#, 2000...6000, 800...2500),
         (#"\sqrt{2}"#, 1500...5000, 1500...4000),
         (#"\sum_{i=1}^{n} i"#, 3000...9000, 2500...7000),
-        (#"\left( \frac{a}{b} \middle| c \right)"#, 4000...12000, 2500...7000)
+        (#"\left( \frac{a}{b} \middle| c \right)"#, 4000...12000, 2500...7000),
+        // Expanded bands (centi-pt at LM 20 display)
+        (#"\binom{n}{k}"#, 800...2500, 2500...5000),
+        (#"\prod_{i=1}^{n}"#, 1500...5000, 4000...7000),
+        (#"\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}"#, 4000...10000, 3000...6000),
+        (#"\begin{cases} x & x>0 \\ -x & x\le 0 \end{cases}"#, 7000...15000, 3500...7000),
+        (#"\sqrt{\frac{a}{b}}"#, 2000...5000, 3500...7000),
+        (#"\underbrace{a+b+c}_{3}"#, 6000...12000, 2500...5000),
+        (#"\sin^2\theta+\cos^2\theta=1"#, 10000...20000, 1500...3500),
+        (#"x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}"#, 12000...22000, 4000...7000),
+        (#"\int_0^1\frac{1}{1+x^2}\,dx"#, 8000...18000, 4500...8000),
+        (#"\mathbb{R}"#, 800...2500, 1000...2500),
+        (#"\left|x\right|"#, 1500...4500, 1500...3500),
+        (#"a_{i,j}^{k}"#, 1500...4500, 1500...4000),
+        (#"\cancel{abc}"#, 2000...6000, 1000...3000),
+        (#"\overrightarrow{AB}"#, 2000...7000, 1200...3500),
     ]
     for (latex, widthBand, heightBand) in cases {
         let fp = try LayoutFingerprint.capture(latex: latex)
@@ -157,4 +172,29 @@ struct LayoutFingerprint: Equatable {
         #expect(heightBand.contains(fp.heightCenti), "height \(fp.heightCenti) for \(latex)")
         #expect(fp.imageChecksum != 0)
     }
+}
+
+@Test func fingerprintCatalogSampleKinds() throws {
+    let samples: [(String, String, Int)] = [
+        (#"\binom{n}{k}"#, "fraction", 1),
+        (#"\sqrt{x}"#, "radical", 1),
+        (#"\sum_i x_i"#, "largeOperator", 1),
+        (#"\cancel{x}"#, "box", 1),
+        (#"\overset{a}{=}"#, "stack", 1),
+        (#"\colorbox{red}{x}"#, "colorbox", 1),
+        (#"\begin{array}{|c|} \hline a \\ \hline \end{array}"#, "rule", 1),
+    ]
+    for (latex, kind, minCount) in samples {
+        let fp = try LayoutFingerprint.capture(latex: latex)
+        #expect(
+            fp.kindCounts[kind, default: 0] >= minCount,
+            "\(latex) expected \(kind)≥\(minCount), got \(fp.kindCounts)"
+        )
+    }
+}
+
+@Test func fingerprintTextVsDisplaySumDiffers() throws {
+    let display = try LayoutFingerprint.capture(latex: #"\sum_{i=1}^{n} i"#, style: .display)
+    let text = try LayoutFingerprint.capture(latex: #"\sum_{i=1}^{n} i"#, style: .text)
+    #expect(display.heightCenti != text.heightCenti || display.widthCenti != text.widthCenti)
 }

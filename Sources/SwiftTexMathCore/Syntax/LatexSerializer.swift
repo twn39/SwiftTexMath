@@ -128,8 +128,16 @@ public enum LatexSerializer {
         case .stack(let stack):
             return stackLatex(stack)
         case .tag(let tag):
+            if tag.suppress {
+                return "\\notag"
+            }
             let cmd = tag.parenthesize ? "tag" : "tag*"
             return "\\\(cmd){\(string(from: tag.contents))}"
+        case .label(let name):
+            return "\\label{\(name)}"
+        case .ref(let name, let parenthesize):
+            let cmd = parenthesize ? "eqref" : "ref"
+            return "\\\(cmd){\(name)}"
         }
     }
 

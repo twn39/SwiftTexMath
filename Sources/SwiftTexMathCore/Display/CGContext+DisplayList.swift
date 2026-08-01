@@ -8,33 +8,64 @@ extension CGContext {
         _ display: DisplayList,
         at origin: CGPoint,
         foregroundColor: CGColor,
-        fonts: any FontProviding = FontRegistry.shared
+        fonts: any FontProviding = FontRegistry.shared,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
         saveGState()
         translateBy(x: origin.x, y: origin.y)
-        draw(display, foregroundColor: foregroundColor, fonts: fonts)
+        draw(display, foregroundColor: foregroundColor, fonts: fonts, depth: 0, maxDepth: maxDepth)
         restoreGState()
     }
 
     public func draw(
         _ display: DisplayList,
         foregroundColor: CGColor,
-        fonts: any FontProviding = FontRegistry.shared
+        fonts: any FontProviding = FontRegistry.shared,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
-        saveGState()
-        translateBy(x: display.position.x, y: display.position.y)
-        for child in display.children {
-            draw(child, foregroundColor: foregroundColor, fonts: fonts)
-        }
-        restoreGState()
+        draw(display, foregroundColor: foregroundColor, fonts: fonts, depth: 0, maxDepth: maxDepth)
     }
 
     public func draw(
         _ node: DisplayNode,
         foregroundColor: CGColor,
-        fonts: any FontProviding = FontRegistry.shared
+        fonts: any FontProviding = FontRegistry.shared,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
-        var visitor = CGContextDrawingVisitor(context: self, foregroundColor: foregroundColor, fonts: fonts)
+        draw(node, foregroundColor: foregroundColor, fonts: fonts, depth: 0, maxDepth: maxDepth)
+    }
+
+    fileprivate func draw(
+        _ display: DisplayList,
+        foregroundColor: CGColor,
+        fonts: any FontProviding,
+        depth: Int,
+        maxDepth: Int
+    ) {
+        guard depth <= maxDepth else { return }
+        saveGState()
+        translateBy(x: display.position.x, y: display.position.y)
+        for child in display.children {
+            draw(child, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
+        }
+        restoreGState()
+    }
+
+    fileprivate func draw(
+        _ node: DisplayNode,
+        foregroundColor: CGColor,
+        fonts: any FontProviding,
+        depth: Int,
+        maxDepth: Int
+    ) {
+        guard depth <= maxDepth else { return }
+        var visitor = CGContextDrawingVisitor(
+            context: self,
+            foregroundColor: foregroundColor,
+            fonts: fonts,
+            depth: depth,
+            maxDepth: maxDepth
+        )
         node.accept(&visitor)
     }
 
@@ -42,9 +73,11 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     let context: CGContext
     let foregroundColor: CGColor
     let fonts: any FontProviding
+    let depth: Int
+    let maxDepth: Int
 
     mutating func visit(list: DisplayList) {
-        context.draw(list, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(list, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(glyphs: GlyphRun) {
@@ -52,23 +85,23 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     }
 
     mutating func visit(fraction: FractionDisplay) {
-        context.draw(fraction, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(fraction, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(radical: RadicalDisplay) {
-        context.draw(radical, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(radical, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(line: LineDisplay) {
-        context.draw(line, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(line, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(largeOperator: LargeOperatorDisplay) {
-        context.draw(largeOperator, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(largeOperator, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(colored: ColoredDisplay) {
-        context.draw(colored, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(colored, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(rule: RuleDisplay) {
@@ -76,25 +109,28 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     }
 
     mutating func visit(box: BoxDisplay) {
-        context.draw(box, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(box, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 
     mutating func visit(stack: StackDisplay) {
-        context.draw(stack, foregroundColor: foregroundColor, fonts: fonts)
+        context.draw(stack, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
     }
 }
 
     private func draw(
         _ box: BoxDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: box.position.x, y: box.position.y)
         if box.drawChild {
             var child = box.child
             child.position = CGPoint(x: box.childOffsetX, y: 0)
-            draw(child, foregroundColor: foregroundColor, fonts: fonts)
+            draw(child, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         drawStrike(for: box, foregroundColor: foregroundColor)
         restoreGState()
@@ -145,16 +181,19 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     private func draw(
         _ stack: StackDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: stack.position.x, y: stack.position.y)
-        draw(stack.base, foregroundColor: foregroundColor, fonts: fonts)
+        draw(stack.base, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         if let over = stack.over {
-            draw(over, foregroundColor: foregroundColor, fonts: fonts)
+            draw(over, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         if let under = stack.under {
-            draw(under, foregroundColor: foregroundColor, fonts: fonts)
+            draw(under, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         restoreGState()
     }
@@ -162,8 +201,11 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     private func draw(
         _ colored: ColoredDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: colored.position.x, y: colored.position.y)
         if colored.fillsBackground {
@@ -175,9 +217,9 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
             )
             setFillColor(colored.cgColor)
             fill(rect)
-            draw(colored.inner, foregroundColor: foregroundColor, fonts: fonts)
+            draw(colored.inner, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         } else {
-            draw(colored.inner, foregroundColor: colored.cgColor, fonts: fonts)
+            draw(colored.inner, foregroundColor: colored.cgColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         restoreGState()
     }
@@ -255,19 +297,22 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     private func draw(
         _ fraction: FractionDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: fraction.position.x, y: fraction.position.y)
 
         // Offsets are baseline-relative; the bar sits on the math axis (`ruleOffset`).
         var num = fraction.numerator
         num.position = CGPoint(x: num.position.x, y: fraction.numeratorOffset)
-        draw(num, foregroundColor: foregroundColor, fonts: fonts)
+        draw(num, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
 
         var den = fraction.denominator
         den.position = CGPoint(x: den.position.x, y: -fraction.denominatorOffset)
-        draw(den, foregroundColor: foregroundColor, fonts: fonts)
+        draw(den, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
 
         if fraction.ruleThickness > 0 {
             setStrokeColor(foregroundColor)
@@ -284,16 +329,19 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     private func draw(
         _ radical: RadicalDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: radical.position.x, y: radical.position.y)
 
         if let degree = radical.degree {
-            draw(degree, foregroundColor: foregroundColor, fonts: fonts)
+            draw(degree, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         draw(radical.radicalGlyph, foregroundColor: foregroundColor, fonts: fonts)
-        draw(radical.radicand, foregroundColor: foregroundColor, fonts: fonts)
+        draw(radical.radicand, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
 
         // Overbar (center at ruleOffset so gap above radicand is preserved)
         setStrokeColor(foregroundColor)
@@ -310,11 +358,14 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     private func draw(
         _ line: LineDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: line.position.x, y: line.position.y)
-        draw(line.inner, foregroundColor: foregroundColor, fonts: fonts)
+        draw(line.inner, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         setStrokeColor(foregroundColor)
         setLineWidth(line.ruleThickness)
         let y = line.ruleOffset
@@ -327,16 +378,19 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
     private func draw(
         _ op: LargeOperatorDisplay,
         foregroundColor: CGColor,
-        fonts: any FontProviding
+        fonts: any FontProviding,
+        depth: Int = 0,
+        maxDepth: Int = DisplayTraversal.defaultMaxDepth
     ) {
+        guard depth <= maxDepth else { return }
         saveGState()
         translateBy(x: op.position.x, y: op.position.y)
         draw(op.nucleus, foregroundColor: foregroundColor, fonts: fonts)
         if let upper = op.upperLimit {
-            draw(upper, foregroundColor: foregroundColor, fonts: fonts)
+            draw(upper, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         if let lower = op.lowerLimit {
-            draw(lower, foregroundColor: foregroundColor, fonts: fonts)
+            draw(lower, foregroundColor: foregroundColor, fonts: fonts, depth: depth + 1, maxDepth: maxDepth)
         }
         restoreGState()
     }

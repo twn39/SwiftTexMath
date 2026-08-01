@@ -118,4 +118,117 @@ struct Tex2MathCorpusTests {
         )
         #expect(passed >= 130)
     }
+
+    /// Deeper corpus check: structure hints + non-empty tokens + raster ink for fixture entries.
+    @Test func fixtureEntriesHaveStructureTokensAndInk() throws {
+        let fixtures = Self.catalog.filter { $0.source == "fixture" && !$0.expectError }
+        #expect(fixtures.count >= 40, "expected ≥40 fixture formulas")
+
+        var failures: [String] = []
+        var checked = 0
+        for entry in fixtures {
+            if Self.unsupportedIDs.contains(entry.id) { continue }
+            do {
+                let display = try renderer.layout(latex: entry.latex)
+                checked += 1
+                let height = display.ascent + display.descent
+                if display.width <= 0 && height <= 0 {
+                    failures.append("empty geometry: \(entry.id)")
+                    continue
+                }
+                // Most fixtures should produce at least one glyph or compound node.
+                if display.children.isEmpty {
+                    failures.append("no children: \(entry.id)")
+                }
+                let tokens = display.extractTextTokens()
+                let latexLower = entry.latex.lowercased()
+                // Skip pure-structure / phantom-only edge cases for token emptiness.
+                let allowEmptyTokens =
+                    latexLower.contains("phantom")
+                    || latexLower.contains("hspace")
+                    || latexLower.contains("kern")
+                    || latexLower.contains("hskip")
+                    || latexLower.contains("mkern")
+                if !allowEmptyTokens && tokens.isEmpty {
+                    failures.append("empty tokens: \(entry.id)")
+                }
+                // Structure cross-checks from latex surface.
+                let kinds = BroadLayoutCatalog.kindCounts(display)
+                if latexLower.contains("\\frac") || latexLower.contains("\\dfrac")
+                    || latexLower.contains("\\tfrac") || latexLower.contains("\\cfrac")
+                    || latexLower.contains("\\binom") || latexLower.contains("\\choose")
+                {
+                    if kinds["fraction", default: 0] < 1 {
+                        failures.append("missing fraction node: \(entry.id)")
+                    }
+                }
+                if latexLower.contains("\\sqrt") {
+                    if kinds["radical", default: 0] < 1 {
+                        failures.append("missing radical node: \(entry.id)")
+                    }
+                }
+                if latexLower.contains("\\sum") || latexLower.contains("\\prod")
+                    || latexLower.contains("\\int")
+                {
+                    if kinds["largeOperator", default: 0] < 1 && kinds["glyphs", default: 0] < 1 {
+                        failures.append("missing large op: \(entry.id)")
+                    }
+                }
+
+                let image = MathImage.render(
+                    display: display,
+                    options: .init(
+                        scale: 1,
+                        padding: 0,
+                        foregroundColor: CGColor(gray: 0, alpha: 1),
+                        backgroundColor: CGColor(gray: 1, alpha: 1)
+                    )
+                ).image
+                if MathImage.checksum(of: image) == 0 {
+                    // Phantom-only or pure space can be blank; only flag when latex has letters/digits.
+                    let hasInkExpect = entry.latex.unicodeScalars.contains {
+                        CharacterSet.alphanumerics.contains($0)
+                    } && !allowEmptyTokens
+                    if hasInkExpect {
+                        failures.append("blank raster: \(entry.id)")
+                    }
+                }
+            } catch {
+                failures.append("\(entry.id): \(error)")
+            }
+        }
+
+        if !failures.isEmpty {
+            Issue.record(
+                Comment(rawValue: failures.prefix(30).joined(separator: "\n"))
+            )
+        }
+        #expect(failures.isEmpty, "fixture deep-check failures=\(failures.count)/\(checked)")
+        #expect(checked >= 40)
+    }
+
+    /// Catalog-wide soft height band vs font size (sanity, not KaTeX parity).
+    @Test func catalogPositiveEntriesWithinSoftSizeBand() throws {
+        var outliers = 0
+        var checked = 0
+        let fontSize: CGFloat = 20
+        for entry in Self.catalog where !entry.expectError && !Self.unsupportedIDs.contains(entry.id) {
+            guard let display = try? renderer.layout(latex: entry.latex) else {
+                outliers += 1
+                continue
+            }
+            checked += 1
+            let h = display.ascent + display.descent
+            // Soft: total height between 0.05em and 40em (pathological nesting aside).
+            if h < fontSize * 0.05 || h > fontSize * 40 {
+                outliers += 1
+            }
+            if display.width < 0 || display.width > fontSize * 80 {
+                outliers += 1
+            }
+        }
+        #expect(checked >= 100)
+        let rate = Double(outliers) / Double(max(checked, 1))
+        #expect(rate <= 0.05, "soft size outlier rate \(rate) (\(outliers)/\(checked))")
+    }
 }

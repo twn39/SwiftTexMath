@@ -7,16 +7,41 @@ enum TableLayout {
         env: MathEnvironment,
         metrics: FontMetrics,
         fonts: any FontProviding = FontRegistry.shared,
-        typeset: (MathList, MathEnvironment) -> DisplayList
+        typeset: (MathList, MathEnvironment) -> DisplayList,
+        equationCounter: EquationCounter? = nil,
+        labelMap: EquationLabelMap? = nil
     ) -> DisplayNode {
-        let cellEnv: MathEnvironment
+        let hoistTags = Typesetter.tableEnvironmentHoistsTags(table.environment)
+        let wantsNumbers =
+            Typesetter.tableEnvironmentAutoNumbers(table.environment)
+            && (
+                env.numberEquations
+                || Typesetter.tableEnvironmentForcesNumbering(table.environment)
+            )
+            && (env.style == .display || Typesetter.tableEnvironmentForcesNumbering(table.environment))
+        let tableNumbers = wantsNumbers && equationCounter != nil
+
+        var cellEnv: MathEnvironment
         switch table.environment {
         case "smallmatrix", "substack":
             cellEnv = env.with(style: .script)
         default:
             cellEnv = env
         }
-        let cells = table.rows.map { row in row.map { typeset($0, cellEnv) } }
+        // Row-level tags/numbers own labels; keep cell layout free of auto `(n)`.
+        if tableNumbers || hoistTags {
+            cellEnv.numberEquations = false
+        }
+
+        // Strip `\tag` / `\notag` from cells so labels can sit at the row margin.
+        let rowPolicies: [(suppress: Bool, explicitTag: MathAtom.Tag?)] = table.rows.map {
+            Typesetter.rowTagPolicy(cells: $0)
+        }
+        let bodyRows: [[MathList]] = table.rows.map { row in
+            guard hoistTags else { return row }
+            return row.map { Typesetter.strippingTags(from: $0) }
+        }
+        let cells = bodyRows.map { row in row.map { typeset($0, cellEnv) } }
         let columnCount = max(
             cells.enumerated()
                 .filter { !table.fullWidthRows.contains($0.offset) }
@@ -105,14 +130,57 @@ enum TableLayout {
             contentWidth = intertextMaxWidth
         }
 
+        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
+        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
+        let tagGap = styleMetrics.mathUnit * 18
+        let tagTargetWidth = env.maxWidth > 0 ? max(env.maxWidth, contentWidth) : contentWidth
+
+        // Pre-build row tags (explicit `\tag` or auto `(n)`) so height/width include them.
+        var rowTags: [DisplayList?] = Array(repeating: nil, count: cells.count)
+        var tagExtraWidth: CGFloat = 0
+        if hoistTags {
+            for r in 0..<cells.count where !table.fullWidthRows.contains(r) {
+                let policy = r < rowPolicies.count
+                    ? rowPolicies[r]
+                    : (suppress: false, explicitTag: nil)
+                let tagSpec: MathAtom.Tag?
+                var bareMarker: String?
+                if let explicit = policy.explicitTag {
+                    tagSpec = explicit
+                    bareMarker = EquationNumbering.flattenList(explicit.contents)
+                } else if policy.suppress {
+                    tagSpec = nil
+                } else if tableNumbers, let counter = equationCounter {
+                    let n = counter.take()
+                    bareMarker = String(n)
+                    tagSpec = MathAtom.Tag(
+                        contents: Typesetter.numberList(n),
+                        parenthesize: true
+                    )
+                } else {
+                    tagSpec = nil
+                }
+                if let bare = bareMarker, !bare.isEmpty, let labelMap, r < table.rows.count {
+                    for name in Typesetter.rowLabelNames(cells: table.rows[r]) {
+                        labelMap.bind(name, to: bare)
+                    }
+                }
+                guard let tagSpec else { continue }
+                let tagDisplay = Typesetter.makeTagDisplay(tagSpec, env: cellEnv, typeset: typeset)
+                rowTags[r] = tagDisplay
+                rowAscent[r] = max(rowAscent[r], tagDisplay.ascent)
+                rowDescent[r] = max(rowDescent[r], tagDisplay.descent)
+                let tagX = max(contentWidth + tagGap, tagTargetWidth - tagDisplay.width)
+                tagExtraWidth = max(tagExtraWidth, tagX + tagDisplay.width - contentWidth)
+            }
+        }
+
         let hlineHeight = hlines.reduce(CGFloat(0)) {
             $0 + hlineBandHeight($1, ruleThickness: ruleThickness, vlineGap: vlineGap, hlinePad: hlinePad)
         }
         let totalHeight = zip(rowAscent, rowDescent).map(+).reduce(0, +)
             + CGFloat(max(cells.count - 1, 0)) * rowGap
             + hlineHeight
-        let styleFont = MathFont(name: env.font.name, size: env.styleFontSize)
-        let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         let axis = styleMetrics.axisHeight
         let totalAscent = totalHeight / 2 + axis
         let totalDescent = totalHeight / 2 - axis
@@ -198,6 +266,13 @@ enum TableLayout {
                     insertDisplays: insertDisplays,
                     children: &children
                 )
+
+                // Flush-right row label (`\tag` / auto number).
+                if var tagDisplay = rowTags[r] {
+                    let tagX = max(contentWidth + tagGap, tagTargetWidth - tagDisplay.width)
+                    tagDisplay.position = CGPoint(x: tagX, y: y)
+                    children.append(.list(tagDisplay))
+                }
             }
 
             y -= rowDescent[r]
@@ -228,12 +303,14 @@ enum TableLayout {
         default: break
         }
 
+        let finalContentWidth = contentWidth + tagExtraWidth
+
         if leftFence.isEmpty, rightFence.isEmpty {
             return .list(
                 DisplayList(
                     ascent: totalAscent,
                     descent: totalDescent,
-                    width: contentWidth,
+                    width: finalContentWidth,
                     children: children
                 )
             )
@@ -266,7 +343,7 @@ enum TableLayout {
             child.position = pos
             wrapped.append(child)
         }
-        x += contentWidth
+        x += finalContentWidth
         if !rightFence.isEmpty {
             x += padding
             appendFence(

@@ -16,4 +16,4 @@ This overwrites PNGs in this directory. Review the diff before committing.
 
 - Renderer: Latin Modern, scale 2×, 2pt padding, black on white.
 - Comparison allows small antialiasing deltas across OS versions (`MathImage.matches`).
-- Fixtures cover fractions, matrices, colorbox, `\middle`, macros, wrap, overset, cancel, array vlines, aligned, phantoms, primes, `\oiint`, `\cfrac`, and `array @{…}`.
+- Fixtures cover fractions, matrices, colorbox, `\middle`, macros, wrap, overset, cancel, array vlines, aligned, phantoms, primes, `\oiint`, `\cfrac`, `array @{…}`, binom, sum/int limits, bmatrix, cases, nested sqrt-frac, underbrace, overrightarrow, multi-letter hat, trig identity, left-right fraction, tagged equation, align, nested scripts, and `\mathbb`.

@@ -37,8 +37,17 @@ public struct MathParser: Sendable {
     /// Style implied by surrounding `$…$` / `$$…$$` / `\(...\)` / `\[…\]` delimiters, if any.
     private(set) var detectedStyle: MathStyle?
 
-    public static func parse(_ latex: String) throws -> MathList {
+    /// Parse LaTeX math into a ``MathList``.
+    ///
+    /// - Parameter userMacros: Optional pre-seeded macros (cross-parse). Definitions
+    ///   via `\newcommand` / `\def` inside `latex` still apply for this session and
+    ///   may override entries for the rest of the parse.
+    public static func parse(
+        _ latex: String,
+        userMacros: [String: UserMacro] = [:]
+    ) throws -> MathList {
         var parser = MathParser(latex)
+        parser.userMacros = userMacros
         var rows: [MathList] = []
         while true {
             let row = try parser.buildInternal(stop: .lineBreak)

@@ -45,7 +45,7 @@ extension MacroCommands {
                 if inner.isEmpty { return "" }
                 result += inner
             case .stack, .fraction, .radical, .inner, .accent, .overline, .underline,
-                 .table, .colored, .mathChoice, .box, .style, .tag:
+                 .table, .colored, .mathChoice, .box, .style, .tag, .label, .ref:
                 return ""
             }
         }

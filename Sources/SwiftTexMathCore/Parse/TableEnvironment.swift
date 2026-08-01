@@ -146,10 +146,40 @@ enum TableEnvironment {
             for i in 0..<columnCount {
                 alignments.append(i % 2 == 0 ? .right : .left)
             }
+            // Preserve outer `align` vs inner `aligned` (numbering differs).
+            // `eqalign` is treated as an inner aligned-style block.
+            let storedEnv: String
+            switch baseName {
+            case "eqalign":
+                storedEnv = "aligned"
+            case "align":
+                storedEnv = starred ? "align*" : "align"
+            default:
+                storedEnv = baseName
+            }
             return MathAtom.Table(
-                environment: baseName == "align" ? "aligned" : baseName,
+                environment: storedEnv,
                 rows: rows,
                 alignments: alignments,
+                interColumnSpacing: 0,
+                interRowAdditionalSpacing: 1
+            )
+
+        case "equation":
+            guard columnCount <= 1 else {
+                throw ParseError(
+                    code: .invalidNumberOfColumns,
+                    message: "equation environment can only have 1 column"
+                )
+            }
+            // Pad empty body to a single centered empty row.
+            let body = rows.isEmpty ? [[MathList()]] : rows.map { row in
+                row.isEmpty ? [MathList()] : row
+            }
+            return MathAtom.Table(
+                environment: starred ? "equation*" : "equation",
+                rows: body,
+                alignments: [.center],
                 interColumnSpacing: 0,
                 interRowAdditionalSpacing: 1
             )
@@ -167,8 +197,14 @@ enum TableEnvironment {
                     message: "\(baseName) environment can only have 1 column"
                 )
             }
+            let storedGather: String
+            if baseName == "gather" {
+                storedGather = starred ? "gather*" : "gather"
+            } else {
+                storedGather = baseName
+            }
             return MathAtom.Table(
-                environment: baseName,
+                environment: storedGather,
                 rows: rows,
                 alignments: [.center],
                 interColumnSpacing: 0,
@@ -187,6 +223,21 @@ enum TableEnvironment {
                 rows: rows,
                 alignments: [.right, .center, .left],
                 interColumnSpacing: 18,
+                interRowAdditionalSpacing: 1
+            )
+
+        case "multline":
+            guard columnCount == 1 else {
+                throw ParseError(
+                    code: .invalidNumberOfColumns,
+                    message: "multline environment can only have 1 column"
+                )
+            }
+            return MathAtom.Table(
+                environment: starred ? "multline*" : "multline",
+                rows: rows,
+                alignments: [.left],
+                interColumnSpacing: 0,
                 interRowAdditionalSpacing: 1
             )
 

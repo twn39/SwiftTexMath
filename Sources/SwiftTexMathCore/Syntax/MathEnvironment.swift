@@ -47,6 +47,11 @@ public struct MathEnvironment: Sendable, Hashable {
     public var textFallbackFontName: String?
     /// Maximum allowed recursion depth during layout and parsing to guard against stack overflow.
     public var maxRecursionDepth: Int
+    /// When true, lines/rows without `\tag` / `\notag` receive automatic `(n)` labels
+    /// (amsmath-like foundation; multi-line envs number non-starred rows when supported).
+    public var numberEquations: Bool
+    /// First number assigned when ``numberEquations`` is true.
+    public var equationNumberStart: Int
 
     public init(
         font: MathFont = MathFont(name: .latinModern, size: 20),
@@ -56,7 +61,9 @@ public struct MathEnvironment: Sendable, Hashable {
         maxWidth: CGFloat = 0,
         variant: MathVariant = .italic,
         textFallbackFontName: String? = nil,
-        maxRecursionDepth: Int = 128
+        maxRecursionDepth: Int = 128,
+        numberEquations: Bool = false,
+        equationNumberStart: Int = 1
     ) {
         self.font = font
         self.style = style
@@ -66,6 +73,8 @@ public struct MathEnvironment: Sendable, Hashable {
         self.variant = variant
         self.textFallbackFontName = textFallbackFontName
         self.maxRecursionDepth = maxRecursionDepth
+        self.numberEquations = numberEquations
+        self.equationNumberStart = max(1, equationNumberStart)
     }
 
     public func with(

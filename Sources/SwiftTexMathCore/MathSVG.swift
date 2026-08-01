@@ -130,7 +130,19 @@ public enum MathSVG {
     private struct Emitter {
         let fonts: any FontProviding
         let options: Options
+        let maxDepth: Int
         var fragments: [String] = []
+        var depth: Int = 0
+
+        init(
+            fonts: any FontProviding,
+            options: Options,
+            maxDepth: Int = DisplayTraversal.defaultMaxDepth
+        ) {
+            self.fonts = fonts
+            self.options = options
+            self.maxDepth = maxDepth
+        }
 
         mutating func openGroup(transform: String) {
             fragments.append(#"<g transform="\#(transform)">"#)
@@ -141,14 +153,18 @@ public enum MathSVG {
         }
 
         mutating func emit(_ display: DisplayList, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + display.position.x
             let oy = origin.y + display.position.y
+            depth += 1
+            defer { depth -= 1 }
             for child in display.children {
                 emit(child, origin: CGPoint(x: ox, y: oy), color: color)
             }
         }
 
         mutating func emit(_ node: DisplayNode, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             switch node {
             case .list(let list):
                 emit(list, origin: origin, color: color)
@@ -201,20 +217,37 @@ public enum MathSVG {
                         path = CTFontCreatePathForGlyph(sysFont, sysGlyph, nil)
                     }
                 }
-                guard let validPath = path else { continue }
-                let d = cgPathToSVG(validPath)
-                guard !d.isEmpty else { continue }
                 let tx = base.x + p.x
                 let ty = base.y + p.y
-                fragments.append(
-                    #"<path transform="translate(\#(fmt(tx)) \#(fmt(ty)))" d="\#(d)" fill="\#(escapeXML(color))"/>"#
-                )
+                if let validPath = path {
+                    let d = cgPathToSVG(validPath)
+                    if !d.isEmpty {
+                        fragments.append(
+                            #"<path transform="translate(\#(fmt(tx)) \#(fmt(ty)))" d="\#(d)" fill="\#(escapeXML(color))"/>"#
+                        )
+                        continue
+                    }
+                }
+                // Last resort: portable `<text>` when no outline path is available.
+                if i < utf16Array.count,
+                   let scalar = UnicodeScalar(utf16Array[i]),
+                   !CharacterSet.controlCharacters.contains(scalar) {
+                    let ch = String(Character(scalar))
+                    let escaped = escapeXML(ch)
+                    let size = fmt(run.font.size)
+                    fragments.append(
+                        #"<text transform="translate(\#(fmt(tx)) \#(fmt(ty))) scale(1, -1)" font-size="\#(size)" fill="\#(escapeXML(color))" font-family="sans-serif">\#(escaped)</text>"#
+                    )
+                }
             }
         }
 
         mutating func emitFraction(_ fraction: FractionDisplay, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + fraction.position.x
             let oy = origin.y + fraction.position.y
+            depth += 1
+            defer { depth -= 1 }
             var num = fraction.numerator
             num.position = CGPoint(x: num.position.x, y: fraction.numeratorOffset)
             emit(num, origin: CGPoint(x: ox, y: oy), color: color)
@@ -234,8 +267,11 @@ public enum MathSVG {
         }
 
         mutating func emitRadical(_ radical: RadicalDisplay, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + radical.position.x
             let oy = origin.y + radical.position.y
+            depth += 1
+            defer { depth -= 1 }
             if let degree = radical.degree {
                 emit(degree, origin: CGPoint(x: ox, y: oy), color: color)
             }
@@ -254,8 +290,11 @@ public enum MathSVG {
         }
 
         mutating func emitLine(_ line: LineDisplay, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + line.position.x
             let oy = origin.y + line.position.y
+            depth += 1
+            defer { depth -= 1 }
             emit(line.inner, origin: CGPoint(x: ox, y: oy), color: color)
             strokeLine(
                 x1: ox,
@@ -272,8 +311,11 @@ public enum MathSVG {
             origin: CGPoint,
             color: String
         ) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + op.position.x
             let oy = origin.y + op.position.y
+            depth += 1
+            defer { depth -= 1 }
             emitGlyphs(op.nucleus, origin: CGPoint(x: ox, y: oy), color: color)
             if let upper = op.upperLimit {
                 emit(upper, origin: CGPoint(x: ox, y: oy), color: color)
@@ -284,8 +326,11 @@ public enum MathSVG {
         }
 
         mutating func emitColored(_ colored: ColoredDisplay, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + colored.position.x
             let oy = origin.y + colored.position.y
+            depth += 1
+            defer { depth -= 1 }
             let css = rgbaCSS(
                 red: colored.red,
                 green: colored.green,
@@ -331,8 +376,11 @@ public enum MathSVG {
         }
 
         mutating func emitBox(_ box: BoxDisplay, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + box.position.x
             let oy = origin.y + box.position.y
+            depth += 1
+            defer { depth -= 1 }
             if box.drawChild {
                 var child = box.child
                 child.position = CGPoint(x: box.childOffsetX, y: 0)
@@ -372,8 +420,11 @@ public enum MathSVG {
         }
 
         mutating func emitStack(_ stack: StackDisplay, origin: CGPoint, color: String) {
+            guard depth <= maxDepth else { return }
             let ox = origin.x + stack.position.x
             let oy = origin.y + stack.position.y
+            depth += 1
+            defer { depth -= 1 }
             emit(stack.base, origin: CGPoint(x: ox, y: oy), color: color)
             if let over = stack.over {
                 emit(over, origin: CGPoint(x: ox, y: oy), color: color)

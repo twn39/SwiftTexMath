@@ -127,7 +127,7 @@ public enum MathNormalizer {
         case .tag(var tag):
             tag.contents = normalize(tag.contents, preserveBoundaries: false)
             atom.payload = .tag(tag)
-        case .none, .largeOperator, .space, .style:
+        case .none, .largeOperator, .space, .style, .label, .ref:
             break
         }
         return atom
