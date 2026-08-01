@@ -12,9 +12,18 @@ enum StackLayout {
     ) -> DisplayNode {
         let base = typeset(stack.base, env)
         let scriptEnv = env.with(style: env.style.scriptStyle)
-        // Prefer over/underbar gaps; fall back keeps stacks from colliding with the base.
-        let overGap = max(metrics.overbarVerticalGap, metrics.upperLimitGapMin)
-        let underGap = max(metrics.underbarVerticalGap, metrics.lowerLimitGapMin)
+        // Stretchy nuclei (`\overbrace`, `\overrightarrow`, …) use StretchStack* MATH
+        // gaps; plain `\overset` / `\underset` keep over/underbar + limit gaps.
+        let usesStretchStack = stack.overNucleus != nil || stack.underNucleus != nil
+        let overGap: CGFloat
+        let underGap: CGFloat
+        if usesStretchStack {
+            overGap = max(metrics.stretchStackGapAboveMin, metrics.overbarVerticalGap)
+            underGap = max(metrics.stretchStackGapBelowMin, metrics.underbarVerticalGap)
+        } else {
+            overGap = max(metrics.overbarVerticalGap, metrics.upperLimitGapMin)
+            underGap = max(metrics.underbarVerticalGap, metrics.lowerLimitGapMin)
+        }
 
         var overDisplay: DisplayList?
         if let over = stack.over {
@@ -43,6 +52,9 @@ enum StackLayout {
         var descent = base.descent
 
         if var over = overDisplay {
+            // Gap-based placement. StretchStackTop/BottomShift* are available on metrics
+            // for future baseline-rise floors; applying them as absolute offsets collides
+            // with multi-part underbrace/overbrace + script constructions.
             over.position = CGPoint(
                 x: (width - over.width) / 2,
                 y: base.ascent + overGap + over.descent

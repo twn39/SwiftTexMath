@@ -75,6 +75,40 @@ extension FontMetrics {
             ? radicalDisplayStyleVerticalGap
             : radicalVerticalGap
     }
+
+    // MARK: No-rule stacks (`\atop` / `\binom` / `\choose`)
+
+    public func stackTopShiftUp(for style: MathStyle) -> CGFloat {
+        usesDisplayStyleConstants(for: style)
+            ? stackTopDisplayStyleShiftUp
+            : stackTopShiftUp
+    }
+
+    public func stackBottomShiftDown(for style: MathStyle) -> CGFloat {
+        usesDisplayStyleConstants(for: style)
+            ? stackBottomDisplayStyleShiftDown
+            : stackBottomShiftDown
+    }
+
+    /// Minimum gap between numerator bottom and denominator top for a no-rule stack.
+    public func stackGapMin(for style: MathStyle) -> CGFloat {
+        usesDisplayStyleConstants(for: style)
+            ? stackDisplayStyleGapMin
+            : stackGapMin
+    }
+
+    // MARK: Multi-line leading
+
+    /// Inter-line gap used by wrap / multi-line layout: OpenType `MathLeading`, with
+    /// a `mu` floor so sparse tables still separate lines.
+    public func mathInterLineGap(muFloorMultiplier: CGFloat = 3) -> CGFloat {
+        let leading = mathLeading
+        let muFloor = mathUnit * muFloorMultiplier
+        if leading > 0 {
+            return max(leading, muFloor)
+        }
+        return max(size * 0.25, muFloor)
+    }
 }
 
 extension FontMetricsProtocol {

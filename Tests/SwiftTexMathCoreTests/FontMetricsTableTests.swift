@@ -100,4 +100,26 @@ struct FontMetricsTableTests {
         }
         _ = paren
     }
+
+    /// Newly wired MATH constants must be present and positive on Latin Modern @ 20pt.
+    @Test func newlyWiredMathConstantsArePositiveOnLatinModern() throws {
+        let m = try #require(FontRegistry.shared.metrics(for: MathFont(name: .latinModern, size: 20)))
+        #expect(m.delimitedSubFormulaMinHeight > 10)
+        #expect(m.displayOperatorMinHeight > 10)
+        #expect(m.stackTopDisplayStyleShiftUp > 0)
+        #expect(m.stackTopShiftUp > 0)
+        #expect(m.stackBottomDisplayStyleShiftDown > 0)
+        #expect(m.stackBottomShiftDown > 0)
+        #expect(m.stackDisplayStyleGapMin > 0)
+        #expect(m.stackGapMin > 0)
+        #expect(m.stackGapMin(for: .display) == m.stackDisplayStyleGapMin)
+        #expect(m.stackGapMin(for: .text) == m.stackGapMin)
+        #expect(m.stretchStackGapAboveMin > 0)
+        #expect(m.stretchStackGapBelowMin > 0)
+        #expect(m.stretchStackTopShiftUp >= 0)
+        #expect(m.stretchStackBottomShiftDown > 0)
+        #expect(m.mathLeading > 0)
+        // Display stack gap is typically larger than text stack gap.
+        #expect(m.stackDisplayStyleGapMin + 0.01 >= m.stackGapMin)
+    }
 }

@@ -34,21 +34,23 @@ enum FractionLayout {
 
         // Offsets are relative to the surrounding math baseline (TeX Appendix G).
         // The fraction rule is centered on the math axis, not on the baseline.
-        // Gaps/shifts follow style-aware MATH constants (display vs text/script).
+        // With-rule: style-aware fraction shifts/gaps. No-rule (`\atop`/`\binom`):
+        // OpenType Stack* constants.
         let axis = metrics.axisHeight
         let thickness = fraction.hasRule ? metrics.fractionRuleThickness : 0
         let ruleOffset = fraction.hasRule ? axis : 0
 
-        let numShift = metrics.fractionNumeratorShiftUp(for: env.style)
-        let denShift = metrics.fractionDenominatorShiftDown(for: env.style)
-        let numGap = metrics.fractionNumeratorGapMin(for: env.style)
-        let denGap = metrics.fractionDenominatorGapMin(for: env.style)
-
         // Default shifts from the MATH table, then raise/lower to honor min gaps.
-        var numeratorOffset = numShift
-        var denominatorOffset = denShift
+        var numeratorOffset: CGFloat
+        var denominatorOffset: CGFloat
 
         if fraction.hasRule {
+            let numShift = metrics.fractionNumeratorShiftUp(for: env.style)
+            let denShift = metrics.fractionDenominatorShiftDown(for: env.style)
+            let numGap = metrics.fractionNumeratorGapMin(for: env.style)
+            let denGap = metrics.fractionDenominatorGapMin(for: env.style)
+            numeratorOffset = numShift
+            denominatorOffset = denShift
             // Gap above the rule: num baseline − num.descent − (axis + thickness/2)
             let minNum = axis + thickness / 2 + numGap + numerator.descent
             if numeratorOffset < minNum {
@@ -60,22 +62,27 @@ enum FractionLayout {
                 denominatorOffset = minDen
             }
         } else {
-            // `\atop` / `\binom` / stack without a rule: minimum separation around the axis.
-            // Target stack gap between num bottom and den top is ≥ numGap + denGap.
-            let minNum = axis + numGap + numerator.descent
+            // `\atop` / `\binom` / `\choose`: StackTop/Bottom shifts + StackGapMin.
+            let numShift = metrics.stackTopShiftUp(for: env.style)
+            let denShift = metrics.stackBottomShiftDown(for: env.style)
+            let minStack = metrics.stackGapMin(for: env.style)
+            numeratorOffset = numShift
+            denominatorOffset = denShift
+            // Keep num above axis and den below axis by at least half the stack gap
+            // when content is tiny (mirrors classic axis-centered stack placement).
+            let half = minStack / 2
+            let minNum = axis + half + numerator.descent
             if numeratorOffset < minNum {
                 numeratorOffset = minNum
             }
-            let minDen = denominator.ascent + denGap - axis
+            let minDen = denominator.ascent + half - axis
             if denominatorOffset < minDen {
                 denominatorOffset = minDen
             }
-            // Extra guard: if axis placement still leaves content too close (tall nested
-            // num/den), push further so the clear stack gap is preserved.
+            // Enforce the full StackGapMin between num bottom and den top.
             let numBottom = numeratorOffset - numerator.descent
             let denTop = -denominatorOffset + denominator.ascent
             let stackGap = numBottom - denTop
-            let minStack = numGap + denGap
             if stackGap + 0.001 < minStack {
                 let need = minStack - stackGap
                 numeratorOffset += need / 2

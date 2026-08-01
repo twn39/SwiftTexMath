@@ -326,13 +326,12 @@ enum LayoutClearance {
         style: MathStyle = .display,
         sourceLocation: SourceLocation = #_sourceLocation
     ) {
-        let numGap = metrics.fractionNumeratorGapMin(for: style)
-        let denGap = metrics.fractionDenominatorGapMin(for: style)
-        let minStack = numGap + denGap
+        // No-rule stacks honor OpenType StackGapMin / StackDisplayStyleGapMin.
+        let minStack = metrics.stackGapMin(for: style)
         let gap = stackGap(of: frac)
         #expect(
             gap + 0.01 >= minStack,
-            "stack gap \(gap) < min \(minStack) (numGap \(numGap)+denGap \(denGap)) for style \(style)",
+            "stack gap \(gap) < StackGapMin \(minStack) for style \(style)",
             sourceLocation: sourceLocation
         )
         // Num should sit above axis; den below (soft: allow equal for tiny content).

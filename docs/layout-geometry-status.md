@@ -70,7 +70,7 @@ constants; **text / script / scriptscript** share the non-display set.
 
 - Fraction numerator / denominator vs rule (`fraction*GapMin(for: style)`)
 - Zero-thickness genfrac (`\binom` / `\atop` / `\choose`): **stack gap**
-  `≥ numGap + denGap` around the math axis (not rule clearance)
+  `≥ StackGapMin` / `StackDisplayStyleGapMin` (OpenType Stack\*; not rule clearance)
 - Radical overbar vs radicand (`radicalVerticalGap(for: style)`)
 - Nested corpus (Phase 1): `\sqrt{\frac{a}{b}}`, `\frac{\sqrt{a}}{\sqrt{b}}`,
   deep fractions, quadratic formula, matrix/pmatrix with fractions, aligned

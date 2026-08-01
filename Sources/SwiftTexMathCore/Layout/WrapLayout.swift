@@ -195,10 +195,10 @@ enum WrapLayout {
             lineWidth += add
         }
 
-        // TeX-like paragraph spacing: floor baselineskip ≈ 1.2× size, plus a small
-        // inter-line gap in mu (not full demerits / \baselineskip glue).
+        // TeX-like paragraph spacing: floor baselineskip ≈ 1.2× size, plus MATH
+        // `MathLeading` via style metrics helper (not full demerits / glue).
         let minBaselineSkip = styleFont.size * 1.2
-        let interLineGap = max(styleFont.size * 0.25, styleMetrics.mathUnit * 3)
+        let interLineGap = styleMetrics.mathInterLineGap()
         let continuationIndent = styleMetrics.mathUnit * 12
         var lineDisplays: [DisplayList] = []
         var totalAscent: CGFloat = 0

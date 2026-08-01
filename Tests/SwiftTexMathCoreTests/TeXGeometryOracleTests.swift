@@ -125,14 +125,15 @@ struct TeXGeometryOracleTests {
             let texH = expected.totalHeightEm
             guard texH > 0.05 else { continue }
             let ratio = stmH / texH
-            // Same OTF target → tighter hard band than KaTeX.
-            if ratio < 0.35 || ratio > 2.8 {
+            // Same OTF target → tighter hard band than KaTeX DomTree.
+            // Tightened 2026-08: 0.40…2.5 (was 0.35…2.8) after MATH stack/delim wiring.
+            if ratio < 0.40 || ratio > 2.5 {
                 hardFails += 1
                 Issue.record("TeX height fail \(item.id): stm=\(stmH) tex=\(texH) ratio=\(ratio)")
             }
             if Self.gradeA.contains(item.id) {
                 gradeACount += 1
-                if ratio < 0.65 || ratio > 1.55 {
+                if ratio < 0.70 || ratio > 1.45 {
                     gradeAOutliers += 1
                 }
             }
@@ -142,7 +143,7 @@ struct TeXGeometryOracleTests {
         #expect(hardFails == 0, "pathological TeX height mismatches: \(hardFails)")
         if gradeACount >= 6 {
             let rate = Double(gradeAOutliers) / Double(gradeACount)
-            #expect(rate <= 0.40, "grade-A TeX outlier rate \(rate)")
+            #expect(rate <= 0.35, "grade-A TeX outlier rate \(rate)")
         }
     }
 

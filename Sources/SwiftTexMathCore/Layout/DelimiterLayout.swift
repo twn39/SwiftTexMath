@@ -30,7 +30,16 @@ enum DelimiterLayout {
             let delta = max(ascent - axis, descent + axis)
             let d1 = (delta / 500) * env.parameters.delimiterFactor
             let d2 = 2 * delta - env.parameters.delimiterShortfall
-            glyphHeight = max(d1, d2)
+            var target = max(d1, d2)
+            // OpenType `DelimitedSubFormulaMinHeight`: floor for tall sub-formulas so
+            // stretch targets never undershoot the MATH table when content already
+            // reaches that height. Small `\left(x\right)` keeps classic TeX sizing.
+            let minDelim = styleMetrics.delimitedSubFormulaMinHeight
+            let contentHeight = ascent + descent
+            if minDelim > 0, contentHeight + 0.01 >= minDelim {
+                target = max(target, minDelim)
+            }
+            glyphHeight = target
         }
 
         let padding = styleMetrics.mathUnit * 2

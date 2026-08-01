@@ -40,6 +40,19 @@ swift test --filter ExternalGeometryOracle
 
 Different default fonts → **wider bands**.
 
+### Bands (display, STM/TeX box — same LM OTF)
+
+| Grade | Height ratio | Notes |
+|---|---|---|
+| Hard (all) | **0.40 – 2.5** | Pathological collapse/blow-up (`TeXGeometryOracleTests`) |
+| Grade A | **0.70 – 1.45**, ≤35% outliers | Simple symbols / light scripts |
+
+TeX bands are tighter than KaTeX because both sides use Latin Modern Math. CI
+(`.github/workflows/tex-oracle.yml`) installs BasicTeX, regenerates
+`tex_oracle_metrics.json` with `status=ok`, and fails if generation or comparison
+fails. The committed fixture may still be `unavailable` for local clones without
+TeX — tests soft-pass the live suite in that case.
+
 ---
 
 ## Oracle B: TeX box metrics (LuaTeX / XeTeX skeleton)

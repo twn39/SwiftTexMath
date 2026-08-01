@@ -604,4 +604,29 @@ public struct FontMetrics: Sendable, FontMetricsProtocol {
     var underbarRuleThickness: CGFloat { constant(named: "UnderbarRuleThickness") }
     /// TeX ξ₈ — extra descender below the underline rule.
     var underbarExtraDescender: CGFloat { constant(named: "UnderbarExtraDescender") }
+
+    // MARK: Delimiters / large ops / stacks (OpenType MATH)
+
+    /// Minimum height of a delimited sub-formula (`\left...\right` sizing floor for tall content).
+    var delimitedSubFormulaMinHeight: CGFloat { constant(named: "DelimitedSubFormulaMinHeight") }
+
+    /// Minimum height for display-style large operators (∫ ∑ ∏ …).
+    var displayOperatorMinHeight: CGFloat { constant(named: "DisplayOperatorMinHeight") }
+
+    /// No-rule stack (`\atop` / `\binom`) shifts and gaps.
+    var stackTopDisplayStyleShiftUp: CGFloat { constant(named: "StackTopDisplayStyleShiftUp") }
+    var stackTopShiftUp: CGFloat { constant(named: "StackTopShiftUp") }
+    var stackBottomDisplayStyleShiftDown: CGFloat { constant(named: "StackBottomDisplayStyleShiftDown") }
+    var stackBottomShiftDown: CGFloat { constant(named: "StackBottomShiftDown") }
+    var stackDisplayStyleGapMin: CGFloat { constant(named: "StackDisplayStyleGapMin") }
+    var stackGapMin: CGFloat { constant(named: "StackGapMin") }
+
+    /// Stretchy over/under stacks (`\overbrace`, `\overrightarrow`, …).
+    var stretchStackTopShiftUp: CGFloat { constant(named: "StretchStackTopShiftUp") }
+    var stretchStackBottomShiftDown: CGFloat { constant(named: "StretchStackBottomShiftDown") }
+    var stretchStackGapAboveMin: CGFloat { constant(named: "StretchStackGapAboveMin") }
+    var stretchStackGapBelowMin: CGFloat { constant(named: "StretchStackGapBelowMin") }
+
+    /// Suggested extra leading between math lines (wrap / multi-line).
+    var mathLeading: CGFloat { constant(named: "MathLeading") }
 }

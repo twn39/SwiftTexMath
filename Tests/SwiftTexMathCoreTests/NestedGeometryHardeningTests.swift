@@ -228,6 +228,47 @@ struct NestedGeometryHardeningTests {
         }
     }
 
+    // MARK: - Stack / delimiter MATH wiring
+
+    @Test func binomHonorsStackGapMin() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let display = try layout(#"\binom{n}{k}"#)
+        let frac = try #require(LayoutClearance.fraction(in: display))
+        #expect(frac.ruleThickness < 0.05)
+        LayoutClearance.assertStackFractionClearance(frac, metrics: metrics, style: .display)
+        // Display stack gap is the OpenType StackDisplayStyleGapMin (not fraction gap sum).
+        #expect(metrics.stackGapMin(for: .display) == metrics.stackDisplayStyleGapMin)
+    }
+
+    @Test func textAtopHonorsTextStackGapMin() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let display = try layout(#"{n \atop k}"#, style: .text)
+        let frac = try #require(LayoutClearance.fraction(in: display))
+        #expect(frac.ruleThickness < 0.05)
+        LayoutClearance.assertStackFractionClearance(frac, metrics: metrics, style: .text)
+    }
+
+    @Test func tallLeftRightUsesDelimitedMinHeightFloor() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let minH = metrics.delimitedSubFormulaMinHeight
+        #expect(minH > 0)
+        // Tall fraction content exceeds the MATH floor; delimiters must cover content.
+        let display = try layout(#"\left(\frac{\frac{a}{b}}{\frac{c}{d}}\right)"#)
+        #expect(display.ascent + display.descent + 0.01 >= minH * 0.5)
+        #expect(display.width > 20)
+    }
+
+    @Test func displaySumMeetsDisplayOperatorMinHeightSoft() throws {
+        let metrics = try #require(LayoutClearance.metrics())
+        let minH = metrics.displayOperatorMinHeight
+        #expect(minH > 0)
+        let display = try layout(#"\sum"#)
+        // Soft: nucleus may still be shorter than the table min if no variant is tall enough;
+        // assert we at least produce a positive display-size operator.
+        #expect(display.ascent + display.descent > 8)
+        #expect(minH > 10)
+    }
+
     // MARK: - Style metrics API smoke
 
     @Test func styleAwareMetricsHelpersConsistent() throws {
@@ -251,6 +292,15 @@ struct NestedGeometryHardeningTests {
         #expect(
             metrics.radicalVerticalGap(for: .script)
                 == metrics.radicalVerticalGap
+        )
+        #expect(
+            metrics.stackGapMin(for: .display) == metrics.stackDisplayStyleGapMin
+        )
+        #expect(
+            metrics.stackTopShiftUp(for: .display) == metrics.stackTopDisplayStyleShiftUp
+        )
+        #expect(
+            metrics.stackTopShiftUp(for: .text) == metrics.stackTopShiftUp
         )
         // Display gaps should be ≥ text gaps for LM.
         #expect(

@@ -13,7 +13,10 @@ enum LargeOperatorLayout {
         let styleMetrics = fonts.metrics(for: styleFont) ?? metrics
         var glyphIDs = styleMetrics.glyphs(for: atom.nucleus)
         if env.style == .display, glyphIDs.count == 1 {
-            glyphIDs = [styleMetrics.largerGlyph(glyphIDs.first ?? 0, forDisplayStyle: true)]
+            glyphIDs = [Self.displayOperatorGlyph(
+                base: glyphIDs.first ?? 0,
+                metrics: styleMetrics
+            )]
         }
         let measured = styleMetrics.measure(glyphs: glyphIDs)
         let italic = glyphIDs.count == 1 ? styleMetrics.italicCorrection(for: glyphIDs.first ?? 0) : 0
@@ -70,5 +73,40 @@ enum LargeOperatorLayout {
                 width: width
             )
         )
+    }
+
+    /// Display-style large-op nucleus: prefer `largerGlyph`, then the smallest
+    /// vertical variant that meets `DisplayOperatorMinHeight` when available.
+    private static func displayOperatorGlyph(base: CGGlyph, metrics: FontMetrics) -> CGGlyph {
+        let minH = metrics.displayOperatorMinHeight
+        let preferred = metrics.largerGlyph(base, forDisplayStyle: true)
+        guard minH > 0 else { return preferred }
+
+        let variants = metrics.verticalVariants(for: base)
+        guard !variants.isEmpty else { return preferred }
+
+        func height(of glyph: CGGlyph) -> CGFloat {
+            let m = metrics.measure(glyphs: [glyph])
+            return m.ascent + m.descent
+        }
+
+        var best = preferred
+        var bestH = height(of: preferred)
+        var foundClearing = bestH + 0.01 >= minH
+
+        for v in variants {
+            let h = height(of: v)
+            if h + 0.01 >= minH {
+                if !foundClearing || h < bestH - 0.01 {
+                    best = v
+                    bestH = h
+                    foundClearing = true
+                }
+            } else if !foundClearing, h > bestH + 0.01 {
+                best = v
+                bestH = h
+            }
+        }
+        return best
     }
 }

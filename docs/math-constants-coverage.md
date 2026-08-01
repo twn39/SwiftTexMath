@@ -30,6 +30,12 @@ selects display vs text/script parameter sets.
 | `MinConnectorOverlap` | v/h glyph assembly |
 | Italic correction (per-glyph) | integral scripts, accents |
 | Top accent attachment (per-glyph) | accent X placement |
+| `DelimitedSubFormulaMinHeight` | `DelimiterLayout` — floor for `\left...\right` when content height ≥ constant |
+| `DisplayOperatorMinHeight` | `LargeOperatorLayout` — pick display vertical variant that clears min when possible |
+| `StackTop(DisplayStyle)ShiftUp` / `StackBottom*ShiftDown` / `Stack(DisplayStyle)GapMin` | `FractionLayout` no-rule path (`\atop` / `\binom` / `\choose`) via style helpers |
+| `StretchStackGapAboveMin` / `StretchStackGapBelowMin` | `StackLayout` for stretchy nuclei (`\overbrace`, `\overrightarrow`, …) |
+| `StretchStackTopShiftUp` / `StretchStackBottomShiftDown` | Exposed on `FontMetrics`; not applied as absolute offsets (collides with multi-part underbrace/overbrace + scripts) |
+| `MathLeading` | `WrapLayout` inter-line gap (with mu floor) |
 
 ## Variants / assembly (table sections, not single constants)
 
@@ -44,15 +50,16 @@ These often appear in MATH tables; layout may still use fixed ratios or omit the
 
 | Constant / topic | Current behavior | Priority |
 |---|---|---|
-| `ScriptPercentScaleDown` / `ScriptScriptPercentScaleDown` | **Wired** via `FontMetrics.sizeMultiplier(for:)` / `styleFontSize(baseSize:style:)`; layout call sites use metrics. `MathStyle.sizeMultiplier` remains fallback only | done |
-| `DelimitedSubFormulaMinHeight` | Not used for `\left...\right` target sizing | P2 |
-| `DisplayOperatorMinHeight` | Display ops via `largerGlyph` only | P3 |
-| `StackTop(DisplayStyle)ShiftUp` / `StackBottom*ShiftDown` / `StackGapMin` | No-rule stacks use fraction gap pair | P2 — binom already uses frac gaps |
-| `StretchStack*` | Horizontal stacks use over/under gaps | P3 |
+| `ScriptPercentScaleDown` / `ScriptScriptPercentScaleDown` | **Wired** via `FontMetrics.sizeMultiplier(for:)` / `styleFontSize(baseSize:style:)` | done |
+| `DelimitedSubFormulaMinHeight` | **Wired** (tall-content floor only; small `\left(x\right)` keeps TeX factor/shortfall) | done |
+| `DisplayOperatorMinHeight` | **Wired** (variant selection); may still undershoot if no variant is tall enough | done (soft) |
+| `Stack*` no-rule | **Wired** in `FractionLayout` | done |
+| `StretchStackGap*` | **Wired** for stretchy nuclei gaps | done |
+| `StretchStackTop/BottomShift*` | Accessors only; gap placement remains primary | P3 refine |
 | `FractionNumerator/Denominator(DisplayStyle)GapMin` naming aliases | Covered via FontMetrics aliases | — |
 | `RadicalDegreeBottomRaisePercent` | **Used** | — |
-| `SkewedFraction*` | Not supported | — |
-| `MathLeading` | Wrap baseline skip uses TeX-like rule | P3 |
+| `SkewedFraction*` | Not supported | P3 / product |
+| `MathLeading` | **Wired** in wrap inter-line gap | done |
 
 ## Multi-font notes
 
