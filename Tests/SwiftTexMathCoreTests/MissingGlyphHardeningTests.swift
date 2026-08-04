@@ -93,4 +93,21 @@ struct MissingGlyphHardeningTests {
         let display = try renderer.layout(latex: "x")
         #expect(display.width > 0)
     }
+
+    @Test func debugUserFormulas() throws {
+        let env = MathEnvironment(font: MathFont(name: .latinModern, size: 20), style: .display)
+        let r = MathRenderer(environment: env)
+
+        let f1 = #"\frac{365 - 49}{365} = \frac{316}{365}"#
+        let d1 = try r.layout(latex: f1)
+        #expect(d1.width > 0)
+
+        let f2 = #"P(\text{都不同}) \approx 0.0296 \text{ (即约 2.96\%)}"#
+        let d2 = try r.layout(latex: f2)
+        #expect(d2.width > 0)
+
+        let f3 = #"C_{50}^2"#
+        let d3 = try r.layout(latex: f3)
+        #expect(d3.width > 0)
+    }
 }

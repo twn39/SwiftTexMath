@@ -207,14 +207,18 @@ public enum MathSVG {
                     path = CTFontCreatePathForGlyph(ctFont, g, nil)
                 }
                 if path == nil, i < utf16Array.count {
-                    // Extract vector path outline for fallback characters using system CTFont.
-                    let sysFont = CTFontCreateUIFontForLanguage(.system, run.font.size, nil)
+                    // Extract vector path outline for fallback characters using system CTFont with cascade.
+                    let baseFont = CTFontCreateUIFontForLanguage(.system, run.font.size, nil)
                         ?? CTFontCreateWithName("Helvetica" as CFString, run.font.size, nil)
-                    var chars = [utf16Array[i]]
-                    var sysGlyph: CGGlyph = 0
-                    CTFontGetGlyphsForCharacters(sysFont, &chars, &sysGlyph, 1)
-                    if sysGlyph != 0 {
-                        path = CTFontCreatePathForGlyph(sysFont, sysGlyph, nil)
+                    if let scalar = UnicodeScalar(utf16Array[i]) {
+                        let chString = String(scalar)
+                        let sysFont = CTFontCreateForString(baseFont, chString as CFString, CFRangeMake(0, chString.utf16.count))
+                        var chars = Array(chString.utf16)
+                        var sysGlyphs = [CGGlyph](repeating: 0, count: chars.count)
+                        CTFontGetGlyphsForCharacters(sysFont, &chars, &sysGlyphs, chars.count)
+                        if let sysGlyph = sysGlyphs.first, sysGlyph != 0 {
+                            path = CTFontCreatePathForGlyph(sysFont, sysGlyph, nil)
+                        }
                     }
                 }
                 let tx = base.x + p.x

@@ -260,6 +260,23 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
         translateBy(x: run.position.x, y: run.position.y - run.shiftDown)
         setFillColor(foregroundColor)
 
+        if run.usesSystemFallback || run.fallbackFontName != nil {
+            let attributed = NSAttributedString(
+                string: run.text,
+                attributes: [
+                    NSAttributedString.Key(kCTFontAttributeName as String): ctFont,
+                    NSAttributedString.Key(kCTForegroundColorAttributeName as String): foregroundColor
+                ]
+            )
+            let line = CTLineCreateWithAttributedString(attributed)
+            textPosition = .zero
+            CTLineDraw(line, self)
+            textPosition = .zero
+            restoreGState()
+            return
+        }
+
+        textPosition = .zero
         let glyphs: [CGGlyph]
         if !run.glyphIDs.isEmpty, !run.usesSystemFallback, run.fallbackFontName == nil {
             glyphs = run.glyphIDs.map { CGGlyph($0) }
@@ -291,6 +308,7 @@ private struct CGContextDrawingVisitor: DisplayNodeVisitor {
             }
         }
         CTFontDrawGlyphs(ctFont, glyphs, positions, glyphs.count, self)
+        textPosition = .zero
         restoreGState()
     }
 
