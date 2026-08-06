@@ -34,5 +34,8 @@ jobs:
       - name: Swift version
         run: swift --version
 
-      - name: Build & test
-        run: swift test --parallel
+      - name: Build & test with code coverage
+        run: swift test --enable-code-coverage --parallel
+
+      - name: Code coverage report
+        run: bash scripts/coverage.sh

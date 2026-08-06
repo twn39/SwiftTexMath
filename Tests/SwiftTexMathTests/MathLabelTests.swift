@@ -63,4 +63,21 @@ func mathLabelLayoutsValidLatex() {
     #expect(label.displayList!.width > 0)
 }
 
+@Test @MainActor
+func mathLabelFontAndStyleUpdates() {
+    let label = MathLabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    label.latex = #"x + y"#
+    label.mathFont = MathFont(name: .xits, size: 24)
+    label.typesettingStyle = .text
+    #if canImport(UIKit) && !os(watchOS)
+    label.textColor = .red
+    label.layoutIfNeeded()
+    #elseif canImport(AppKit)
+    label.textColor = .red
+    label.layout()
+    #endif
+    #expect(label.mathFont.size == 24)
+    #expect(label.typesettingStyle == .text)
+}
+
 #endif

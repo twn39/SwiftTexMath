@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "generate:goldens": "node scripts/generate_katex_fixtures.mjs"
+    "generate:goldens": "node scripts/generate_katex_fixtures.mjs",
+    "test:coverage": "bash scripts/coverage.sh"
   },
   "devDependencies": {
     "katex": "^0.16.21"
