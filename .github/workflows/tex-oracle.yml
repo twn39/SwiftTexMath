@@ -157,28 +157,20 @@ jobs:
               print(tail[-4000:])
           if status != "ok":
               raise SystemExit(f"expected status=ok, got {status!r}")
-
-      - name: Upload TeX oracle fixture artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: tex-oracle-metrics
-          path: |
-            Tests/SwiftTexMathCoreTests/Fixtures/tex_oracle_metrics.json
-          if-no-files-found: ignore
-          retention-days: 14
           if measured < 20:
               raise SystemExit(f"expected measuredCount >= 20, got {measured}")
           PY
 
           exit "$rc"
 
-      - name: Upload TeX oracle fixture
+      - name: Upload TeX oracle fixture artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tex-oracle-metrics
           path: Tests/SwiftTexMathCoreTests/Fixtures/tex_oracle_metrics.json
-          if-no-files-found: error
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Run TeX geometry oracle tests
         run: |
