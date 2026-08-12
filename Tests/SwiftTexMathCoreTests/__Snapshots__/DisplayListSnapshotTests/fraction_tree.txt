@@ -1,0 +1,12 @@
+DisplayList(w: 45.03, a: 26.86, d: 15.38)
+  fraction(w: 45.03)
+    num:
+      DisplayList(w: 45.03, a: 13.32, d: 1.66)
+        glyphs(text: '𝑎', ids: [1296], w: 10.58)
+        glyphs(text: '+', ids: [12], w: 15.56)
+        glyphs(text: '1', ids: [18], w: 10.00)
+    den:
+      DisplayList(w: 43.03, a: 13.88, d: 1.66)
+        glyphs(text: '𝑏', ids: [1297], w: 8.58)
+        glyphs(text: '+', ids: [12], w: 15.56)
+        glyphs(text: '2', ids: [19], w: 10.00)

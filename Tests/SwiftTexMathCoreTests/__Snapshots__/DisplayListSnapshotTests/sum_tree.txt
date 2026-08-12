@@ -1,0 +1,11 @@
+DisplayList(w: 39.11, a: 29.34, d: 21.82)
+  op(w: 28.88, text: '∑')
+    lower:
+      DisplayList(w: 22.72, a: 9.32, d: 0.15)
+        glyphs(text: '𝑖', ids: [1304], w: 4.83)
+        glyphs(text: '=', ids: [30], w: 10.89)
+        glyphs(text: '1', ids: [18], w: 7.00)
+    upper:
+      DisplayList(w: 8.40, a: 6.19, d: 0.15)
+        glyphs(text: '𝑛', ids: [1309], w: 8.40)
+  glyphs(text: '𝑖', ids: [1304], w: 6.90)

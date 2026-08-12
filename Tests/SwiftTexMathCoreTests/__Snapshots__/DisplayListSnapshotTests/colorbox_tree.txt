@@ -1,0 +1,4 @@
+DisplayList(w: 11.44, a: 8.84, d: 0.22)
+  colored(fillsBG: true)
+    DisplayList(w: 11.44, a: 8.84, d: 0.22)
+      glyphs(text: '𝑥', ids: [1319], w: 11.44)

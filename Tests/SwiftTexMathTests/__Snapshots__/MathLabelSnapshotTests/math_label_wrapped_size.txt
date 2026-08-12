@@ -1,0 +1,1 @@
+MathLabelWrapped(width: 58.83, height: 102.58)

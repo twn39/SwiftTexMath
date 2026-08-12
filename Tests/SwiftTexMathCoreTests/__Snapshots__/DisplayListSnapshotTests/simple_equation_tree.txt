@@ -1,0 +1,6 @@
+DisplayList(w: 78.94, a: 13.88, d: 1.66)
+  glyphs(text: '𝑎', ids: [1296], w: 10.58)
+  glyphs(text: '+', ids: [12], w: 15.56)
+  glyphs(text: '𝑏', ids: [1297], w: 8.58)
+  glyphs(text: '=', ids: [30], w: 15.56)
+  glyphs(text: '𝑐', ids: [1298], w: 8.66)
