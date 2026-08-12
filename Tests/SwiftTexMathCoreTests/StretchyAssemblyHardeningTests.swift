@@ -132,12 +132,12 @@ struct StretchyAssemblyHardeningTests {
             )
         )
         let big = try r.layout(latex: #"\big("#)
-        let Big = try r.layout(latex: #"\Big("#)
+        let big2 = try r.layout(latex: #"\Big("#)
         let bigg = try r.layout(latex: #"\bigg("#)
-        let Bigg = try r.layout(latex: #"\Bigg("#)
+        let bigg2 = try r.layout(latex: #"\Bigg("#)
         let h: (DisplayList) -> CGFloat = { $0.ascent + $0.descent }
-        #expect(h(Big) + 0.01 >= h(big) - 0.5)
-        #expect(h(bigg) + 0.01 >= h(Big) - 0.5)
-        #expect(h(Bigg) + 0.01 >= h(bigg) - 0.5)
+        #expect(h(big2) + 0.01 >= h(big) - 0.5)
+        #expect(h(bigg) + 0.01 >= h(big2) - 0.5)
+        #expect(h(bigg2) + 0.01 >= h(bigg) - 0.5)
     }
 }
