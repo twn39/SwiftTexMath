@@ -145,9 +145,7 @@ public enum MathImage {
             ctx.fill(CGRect(x: 0, y: 0, width: pixelWidth, height: pixelHeight))
         }
 
-        // Bitmap is y-down; flip to math y-up, then place baseline.
-        ctx.translateBy(x: 0, y: CGFloat(pixelHeight))
-        ctx.scaleBy(x: scale, y: -scale)
+        ctx.scaleBy(x: scale, y: scale)
         let origin = CGPoint(x: pad, y: pad + display.descent)
         ctx.draw(display, at: origin, foregroundColor: options.foregroundColor, fonts: fonts)
 

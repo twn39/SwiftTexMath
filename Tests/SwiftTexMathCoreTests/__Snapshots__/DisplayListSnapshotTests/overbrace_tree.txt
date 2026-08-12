@@ -1,0 +1,13 @@
+DisplayList(w: 58.08, a: 41.70, d: 1.66)
+  DisplayList(w: 58.08, a: 41.70, d: 1.66)
+    stack(w: 49.96)
+      base:
+        DisplayList(w: 43.61, a: 13.88, d: 1.66)
+          glyphs(text: '𝑎', ids: [1296], w: 10.58)
+          glyphs(text: '+', ids: [12], w: 15.56)
+          glyphs(text: '𝑏', ids: [1297], w: 8.58)
+      over:
+        DisplayList(w: 49.96, a: 16.66, d: 0.00)
+          glyphs(text: '⏞', ids: [2447], w: 49.96)
+    DisplayList(w: 7.00, a: 9.32, d: 0.00)
+      glyphs(text: '2', ids: [19], w: 7.00)

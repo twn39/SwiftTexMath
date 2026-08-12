@@ -61,6 +61,19 @@ Also expanded: PNG goldens (`Goldens/`), fingerprint bands
 (`SnapshotFingerprintTests`), KaTeX cross-validation soft bands, and
 tex2math corpus deep structure/ink checks.
 
+## Snapshot testing goldens
+
+Comprehensive snapshot testing using `swift-snapshot-testing` verifies:
+- **SVG Snapshots** (`SVGSnapshotTests.swift`): Vector path structure, CSS attributes, XML headers (`.svg`).
+- **DisplayList Tree Snapshots** (`DisplayListSnapshotTests.swift`): Structural IR node hierarchy, positions, and bounds (`.displayTree`).
+- **PNG Image Snapshots** (`PNGSnapshotTests.swift`): Pixel raster encoded image data (`.pngData`).
+- **UI MathLabel Snapshots** (`MathLabelSnapshotTests.swift`): Metric intrinsic dimensions and text wrap properties (`.lines`).
+
+To record/update snapshot baselines:
+```bash
+RECORD_SNAPSHOTS=1 swift test
+```
+
 ## Clearance invariants (MATH-driven)
 
 These assert **gaps** and **alignments**, not absolute sizes.

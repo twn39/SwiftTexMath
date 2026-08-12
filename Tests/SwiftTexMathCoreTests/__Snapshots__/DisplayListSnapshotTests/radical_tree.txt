@@ -1,0 +1,13 @@
+DisplayList(w: 82.49, a: 20.56, d: 4.24)
+  radical(w: 82.49)
+    radicand:
+      DisplayList(w: 62.49, a: 16.00, d: 4.10)
+        DisplayList(w: 19.56, a: 16.00, d: 0.22)
+          glyphs(text: '𝑥', ids: [1319], w: 11.44)
+          DisplayList(w: 7.00, a: 9.32, d: 0.00)
+            glyphs(text: '2', ids: [19], w: 7.00)
+        glyphs(text: '+', ids: [12], w: 15.56)
+        DisplayList(w: 18.48, a: 16.00, d: 4.10)
+          glyphs(text: '𝑦', ids: [1320], w: 9.80)
+          DisplayList(w: 7.00, a: 9.32, d: 0.00)
+            glyphs(text: '2', ids: [19], w: 7.00)
