@@ -23,7 +23,7 @@ struct OperatorNameAndScriptDetailTests {
         let display = renderer.layout(scriptList)
 
         #expect(display.width > 30)
-        #expect(display.children.count > 0)
+        #expect(!display.children.isEmpty)
     }
 
     @Test("Empty base with superscript and subscript")
