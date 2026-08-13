@@ -21,6 +21,7 @@ public struct Math: View {
     @Environment(\.mathRenderingMode) private var renderingMode
     @Environment(\.mathFonts) private var fonts
     @Environment(\.mathTextFallbackFontName) private var textFallbackFontName
+    @Environment(\.colorScheme) private var colorScheme
 
     private let latex: String
 
@@ -49,7 +50,11 @@ public struct Math: View {
                     let color: Color = {
                         switch renderingMode {
                         case .monochrome:
-                            return .primary
+                            // Resolve .primary to a concrete color using the environment's
+                            // colorScheme. This avoids NSColor(Color.primary).cgColor which
+                            // defaults to white in ImageRenderer's windowless offscreen
+                            // context where NSAppearance is unavailable.
+                            return colorScheme == .dark ? .white : .black
                         case .multicolor(let base):
                             return base
                         }
@@ -147,11 +152,17 @@ private struct MathProposalLayout: Layout {
     }
 
     private func updateCache(proposedWidth: CGFloat?, cache: inout Cache) {
+        // SwiftUI Layout best practice: a nil proposal means "what is your ideal size?"
+        // Pass .infinity so the TeX typesetter measures at unconstrained natural width
+        // rather than forcing a zero-width line-break (the previous width = 0 behaviour).
         let width: CGFloat
         if let proposedWidth, proposedWidth.isFinite, proposedWidth > 0 {
             width = proposedWidth
+        } else if let proposedWidth, proposedWidth.isInfinite {
+            width = .infinity
         } else {
-            width = 0
+            // nil proposal → ideal/unconstrained measurement pass
+            width = .infinity
         }
         if cache.measuredWidth == width, cache.height > 0.5 {
             return
@@ -182,7 +193,6 @@ private struct MathProposalLayout: Layout {
         }
     }
 }
-
 extension GraphicsContext {
     fileprivate func draw(
         _ display: DisplayList,
@@ -193,6 +203,18 @@ extension GraphicsContext {
         withCGContext { cg in
             cg.saveGState()
             // SwiftUI Canvas is y-down; math display is y-up with baseline origin.
+            // The Canvas clips to `rect` by default. For multi-line wrapped formulas,
+            // lines below the first have negative y in math-coords → positive y after
+            // the flip → beyond rect.maxY → clipped. Reset clip to the full display
+            // bounding box so all lines are visible.
+            let totalHeight = display.ascent + display.descent
+            cg.resetClip()
+            cg.clip(to: CGRect(
+                x: rect.minX,
+                y: rect.minY,
+                width: max(rect.width, display.width),
+                height: max(rect.height, totalHeight)
+            ))
             cg.translateBy(x: rect.minX, y: rect.minY + display.ascent)
             cg.scaleBy(x: 1, y: -1)
             let cgColor = color.resolveCGColor()
