@@ -59,11 +59,17 @@ enum DisplayProvider {
         textFallbackFontName: String? = nil
     ) -> Result<DisplayList, ParseError> {
         let providerID = fontProviderIdentifier(fonts)
+        let effectiveMaxWidth: CGFloat
+        if !proposedWidth.isFinite || proposedWidth <= 0 || style == .display {
+            effectiveMaxWidth = 0
+        } else {
+            effectiveMaxWidth = proposedWidth
+        }
         let key = Key(
             latex: latex,
             font: font,
             style: style,
-            proposedWidth: proposedWidth.rounded(),
+            proposedWidth: effectiveMaxWidth.rounded(),
             fontProviderID: providerID,
             textFallbackFontName: textFallbackFontName
         )
@@ -74,7 +80,7 @@ enum DisplayProvider {
         let env = MathEnvironment(
             font: font,
             style: style.mathStyle,
-            maxWidth: proposedWidth,
+            maxWidth: effectiveMaxWidth,
             textFallbackFontName: textFallbackFontName
         )
         let result: Result<DisplayList, ParseError>
