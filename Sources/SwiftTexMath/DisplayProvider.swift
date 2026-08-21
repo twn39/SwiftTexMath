@@ -59,12 +59,9 @@ enum DisplayProvider {
         textFallbackFontName: String? = nil
     ) -> Result<DisplayList, ParseError> {
         let providerID = fontProviderIdentifier(fonts)
-        let effectiveMaxWidth: CGFloat
-        if !proposedWidth.isFinite || proposedWidth <= 0 || style == .display {
-            effectiveMaxWidth = 0
-        } else {
-            effectiveMaxWidth = proposedWidth
-        }
+        // Inline math (.text, .script, etc.) should never be broken into multiline stacked boxes.
+        // It must always typeset at its natural single-line width.
+        let effectiveMaxWidth: CGFloat = 0
         let key = Key(
             latex: latex,
             font: font,
