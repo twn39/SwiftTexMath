@@ -42,7 +42,7 @@ public func assertSnapshot<Value, Format>(
     line: Int = #line
 ) {
     let isRecording = ProcessInfo.processInfo.environment["RECORD_SNAPSHOTS"] == "1" ||
-                      ProcessInfo.processInfo.environment["REGENERATE_GOLDENS"] == "1"
+        ProcessInfo.processInfo.environment["REGENERATE_GOLDENS"] == "1"
 
     let testFileURL = URL(fileURLWithPath: filePath)
     let testFileName = testFileURL.deletingPathExtension().lastPathComponent

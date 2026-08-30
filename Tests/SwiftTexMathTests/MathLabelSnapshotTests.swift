@@ -12,7 +12,7 @@ import UIKit
 @Suite("MathLabel UI Component Snapshots")
 struct MathLabelSnapshotTests {
 
-#if (canImport(UIKit) && !os(watchOS)) || (canImport(AppKit) && !targetEnvironment(macCatalyst))
+    #if (canImport(UIKit) && !os(watchOS)) || (canImport(AppKit) && !targetEnvironment(macCatalyst))
 
     @Test("MathLabel Intrinsic Dimensions Snapshot")
     @MainActor
@@ -40,6 +40,6 @@ struct MathLabelSnapshotTests {
         assertSnapshot(matching: snapshotText, as: .lines, named: "math_label_wrapped_size")
     }
 
-#endif
+    #endif
 
 }

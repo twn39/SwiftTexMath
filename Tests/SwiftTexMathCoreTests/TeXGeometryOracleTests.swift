@@ -178,12 +178,12 @@ struct TeXGeometryOracleTests {
             ["ok", "unavailable", "compile_failed", "empty", "missing", nil]
                 .map { $0 as String? }
                 .contains(Self.catalog.status)
-            || Self.catalog.status != nil
+                || Self.catalog.status != nil
         )
         // When not live, still pass: skeleton is intentional without TeX.
         if !isLive {
             #expect(Self.catalog.status == "unavailable" || Self.catalog.status == "missing"
-                || Self.catalog.status == "empty" || Self.catalog.status == "compile_failed")
+                        || Self.catalog.status == "empty" || Self.catalog.status == "compile_failed")
         }
     }
 }

@@ -16,7 +16,7 @@ enum TableLayout {
             Typesetter.tableEnvironmentAutoNumbers(table.environment)
             && (
                 env.numberEquations
-                || Typesetter.tableEnvironmentForcesNumbering(table.environment)
+                    || Typesetter.tableEnvironmentForcesNumbering(table.environment)
             )
             && (env.style == .display || Typesetter.tableEnvironmentForcesNumbering(table.environment))
         let tableNumbers = wantsNumbers && equationCounter != nil

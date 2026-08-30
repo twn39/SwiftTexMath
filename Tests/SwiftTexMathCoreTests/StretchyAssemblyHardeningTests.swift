@@ -51,7 +51,7 @@ struct StretchyAssemblyHardeningTests {
         // Either multi-glyph assembly or a large variant.
         let isAssembled = tall.glyphIDs.count >= 2 || !tall.offsetsY.isEmpty
         let isLargeVariant = tall.glyphIDs.count == 1 && (variants.count <= 1
-            || tall.glyphIDs[0] != base || height(of: tall) > 30)
+                                                            || tall.glyphIDs[0] != base || height(of: tall) > 30)
         #expect(isAssembled || isLargeVariant)
     }
 

@@ -69,53 +69,53 @@ extension CGContext {
         node.accept(&visitor)
     }
 
-private struct CGContextDrawingVisitor: DisplayNodeVisitor {
-    let context: CGContext
-    let foregroundColor: CGColor
-    let fonts: any FontProviding
-    let depth: Int
-    let maxDepth: Int
+    private struct CGContextDrawingVisitor: DisplayNodeVisitor {
+        let context: CGContext
+        let foregroundColor: CGColor
+        let fonts: any FontProviding
+        let depth: Int
+        let maxDepth: Int
 
-    mutating func visit(list: DisplayList) {
-        context.draw(list, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(list: DisplayList) {
+            context.draw(list, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(glyphs: GlyphRun) {
-        context.draw(glyphs, foregroundColor: foregroundColor, fonts: fonts)
-    }
+        mutating func visit(glyphs: GlyphRun) {
+            context.draw(glyphs, foregroundColor: foregroundColor, fonts: fonts)
+        }
 
-    mutating func visit(fraction: FractionDisplay) {
-        context.draw(fraction, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(fraction: FractionDisplay) {
+            context.draw(fraction, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(radical: RadicalDisplay) {
-        context.draw(radical, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(radical: RadicalDisplay) {
+            context.draw(radical, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(line: LineDisplay) {
-        context.draw(line, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(line: LineDisplay) {
+            context.draw(line, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(largeOperator: LargeOperatorDisplay) {
-        context.draw(largeOperator, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(largeOperator: LargeOperatorDisplay) {
+            context.draw(largeOperator, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(colored: ColoredDisplay) {
-        context.draw(colored, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(colored: ColoredDisplay) {
+            context.draw(colored, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(rule: RuleDisplay) {
-        context.draw(rule, foregroundColor: foregroundColor)
-    }
+        mutating func visit(rule: RuleDisplay) {
+            context.draw(rule, foregroundColor: foregroundColor)
+        }
 
-    mutating func visit(box: BoxDisplay) {
-        context.draw(box, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
-    }
+        mutating func visit(box: BoxDisplay) {
+            context.draw(box, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
 
-    mutating func visit(stack: StackDisplay) {
-        context.draw(stack, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        mutating func visit(stack: StackDisplay) {
+            context.draw(stack, foregroundColor: foregroundColor, fonts: fonts, depth: depth, maxDepth: maxDepth)
+        }
     }
-}
 
     private func draw(
         _ box: BoxDisplay,

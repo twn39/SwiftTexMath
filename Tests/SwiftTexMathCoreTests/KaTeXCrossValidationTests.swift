@@ -147,7 +147,7 @@ struct KaTeXCrossValidationTests {
                 let feat = golden.features
                 let isSimple = feat == nil
                     || !(feat!.hasFraction || feat!.hasRadical || feat!.hasMatrix
-                        || feat!.hasLargeOp || feat!.hasAccent)
+                            || feat!.hasLargeOp || feat!.hasAccent)
                 if isSimple, !skipSoft {
                     simpleCount += 1
                     if ratio < 0.45 || ratio > 2.20 {
