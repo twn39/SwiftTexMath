@@ -44,8 +44,8 @@ enum DisplayProvider {
     private static let cache = CacheBox()
 
     private static func fontProviderIdentifier(_ fonts: any FontProviding) -> ObjectIdentifier {
-        if let obj = fonts as? AnyObject {
-            return ObjectIdentifier(obj)
+        if type(of: fonts) is AnyObject.Type {
+            return ObjectIdentifier(fonts as AnyObject)
         }
         return ObjectIdentifier(type(of: fonts))
     }
