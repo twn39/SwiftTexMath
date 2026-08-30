@@ -17,9 +17,9 @@ Native, high-performance LaTeX math rendering engine for Apple platforms written
 
 - **Pure Swift & Swift 6 Ready**: Implements the TeX Appendix-G typesetting specification with strict concurrency support.
 - **First-Class UI Components**: Native SwiftUI `Math` view and UIKit/AppKit `MathLabel` / `HostedMathLabel` with reactive environment modifiers.
-- **12 Bundled OpenType MATH Fonts**: Complete OpenType MATH font layout engine bundled with 12 fonts (*Latin Modern*, *XITS*, *Asana*, *Euler*, *Fira*, *Garamond*, *Kp Math*, *Lete Sans*, *Libertinus*, *Noto Sans*, and *Termes*).
+- **12 Bundled OpenType MATH Fonts**: Complete OpenType MATH font layout engine bundled with 12 fonts (*Latin Modern*, *Asana*, *Euler*, *Fira*, *Garamond*, *Kp Math Light*, *Kp Math Sans*, *Lete Sans*, *Libertinus*, *Noto Sans*, *Termes*, and *XITS*).
 - **Multi-Format Export**: Render and export math expressions to **Raster PNG** (`MathImage`), **Vector PDF** (`MathPDF`), or **Vector SVG** (`MathSVG` with portable glyph outline paths).
-- **Comprehensive TeX Support**: Fractions, radicals, matrices, multi-line environments (`aligned`, `cases`, `gather`, `split`), accent attachments, stretchy delimiters (`\left ... \right`), limits, and user macros (`\newcommand`).
+- **Comprehensive TeX Support**: Fractions, radicals, matrices, multi-line environments (`aligned`, `cases`, `gather`, `split`), accent attachments, stretchy delimiters (`\left ... \right`), limits, equation numbering & labels (`\tag`, `\label`, `\ref`, `\eqref`), and user macros (`\newcommand`).
 - **Responsive Layout**: Automatic line-breaking across container width constraints (`maxWidth`).
 
 ---
@@ -83,7 +83,8 @@ struct EquationView: View {
 import SwiftTexMath
 
 let label = MathLabel()
-label.latex = #"E = mc^2"#
+let latex = #"E = mc^2"#
+label.latex = latex
 label.mathFont = MathFont(name: .latinModern, size: 24)
 label.preferredMaxLayoutWidth = 280
 
@@ -153,7 +154,8 @@ try svgResult.data.write(to: URL(fileURLWithPath: "math.svg"))
 | **Columns & Lines** | `\hline`, vertical lines `|`, `@{...}` column space inserts, `\intertext` | ✅ |
 | **Coloring & Framing** | `\color`, `\textcolor`, `\colorbox` (named + `#hex`), `\boxed` | ✅ |
 | **Boxes & Stack** | `\phantom`, `\smash`, `\llap`, `\rlap`, `\cancel`, `\sout`, `\overset`, `\underset`, `\stackrel`, `\substack`, `\not=` | ✅ |
-| **Macros & Operations** | `\operatorname`/`\operatorname*`, `\pmod`/`\pod`/`\bmod`, `\bra`/`\ket`/`\braket`, `\mathbin`...`\mathpunct`, `\tag` | ✅ |
+| **Numbering & Labels** | `\tag`, `\tag*`, `\notag`, `\label`, `\ref`, `\eqref`, auto equation counters across environments | ✅ |
+| **Macros & Operations** | `\operatorname`/`\operatorname*`, `\pmod`/`\pod`/`\bmod`, `\bra`/`\ket`/`\braket`, `\mathbin`...`\mathpunct` | ✅ |
 | **Multi-Integrals** | `\iint`...`\oiint`/`\oiiint`/`\fint`/... | ✅ |
 | **AMS Aliases & Custom** | AMS aliases (`\lt`, `\gt`, `\therefore`, `\impliedby`, `\dotsc`), `AtomFactory.addLatexSymbol` | ✅ |
 | **User Macros** | `\newcommand` / `\def` (0–9 arguments per parse session) | ✅ |
