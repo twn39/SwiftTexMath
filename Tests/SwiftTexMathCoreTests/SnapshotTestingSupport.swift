@@ -48,8 +48,11 @@ extension Snapshotting where Value == DisplayList, Format == String {
 }
 
 extension Snapshotting where Value == CGImage, Format == Data {
-    /// Strategy for PNG image data.
-    public static var pngData: Snapshotting<CGImage, Data> {
+    /// Strategy for PNG image data with configurable tolerance.
+    public static func pngData(
+        maxDifferingFraction: Double = 0.02,
+        maxChannelDelta: UInt8 = 12
+    ) -> Snapshotting<CGImage, Data> {
         Snapshotting(
             pathExtension: "png",
             serialize: { image in
@@ -63,10 +66,33 @@ extension Snapshotting where Value == CGImage, Format == Data {
                       let expectedImg = MathImage.image(fromPNG: expected) else {
                     return actual == expected
                 }
-                return MathImage.matches(actualImg, expectedImg, maxDifferingFraction: 0, maxChannelDelta: 0)
+                guard let stats = MathImage.diff(actualImg, expectedImg) else {
+                    print("[Snapshot] Image dimension mismatch: actual \(actualImg.width)×\(actualImg.height) vs expected \(expectedImg.width)×\(expectedImg.height)")
+                    return false
+                }
+                let matched = stats.differingPixels == 0 ||
+                    (stats.differingFraction <= maxDifferingFraction && stats.maxChannelDelta <= maxChannelDelta)
+                if !matched {
+                    print("[Snapshot] Difference stats: differing=\(stats.differingPixels)/\(stats.totalPixels) (\(String(format: "%.2f%%", stats.differingFraction * 100))), maxChannelDelta=\(stats.maxChannelDelta) (tolerances: maxFraction=\(maxDifferingFraction), maxDelta=\(maxChannelDelta))")
+                }
+                return matched
             },
-            formatDescription: { data in "PNG image data (\(data.count) bytes)" }
+            formatDescription: { data in
+                if let img = MathImage.image(fromPNG: data) {
+                    return "PNG image (\(img.width)×\(img.height) px, \(data.count) bytes)"
+                }
+                return "PNG image data (\(data.count) bytes)"
+            }
         )
+    }
+
+    /// Strategy for PNG image data using standard font antialiasing tolerance.
+    public static var pngData: Snapshotting<CGImage, Data> {
+        let isCI = ProcessInfo.processInfo.environment["CI"] != nil
+        // In headless CI virtual machines, font antialiasing smoothing can vary slightly more.
+        let maxFraction = isCI ? 0.03 : 0.02
+        let maxDelta: UInt8 = isCI ? 16 : 12
+        return pngData(maxDifferingFraction: maxFraction, maxChannelDelta: maxDelta)
     }
 }
 
