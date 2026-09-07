@@ -26,6 +26,8 @@ enum FractionCommands {
             try appendFraction(parser: &parser, list: &list, prev: &prev, forcedStyle: .text, hasRule: true)
         case "cfrac":
             try appendCFrac(parser: &parser, list: &list, prev: &prev)
+        case "sfrac", "nicefrac":
+            try appendSkewedFraction(parser: &parser, list: &list, prev: &prev)
         case "binom":
             try appendBinom(parser: &parser, list: &list, prev: &prev, forcedStyle: nil)
         case "dbinom":
@@ -59,6 +61,28 @@ enum FractionCommands {
                     hasRule: true,
                     forcedStyle: .display,
                     numeratorAlignment: alignment
+                )
+            )
+        )
+        list.append(atom)
+        prev = atom
+    }
+
+    static func appendSkewedFraction(
+        parser: inout MathParser,
+        list: inout MathList,
+        prev: inout MathAtom?
+    ) throws {
+        let num = try parser.readArgument()
+        let den = try parser.readArgument()
+        let atom = MathAtom(
+            kind: .fraction,
+            payload: .fraction(
+                .init(
+                    numerator: num,
+                    denominator: den,
+                    hasRule: false,
+                    isSkewed: true
                 )
             )
         )

@@ -341,6 +341,10 @@ extension CGContext {
             strokePath()
         }
 
+        if let slash = fraction.slash {
+            draw(slash, foregroundColor: foregroundColor, fonts: fonts)
+        }
+
         restoreGState()
     }
 

@@ -119,6 +119,10 @@ struct FontMetricsTableTests {
         #expect(m.stretchStackTopShiftUp >= 0)
         #expect(m.stretchStackBottomShiftDown > 0)
         #expect(m.mathLeading > 0)
+        #expect(m.skewedFractionHorizontalGap > 0)
+        #expect(m.skewedFractionVerticalGap > 0)
+        #expect(m.skewedFractionHorizontalGap(for: .text) > 0)
+        #expect(m.skewedFractionVerticalGap(for: .text) > 0)
         // Display stack gap is typically larger than text stack gap.
         #expect(m.stackDisplayStyleGapMin + 0.01 >= m.stackGapMin)
     }

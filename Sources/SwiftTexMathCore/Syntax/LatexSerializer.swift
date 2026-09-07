@@ -168,6 +168,9 @@ public enum LatexSerializer {
     private static func fractionLatex(_ frac: MathAtom.Fraction) -> String {
         let num = string(from: frac.numerator)
         let den = string(from: frac.denominator)
+        if frac.isSkewed {
+            return "\\sfrac{\(num)}{\(den)}"
+        }
         if !frac.leftDelimiter.isEmpty || !frac.rightDelimiter.isEmpty {
             if frac.leftDelimiter == "(", frac.rightDelimiter == ")", !frac.hasRule {
                 switch frac.forcedStyle {

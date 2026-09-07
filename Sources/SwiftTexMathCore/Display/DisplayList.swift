@@ -249,6 +249,8 @@ public struct FractionDisplay: Sendable, Hashable {
     public var numeratorOffset: CGFloat
     /// Denominator baseline offset below the math baseline.
     public var denominatorOffset: CGFloat
+    /// Optional slash glyph for skewed fractions (`\sfrac` / `\nicefrac`).
+    public var slash: GlyphRun?
     public var ascent: CGFloat
     public var descent: CGFloat
     public var width: CGFloat
@@ -261,6 +263,7 @@ public struct FractionDisplay: Sendable, Hashable {
         ruleOffset: CGFloat = 0,
         numeratorOffset: CGFloat,
         denominatorOffset: CGFloat,
+        slash: GlyphRun? = nil,
         ascent: CGFloat,
         descent: CGFloat,
         width: CGFloat,
@@ -272,6 +275,7 @@ public struct FractionDisplay: Sendable, Hashable {
         self.ruleOffset = ruleOffset
         self.numeratorOffset = numeratorOffset
         self.denominatorOffset = denominatorOffset
+        self.slash = slash
         self.ascent = ascent
         self.descent = descent
         self.width = width
@@ -540,7 +544,13 @@ extension DisplayNode {
             let text = n.text.trimmingCharacters(in: .whitespacesAndNewlines)
             return text.isEmpty ? [] : [text]
         case .fraction(let n):
-            return n.numerator.extractTextTokens() + n.denominator.extractTextTokens()
+            var tokens = n.numerator.extractTextTokens()
+            if let slash = n.slash {
+                let trimmed = slash.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !trimmed.isEmpty { tokens.append(trimmed) }
+            }
+            tokens.append(contentsOf: n.denominator.extractTextTokens())
+            return tokens
         case .radical(let n):
             var res: [String] = []
             if let deg = n.degree {

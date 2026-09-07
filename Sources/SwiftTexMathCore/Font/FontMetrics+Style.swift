@@ -109,6 +109,20 @@ extension FontMetrics {
         }
         return max(size * 0.25, muFloor)
     }
+
+    // MARK: Skewed Fractions
+
+    public func skewedFractionHorizontalGap(for style: MathStyle) -> CGFloat {
+        let gap = skewedFractionHorizontalGap
+        let scale = sizeMultiplier(for: style)
+        return gap > 0 ? gap * scale : mathUnit * 1.5 * scale
+    }
+
+    public func skewedFractionVerticalGap(for style: MathStyle) -> CGFloat {
+        let gap = skewedFractionVerticalGap
+        let scale = sizeMultiplier(for: style)
+        return gap > 0 ? gap * scale : mathUnit * scale
+    }
 }
 
 extension FontMetricsProtocol {

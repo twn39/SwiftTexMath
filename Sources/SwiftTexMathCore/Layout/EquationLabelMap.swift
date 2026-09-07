@@ -41,7 +41,12 @@ enum EquationNumbering {
         env: MathEnvironment,
         map: EquationLabelMap
     ) {
-        let counter = EquationCounter(start: env.equationNumberStart)
+        let counter: EquationCounter
+        if let eqCtx = env.equationContext {
+            counter = EquationCounter(start: eqCtx.nextEquationNumber, format: { eqCtx.formatNumber($0) })
+        } else {
+            counter = EquationCounter(start: env.equationNumberStart)
+        }
         walkList(list, env: env, counter: counter, map: map, depth: 0)
     }
 
@@ -138,8 +143,7 @@ enum EquationNumbering {
                     let bare = bareMarker(for: explicit, counter: nil)
                     for name in labels { map.bind(name, to: bare) }
                 } else if !policy.suppress, wantsNumbers {
-                    let n = counter.take()
-                    let bare = String(n)
+                    let bare = counter.takeString()
                     for name in labels { map.bind(name, to: bare) }
                 }
                 // Walk cell bodies for nested tables (without free-standing numbering).
@@ -245,7 +249,7 @@ enum EquationNumbering {
             return
         }
         if numberEquations, style == .display, hasBody {
-            let bare = String(counter.take())
+            let bare = counter.takeString()
             for name in labels { map.bind(name, to: bare) }
         }
     }
@@ -255,7 +259,7 @@ enum EquationNumbering {
         let flat = flattenList(tag.contents)
         if !flat.isEmpty { return flat }
         if let counter {
-            return String(counter.take())
+            return counter.takeString()
         }
         return ""
     }

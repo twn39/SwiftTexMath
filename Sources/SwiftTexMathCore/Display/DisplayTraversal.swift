@@ -15,14 +15,21 @@ public enum DisplayTraversal {
 /// Held by reference so nested table/row layout shares one sequence.
 final class EquationCounter: @unchecked Sendable {
     var next: Int
+    var format: (@Sendable (Int) -> String)?
 
-    init(start: Int = 1) {
+    init(start: Int = 1, format: (@Sendable (Int) -> String)? = nil) {
         self.next = max(1, start)
+        self.format = format
     }
 
     func take() -> Int {
         let value = next
         next += 1
         return value
+    }
+
+    func takeString() -> String {
+        let value = take()
+        return format?(value) ?? String(value)
     }
 }

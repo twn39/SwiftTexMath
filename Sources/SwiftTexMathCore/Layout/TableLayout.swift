@@ -41,7 +41,17 @@ enum TableLayout {
             guard hoistTags else { return row }
             return row.map { Typesetter.strippingTags(from: $0) }
         }
-        let cells = bodyRows.map { row in row.map { typeset($0, cellEnv) } }
+        let cells = bodyRows.enumerated().map { (r, row) in
+            if table.fullWidthRows.contains(r) {
+                var rowEnv = cellEnv
+                rowEnv.maxWidth = env.maxWidth
+                return row.map { typeset($0, rowEnv) }
+            } else {
+                var normalEnv = cellEnv
+                normalEnv.maxWidth = 0
+                return row.map { typeset($0, normalEnv) }
+            }
+        }
         let columnCount = max(
             cells.enumerated()
                 .filter { !table.fullWidthRows.contains($0.offset) }
@@ -151,10 +161,10 @@ enum TableLayout {
                 } else if policy.suppress {
                     tagSpec = nil
                 } else if tableNumbers, let counter = equationCounter {
-                    let n = counter.take()
-                    bareMarker = String(n)
+                    let bare = counter.takeString()
+                    bareMarker = bare
                     tagSpec = MathAtom.Tag(
-                        contents: Typesetter.numberList(n),
+                        contents: Typesetter.numberList(bare),
                         parenthesize: true
                     )
                 } else {

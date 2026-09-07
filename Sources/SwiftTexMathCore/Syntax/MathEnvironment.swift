@@ -52,6 +52,8 @@ public struct MathEnvironment: Sendable, Hashable {
     public var numberEquations: Bool
     /// First number assigned when ``numberEquations`` is true.
     public var equationNumberStart: Int
+    /// Optional shared context across multiple equations/renders for persistent numbering and cross-referencing.
+    public var equationContext: EquationContext?
 
     public init(
         font: MathFont = MathFont(name: .latinModern, size: 20),
@@ -63,7 +65,8 @@ public struct MathEnvironment: Sendable, Hashable {
         textFallbackFontName: String? = nil,
         maxRecursionDepth: Int = 128,
         numberEquations: Bool = false,
-        equationNumberStart: Int = 1
+        equationNumberStart: Int = 1,
+        equationContext: EquationContext? = nil
     ) {
         self.font = font
         self.style = style
@@ -75,13 +78,15 @@ public struct MathEnvironment: Sendable, Hashable {
         self.maxRecursionDepth = maxRecursionDepth
         self.numberEquations = numberEquations
         self.equationNumberStart = max(1, equationNumberStart)
+        self.equationContext = equationContext
     }
 
     public func with(
         style: MathStyle? = nil,
         cramped: Bool? = nil,
         fontSize: CGFloat? = nil,
-        variant: MathVariant? = nil
+        variant: MathVariant? = nil,
+        equationContext: EquationContext? = nil
     ) -> MathEnvironment {
         var copy = self
         if let style { copy.style = style }
@@ -90,6 +95,7 @@ public struct MathEnvironment: Sendable, Hashable {
             copy.font = MathFont(name: font.name, size: fontSize)
         }
         if let variant { copy.variant = variant }
+        if let equationContext { copy.equationContext = equationContext }
         return copy
     }
 

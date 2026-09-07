@@ -19,14 +19,19 @@ public enum Typesetter {
         fonts: any FontProviding = FontRegistry.shared
     ) -> (display: DisplayList, labels: EquationLabelMap) {
         let normalized = MathNormalizer.normalize(list)
-        let labelMap = EquationLabelMap()
+        let labelMap = environment.equationContext?.labelMap ?? EquationLabelMap()
         EquationNumbering.collect(normalized, env: environment, map: labelMap)
         guard let metrics = fonts.metrics(for: environment.font) else {
             return (DisplayList(), labelMap)
         }
         // Always allocate a counter so outer envs (`equation`, `align`, …) can number
         // without requiring `numberEquations` for free-standing lines.
-        let counter = EquationCounter(start: environment.equationNumberStart)
+        let counter: EquationCounter
+        if let eqCtx = environment.equationContext {
+            counter = EquationCounter(start: eqCtx.nextEquationNumber, format: { eqCtx.formatNumber($0) })
+        } else {
+            counter = EquationCounter(start: environment.equationNumberStart)
+        }
         let display = typeset(
             normalized,
             env: environment,
@@ -35,6 +40,9 @@ public enum Typesetter {
             equationCounter: counter,
             labelMap: labelMap
         )
+        if let eqCtx = environment.equationContext {
+            eqCtx.nextEquationNumber = counter.next
+        }
         return (display, labelMap)
     }
 
@@ -172,10 +180,10 @@ public enum Typesetter {
            env.style == .display,
            !children.isEmpty,
            let counter = equationCounter {
-            let n = counter.take()
-            pendingTagBare = String(n)
+            let bare = counter.takeString()
+            pendingTagBare = bare
             let auto = MathAtom.Tag(
-                contents: numberList(n),
+                contents: numberList(bare),
                 parenthesize: true
             )
             pendingTag = .list(
@@ -211,13 +219,18 @@ public enum Typesetter {
         return DisplayList(ascent: ascent, descent: descent, width: x, children: children)
     }
 
-    /// Digits for auto equation numbers as ordinary atoms.
-    static func numberList(_ value: Int) -> MathList {
+    /// Characters for auto equation numbers as ordinary atoms.
+    static func numberList(_ string: String) -> MathList {
         var list = MathList()
-        for ch in String(value) {
+        for ch in string {
             list.append(MathAtom.ordinary(String(ch)))
         }
         return list
+    }
+
+    /// Digits for auto equation numbers as ordinary atoms.
+    static func numberList(_ value: Int) -> MathList {
+        numberList(String(value))
     }
 
     /// Outer amsmath-like envs that receive equation numbers (not inner `aligned` / `gathered` / `split`).

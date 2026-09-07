@@ -149,6 +149,8 @@ public struct MathAtom: Sendable, Hashable {
         public var forcedStyle: MathStyle?
         /// Numerator horizontal alignment (`\cfrac[l|c|r]`; default center).
         public var numeratorAlignment: NumeratorAlignment
+        /// When true, renders as an OpenType skewed fraction (`\sfrac` / `\nicefrac`).
+        public var isSkewed: Bool
 
         public init(
             numerator: MathList,
@@ -157,7 +159,8 @@ public struct MathAtom: Sendable, Hashable {
             leftDelimiter: String = "",
             rightDelimiter: String = "",
             forcedStyle: MathStyle? = nil,
-            numeratorAlignment: NumeratorAlignment = .center
+            numeratorAlignment: NumeratorAlignment = .center,
+            isSkewed: Bool = false
         ) {
             self.numerator = numerator
             self.denominator = denominator
@@ -166,6 +169,7 @@ public struct MathAtom: Sendable, Hashable {
             self.rightDelimiter = rightDelimiter
             self.forcedStyle = forcedStyle
             self.numeratorAlignment = numeratorAlignment
+            self.isSkewed = isSkewed
         }
     }
 

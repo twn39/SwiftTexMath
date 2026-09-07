@@ -89,3 +89,19 @@ import Testing
         _ = try MathParser.parse(#"a \intertext{x} b"#)
     }
 }
+
+@Test func intertextMultilineWrapsUnderMaxWidth() throws {
+    let renderer = MathRenderer()
+    let text = "This is a very long explanatory note that will certainly exceed seventy points and wrap into multiple lines of text"
+    let unconstrained = try renderer.layout(
+        latex: "\\begin{aligned} a &= b \\\\ \\intertext{\(text)} c &= d \\end{aligned}"
+    )
+    var env = MathEnvironment()
+    env.maxWidth = 150
+    let wrapped = try renderer.layout(
+        latex: "\\begin{aligned} a &= b \\\\ \\intertext{\(text)} c &= d \\end{aligned}",
+        environment: env
+    )
+    #expect(wrapped.width <= 150.1)
+    #expect(wrapped.ascent + wrapped.descent > unconstrained.ascent + unconstrained.descent)
+}

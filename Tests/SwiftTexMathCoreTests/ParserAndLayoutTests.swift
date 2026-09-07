@@ -507,3 +507,34 @@ import Testing
         #expect(metrics != nil, "failed to load \(name.rawValue)")
     }
 }
+
+@Test func parseAndLayoutSkewedFraction() throws {
+    let list = try MathParser.parse(#"\sfrac{1}{2}"#)
+    #expect(list.atoms.count == 1)
+    guard case .fraction(let f) = list.atoms[0].payload else {
+        Issue.record("expected fraction payload"); return
+    }
+    #expect(f.isSkewed == true)
+    #expect(f.hasRule == false)
+
+    let renderer = MathRenderer()
+    let display = renderer.layout(list)
+    #expect(display.width > 0)
+    #expect(display.ascent > 0)
+    #expect(display.descent >= 0)
+
+    guard case .fraction(let fracDisplay) = display.children.first else {
+        Issue.record("expected fraction display node"); return
+    }
+    #expect(fracDisplay.slash != nil)
+    #expect(fracDisplay.ruleThickness == 0)
+
+    let serialized = LatexSerializer.string(from: list)
+    #expect(serialized == #"\sfrac{1}{2}"#)
+
+    let niceList = try MathParser.parse(#"\nicefrac{a}{b}"#)
+    guard case .fraction(let niceFrac) = niceList.atoms[0].payload else {
+        Issue.record("expected nicefrac payload"); return
+    }
+    #expect(niceFrac.isSkewed == true)
+}

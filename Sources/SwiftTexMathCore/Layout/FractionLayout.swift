@@ -13,6 +13,10 @@ enum FractionLayout {
             env.style = forced
         }
 
+        if fraction.isSkewed {
+            return makeSkewed(fraction, env: env, metrics: metrics, typeset: typeset)
+        }
+
         let numStyle = env.style == .display ? MathStyle.text : env.style.scriptStyle
         let denStyle = numStyle
         let numEnv = env.with(style: numStyle, cramped: false)
@@ -101,6 +105,83 @@ enum FractionLayout {
                 ruleOffset: ruleOffset,
                 numeratorOffset: numeratorOffset,
                 denominatorOffset: denominatorOffset,
+                ascent: ascent,
+                descent: descent,
+                width: width
+            )
+        )
+    }
+
+    private static func makeSkewed(
+        _ fraction: MathAtom.Fraction,
+        env: MathEnvironment,
+        metrics: FontMetrics,
+        typeset: (MathList, MathEnvironment) -> DisplayList
+    ) -> DisplayNode {
+        let numStyle = env.style.scriptStyle
+        let denStyle = numStyle
+        let numEnv = env.with(style: numStyle, cramped: false)
+        let denEnv = env.with(style: denStyle, cramped: true)
+
+        let numerator = typeset(fraction.numerator, numEnv)
+        let denominator = typeset(fraction.denominator, denEnv)
+
+        // Resolve slash glyph (prefer U+2044 fraction slash, fallback to '/')
+        let slashChar = "\u{2044}"
+        var slashGlyph = metrics.glyph(for: slashChar)
+        var slashText = slashChar
+        if slashGlyph == 0 {
+            slashText = "/"
+            slashGlyph = metrics.glyph(for: slashText)
+        }
+        let slashAdvance = metrics.advances(forGlyphs: [slashGlyph]).first?.width ?? (metrics.size * 0.5)
+        let slashBounds = metrics.boundingRects(forGlyphs: [slashGlyph]).first ?? CGRect(
+            x: 0,
+            y: -metrics.size * 0.2,
+            width: slashAdvance,
+            height: metrics.size * 0.9
+        )
+
+        let slashRun = GlyphRun(
+            text: slashText,
+            font: env.font,
+            ascent: max(0, slashBounds.maxY),
+            descent: max(0, -slashBounds.minY),
+            width: slashAdvance,
+            glyphIDs: [UInt16(slashGlyph)]
+        )
+
+        let hGap = metrics.skewedFractionHorizontalGap(for: env.style)
+        let vGap = metrics.skewedFractionVerticalGap(for: env.style)
+
+        let axis = metrics.axisHeight
+        let numeratorOffset = axis + vGap / 2 + numerator.descent
+        let denominatorOffset = max(0, denominator.ascent + vGap / 2 - axis)
+
+        var placedNumerator = numerator
+        placedNumerator.position = .zero
+
+        var placedSlash = slashRun
+        let slashX = numerator.width + hGap
+        let slashY = axis - (slashRun.ascent - slashRun.descent) / 2
+        placedSlash.position = CGPoint(x: slashX, y: slashY)
+
+        var placedDenominator = denominator
+        placedDenominator.position = CGPoint(x: slashX + slashAdvance + hGap, y: 0)
+
+        let width = placedDenominator.position.x + denominator.width
+        let ascent = max(numeratorOffset + numerator.ascent, slashY + slashRun.ascent)
+        let descent = max(denominatorOffset + denominator.descent, -(slashY - slashRun.descent))
+
+        return .fraction(
+            FractionDisplay(
+                numerator: placedNumerator,
+                denominator: placedDenominator,
+                ruleThickness: 0,
+                ruleOffset: 0,
+                numeratorOffset: numeratorOffset,
+                denominatorOffset: denominatorOffset,
+                slash: placedSlash,
                 ascent: ascent,
                 descent: descent,
                 width: width

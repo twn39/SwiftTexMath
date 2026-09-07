@@ -120,7 +120,7 @@ enum WrapLayout {
            !items.isEmpty,
            let counter = equationCounter {
             let auto = MathAtom.Tag(
-                contents: Typesetter.numberList(counter.take()),
+                contents: Typesetter.numberList(counter.takeString()),
                 parenthesize: true
             )
             var childEnv = env

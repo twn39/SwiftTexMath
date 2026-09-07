@@ -208,3 +208,54 @@ import Testing
     #expect(latex.contains("ref{foo}"))
     #expect(latex.contains("eqref{bar}"))
 }
+
+// MARK: - EquationContext Cross-Formula Numbering & Referencing
+
+@Test func equationContextContinuesNumberingAcrossRenders() throws {
+    let context = EquationContext(startNumber: 1)
+    let env = MathEnvironment(equationContext: context)
+    let renderer = MathRenderer(environment: env)
+
+    let r1 = try renderer.layoutDetailed(latex: #"\begin{equation} a=1\label{eq:first} \end{equation}"#)
+    #expect(r1.labels["eq:first"] == "1")
+    #expect(context.nextEquationNumber == 2)
+
+    let r2 = try renderer.layoutDetailed(latex: #"\begin{equation} b=2\label{eq:second} \end{equation}"#)
+    #expect(r2.labels["eq:second"] == "2")
+    #expect(context.nextEquationNumber == 3)
+
+    // Verify cross-reference to formula 1 from formula 3
+    let r3 = try renderer.layoutDetailed(latex: #"c = a + b \quad \text{from } \eqref{eq:first}"#)
+    #expect(r3.display.accessibilityPlainText.contains("1"))
+    #expect(!r3.display.accessibilityPlainText.contains("??"))
+}
+
+@Test func equationContextWithPrefixAndCustomFormatter() throws {
+    let context = EquationContext(startNumber: 1, numberPrefix: "2.")
+    let env = MathEnvironment(equationContext: context)
+    let renderer = MathRenderer(environment: env)
+
+    let r1 = try renderer.layoutDetailed(latex: #"\begin{equation} y=mx+c\label{eq:line} \end{equation}"#)
+    #expect(r1.labels["eq:line"] == "2.1")
+    #expect(r1.display.accessibilityPlainText.contains("2.1"))
+
+    let r2 = try renderer.layoutDetailed(latex: #"\eqref{eq:line}"#)
+    #expect(r2.display.accessibilityPlainText.contains("2.1"))
+
+    // Test custom formatter
+    let customCtx = EquationContext(numberFormatter: { "A-\($0)" })
+    let env2 = MathEnvironment(equationContext: customCtx)
+    let renderer2 = MathRenderer(environment: env2)
+    let r3 = try renderer2.layoutDetailed(latex: #"\begin{equation} x^2+y^2=r^2\label{eq:circle} \end{equation}"#)
+    #expect(r3.labels["eq:circle"] == "A-1")
+    #expect(r3.display.accessibilityPlainText.contains("A-1"))
+}
+
+@Test func equationContextReset() throws {
+    let context = EquationContext(startNumber: 5)
+    #expect(context.takeNextNumber() == 5)
+    #expect(context.nextEquationNumber == 6)
+    context.reset(to: 1)
+    #expect(context.nextEquationNumber == 1)
+}
+

@@ -268,6 +268,9 @@ public enum MathSVG {
                     color: color
                 )
             }
+            if let slash = fraction.slash {
+                emitGlyphs(slash, origin: CGPoint(x: ox, y: oy), color: color)
+            }
         }
 
         mutating func emitRadical(_ radical: RadicalDisplay, origin: CGPoint, color: String) {

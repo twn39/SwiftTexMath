@@ -36,6 +36,7 @@ selects display vs text/script parameter sets.
 | `StretchStackGapAboveMin` / `StretchStackGapBelowMin` | `StackLayout` for stretchy nuclei (`\overbrace`, `\overrightarrow`, …) |
 | `StretchStackTopShiftUp` / `StretchStackBottomShiftDown` | Exposed on `FontMetrics`; not applied as absolute offsets (collides with multi-part underbrace/overbrace + scripts) |
 | `MathLeading` | `WrapLayout` inter-line gap (with mu floor) |
+| `SkewedFractionHorizontalGap` / `SkewedFractionVerticalGap` | `FractionLayout` skewed fraction path (`\sfrac` / `\nicefrac`) |
 
 ## Variants / assembly (table sections, not single constants)
 
@@ -58,7 +59,7 @@ These often appear in MATH tables; layout may still use fixed ratios or omit the
 | `StretchStackTop/BottomShift*` | Accessors only; gap placement remains primary | P3 refine |
 | `FractionNumerator/Denominator(DisplayStyle)GapMin` naming aliases | Covered via FontMetrics aliases | — |
 | `RadicalDegreeBottomRaisePercent` | **Used** | — |
-| `SkewedFraction*` | Not supported | P3 / product |
+| `SkewedFraction*` | **Wired** in `FractionLayout` for `\sfrac` / `\nicefrac` | done |
 | `MathLeading` | **Wired** in wrap inter-line gap | done |
 
 ## Multi-font notes

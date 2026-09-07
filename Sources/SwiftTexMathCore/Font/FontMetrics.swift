@@ -621,12 +621,19 @@ public struct FontMetrics: Sendable, FontMetricsProtocol {
     var stackDisplayStyleGapMin: CGFloat { constant(named: "StackDisplayStyleGapMin") }
     var stackGapMin: CGFloat { constant(named: "StackGapMin") }
 
+    // MARK: Skewed Fractions (OpenType MATH)
+
+    /// Minimum horizontal gap between numerator and slash, and slash and denominator in skewed fractions.
+    public var skewedFractionHorizontalGap: CGFloat { constant(named: "SkewedFractionHorizontalGap") }
+    /// Minimum vertical separation between numerator and denominator in skewed fractions.
+    public var skewedFractionVerticalGap: CGFloat { constant(named: "SkewedFractionVerticalGap") }
+
     /// Stretchy over/under stacks (`\overbrace`, `\overrightarrow`, …).
-    var stretchStackTopShiftUp: CGFloat { constant(named: "StretchStackTopShiftUp") }
-    var stretchStackBottomShiftDown: CGFloat { constant(named: "StretchStackBottomShiftDown") }
-    var stretchStackGapAboveMin: CGFloat { constant(named: "StretchStackGapAboveMin") }
-    var stretchStackGapBelowMin: CGFloat { constant(named: "StretchStackGapBelowMin") }
+    public var stretchStackTopShiftUp: CGFloat { constant(named: "StretchStackTopShiftUp") }
+    public var stretchStackBottomShiftDown: CGFloat { constant(named: "StretchStackBottomShiftDown") }
+    public var stretchStackGapAboveMin: CGFloat { constant(named: "StretchStackGapAboveMin") }
+    public var stretchStackGapBelowMin: CGFloat { constant(named: "StretchStackGapBelowMin") }
 
     /// Suggested extra leading between math lines (wrap / multi-line).
-    var mathLeading: CGFloat { constant(named: "MathLeading") }
+    public var mathLeading: CGFloat { constant(named: "MathLeading") }
 }
