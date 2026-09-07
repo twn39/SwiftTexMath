@@ -16,6 +16,7 @@ public enum MathNormalizer {
 
     private static func normalize(_ list: MathList, preserveBoundaries: Bool) -> MathList {
         var result = MathList()
+        result.atoms.reserveCapacity(list.atoms.count)
         var previous: MathAtom?
 
         for raw in list.atoms {

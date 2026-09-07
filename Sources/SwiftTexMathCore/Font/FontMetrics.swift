@@ -107,6 +107,18 @@ public struct FontMetrics: Sendable, FontMetricsProtocol {
         return rects
     }
 
+    public func measure(glyph: CGGlyph) -> (width: CGFloat, ascent: CGFloat, descent: CGFloat) {
+        guard glyph != 0 else { return (0, 0, 0) }
+        var g = glyph
+        var advance: CGSize = .zero
+        var rect: CGRect = .zero
+        CTFontGetAdvancesForGlyphs(ctFont, .horizontal, &g, &advance, 1)
+        CTFontGetBoundingRectsForGlyphs(ctFont, .horizontal, &g, &rect, 1)
+        let ascent = max(rect.maxY, 0)
+        let descent = max(-rect.minY, 0)
+        return (advance.width, ascent, descent)
+    }
+
     func measure(_ text: String) -> (width: CGFloat, ascent: CGFloat, descent: CGFloat) {
         let glyphs = text.map { glyph(for: String($0)) }
         return measure(glyphs: glyphs)
@@ -114,12 +126,22 @@ public struct FontMetrics: Sendable, FontMetricsProtocol {
 
     func measure(glyphs: [CGGlyph]) -> (width: CGFloat, ascent: CGFloat, descent: CGFloat) {
         guard !glyphs.isEmpty else { return (0, 0, 0) }
+        if glyphs.count == 1 {
+            return measure(glyph: glyphs[0])
+        }
         let advances = advances(forGlyphs: glyphs)
         let bounds = boundingRects(forGlyphs: glyphs)
         let width = advances.reduce(CGFloat(0)) { $0 + $1.width }
-        let ascent = bounds.map(\.maxY).max() ?? CTFontGetAscent(ctFont)
-        let descent = -(bounds.map(\.minY).min() ?? -CTFontGetDescent(ctFont))
-        return (width, max(ascent, 0), max(descent, 0))
+        var maxAscent = bounds[0].maxY
+        var minMinY = bounds[0].minY
+        for i in 1..<bounds.count {
+            let b = bounds[i]
+            if b.maxY > maxAscent { maxAscent = b.maxY }
+            if b.minY < minMinY { minMinY = b.minY }
+        }
+        let ascent = max(maxAscent, 0)
+        let descent = max(-minMinY, 0)
+        return (width, ascent, descent)
     }
 
     public func italicCorrection(for glyph: CGGlyph) -> CGFloat {

@@ -19,13 +19,18 @@ public final class FontRegistry: @unchecked Sendable, FontProviding {
     private let lock = NSLock()
     private var graphicsFonts: [MathFont.Name: CGFont] = [:]
     private var tables: [MathFont.Name: FontTable] = [:]
-    private var ctFonts: [String: CTFont] = [:]
+    private var ctFonts: [MathFont: CTFont] = [:]
+    private var metricsCache: [MathFont: FontMetrics] = [:]
 
     private init() {}
 
     public func metrics(for font: MathFont) -> FontMetrics? {
         lock.lock()
         defer { lock.unlock() }
+
+        if let cached = metricsCache[font] {
+            return cached
+        }
 
         guard
             let cgFont = graphicsFonts[font.name] ?? register(name: font.name)?.0,
@@ -34,17 +39,18 @@ public final class FontRegistry: @unchecked Sendable, FontProviding {
             return nil
         }
 
-        let key = "\(font.name.rawValue)#\(font.size)"
         let ctFont: CTFont
-        if let cached = ctFonts[key] {
+        if let cached = ctFonts[font] {
             ctFont = cached
         } else {
             ctFont = CTFontCreateWithGraphicsFont(cgFont, font.size, nil, nil)
-            ctFonts[key] = ctFont
+            ctFonts[font] = ctFont
         }
 
         let units = UInt(cgFont.unitsPerEm)
-        return FontMetrics(font: font, unitsPerEm: units, table: table, ctFont: ctFont, cgFont: cgFont)
+        let metrics = FontMetrics(font: font, unitsPerEm: units, table: table, ctFont: ctFont, cgFont: cgFont)
+        metricsCache[font] = metrics
+        return metrics
     }
 
     private func register(name: MathFont.Name) -> (CGFont, FontTable)? {

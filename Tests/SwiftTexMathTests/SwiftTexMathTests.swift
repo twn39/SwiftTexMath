@@ -84,3 +84,20 @@ func mathViewConstructible() {
     }
     #expect(stillCached.width == cached.width)
 }
+
+@Test func displayProviderPurgeCaches() {
+    let font = MathFont(name: .latinModern, size: 20)
+    let res1 = DisplayProvider.display(for: "a+b", font: font, style: .display, proposedWidth: 0)
+    #expect(res1.isSuccess)
+    DisplayProvider.purgeCaches()
+    let res2 = DisplayProvider.display(for: "a+b", font: font, style: .display, proposedWidth: 0)
+    #expect(res2.isSuccess)
+}
+
+extension Result {
+    var isSuccess: Bool {
+        if case .success = self { return true }
+        return false
+    }
+}
+

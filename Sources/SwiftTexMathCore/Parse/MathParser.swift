@@ -99,22 +99,34 @@ public struct MathParser: Sendable {
     // MARK: - Delimiters
 
     private static func stripMathDelimiters(_ input: String) -> (text: String, style: MathStyle?) {
-        var s = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        var sub = input[...]
+        while let f = sub.first, f.isWhitespace || f.isNewline {
+            sub = sub.dropFirst()
+        }
+        while let l = sub.last, l.isWhitespace || l.isNewline {
+            sub = sub.dropLast()
+        }
         var style: MathStyle?
-        if s.hasPrefix("$$"), s.hasSuffix("$$"), s.count >= 4 {
-            s = String(s.dropFirst(2).dropLast(2))
+        if sub.hasPrefix("$$"), sub.hasSuffix("$$"), sub.count >= 4 {
+            sub = sub.dropFirst(2).dropLast(2)
             style = .display
-        } else if s.hasPrefix("\\["), s.hasSuffix("\\]") {
-            s = String(s.dropFirst(2).dropLast(2))
+        } else if sub.hasPrefix("\\["), sub.hasSuffix("\\]") {
+            sub = sub.dropFirst(2).dropLast(2)
             style = .display
-        } else if s.hasPrefix("$"), s.hasSuffix("$"), s.count >= 2 {
-            s = String(s.dropFirst().dropLast())
+        } else if sub.hasPrefix("$"), sub.hasSuffix("$"), sub.count >= 2 {
+            sub = sub.dropFirst().dropLast()
             style = .text
-        } else if s.hasPrefix("\\("), s.hasSuffix("\\)") {
-            s = String(s.dropFirst(2).dropLast(2))
+        } else if sub.hasPrefix("\\("), sub.hasSuffix("\\)") {
+            sub = sub.dropFirst(2).dropLast(2)
             style = .text
         }
-        return (s.trimmingCharacters(in: .whitespacesAndNewlines), style)
+        while let f = sub.first, f.isWhitespace || f.isNewline {
+            sub = sub.dropFirst()
+        }
+        while let l = sub.last, l.isWhitespace || l.isNewline {
+            sub = sub.dropLast()
+        }
+        return (String(sub), style)
     }
 
     // MARK: - Scanner
@@ -304,24 +316,34 @@ public struct MathParser: Sendable {
         var i = index
         guard i < string.endIndex, string[i] == "\\" else { return false }
         i = string.index(after: i)
-        let name = peekCommandName(from: i)
-        return name == "right"
+        return matchWord("right", from: i)
     }
 
     func startsWithRowBreakOrEnd() -> Bool {
         var i = index
         guard i < string.endIndex, string[i] == "\\" else { return false }
         i = string.index(after: i)
-        let name = peekCommandName(from: i)
-        return name == "\\" || name == "cr" || name == "end"
+        guard i < string.endIndex else { return false }
+        if string[i] == "\\" { return true }
+        return matchWord("cr", from: i) || matchWord("end", from: i)
     }
 
     func startsWithRowBreak() -> Bool {
         var i = index
         guard i < string.endIndex, string[i] == "\\" else { return false }
         i = string.index(after: i)
-        let name = peekCommandName(from: i)
-        return name == "\\" || name == "cr"
+        guard i < string.endIndex else { return false }
+        if string[i] == "\\" { return true }
+        return matchWord("cr", from: i)
+    }
+
+    private func matchWord(_ word: String, from start: String.Index) -> Bool {
+        guard string[start...].hasPrefix(word) else { return false }
+        let after = string.index(start, offsetBy: word.count)
+        if after < string.endIndex, string[after].isLetter {
+            return false
+        }
+        return true
     }
 
     /// Consume a top-level `\\` or `\cr`. Returns `true` if a row break was present.

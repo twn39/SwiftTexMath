@@ -93,6 +93,7 @@ public enum Typesetter {
     ) -> DisplayList {
         var env = env
         var children: [DisplayNode] = []
+        children.reserveCapacity(list.atoms.count)
         var x: CGFloat = 0
         var ascent: CGFloat = 0
         var descent: CGFloat = 0

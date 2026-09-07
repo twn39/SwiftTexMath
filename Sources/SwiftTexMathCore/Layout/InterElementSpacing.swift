@@ -12,17 +12,26 @@ enum InterElementSpaceType: Int {
 
 /// TeX Chapter 18 inter-element spacing matrix (iosMath / SwiftUIMath).
 enum InterElementSpacing {
-    private static let table: [[InterElementSpaceType]] = [
-        // ordinary, operator, binary, relation, open, close, punct, fraction
-        [.none, .thin, .nsMedium, .nsThick, .none, .none, .none, .nsThin], // ordinary
-        [.thin, .thin, .invalid, .nsThick, .none, .none, .none, .nsThin], // operator
-        [.nsMedium, .nsMedium, .invalid, .invalid, .nsMedium, .invalid, .invalid, .nsMedium], // binary
-        [.nsThick, .nsThick, .invalid, .none, .nsThick, .none, .none, .nsThick], // relation
-        [.none, .none, .invalid, .none, .none, .none, .none, .none], // open
-        [.none, .thin, .nsMedium, .nsThick, .none, .none, .none, .nsThin], // close
-        [.nsThin, .nsThin, .invalid, .nsThin, .nsThin, .nsThin, .nsThin, .nsThin], // punct
-        [.nsThin, .thin, .nsMedium, .nsThick, .nsThin, .none, .nsThin, .nsThin], // fraction
-        [.nsMedium, .nsThin, .nsMedium, .nsThick, .none, .none, .none, .nsThin] // radical (left)
+    // 9 rows x 8 columns = 72 elements
+    private static let table: [InterElementSpaceType] = [
+        // ordinary
+        .none, .thin, .nsMedium, .nsThick, .none, .none, .none, .nsThin,
+        // operator
+        .thin, .thin, .invalid, .nsThick, .none, .none, .none, .nsThin,
+        // binary
+        .nsMedium, .nsMedium, .invalid, .invalid, .nsMedium, .invalid, .invalid, .nsMedium,
+        // relation
+        .nsThick, .nsThick, .invalid, .none, .nsThick, .none, .none, .nsThick,
+        // open
+        .none, .none, .invalid, .none, .none, .none, .none, .none,
+        // close
+        .none, .thin, .nsMedium, .nsThick, .none, .none, .none, .nsThin,
+        // punct
+        .nsThin, .nsThin, .invalid, .nsThin, .nsThin, .nsThin, .nsThin, .nsThin,
+        // fraction
+        .nsThin, .thin, .nsMedium, .nsThick, .nsThin, .none, .nsThin, .nsThin,
+        // radical (left)
+        .nsMedium, .nsThin, .nsMedium, .nsThick, .none, .none, .none, .nsThin
     ]
 
     static func space(
@@ -34,7 +43,7 @@ enum InterElementSpacing {
     ) -> CGFloat {
         let row = left.spacingKind.spacingIndex(isLeft: true)
         let col = right.spacingKind.spacingIndex(isLeft: false)
-        let type = table[row][col]
+        let type = table[row * 8 + col]
         let mu: CGFloat
         switch type {
         case .invalid, .none:

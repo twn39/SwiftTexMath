@@ -45,14 +45,14 @@ public struct DisplayList: Sendable, Hashable {
 public enum DisplayNode: Sendable, Hashable {
     case list(DisplayList)
     case glyphs(GlyphRun)
-    case fraction(FractionDisplay)
-    case radical(RadicalDisplay)
+    indirect case fraction(FractionDisplay)
+    indirect case radical(RadicalDisplay)
     case line(LineDisplay)
-    case largeOperator(LargeOperatorDisplay)
+    indirect case largeOperator(LargeOperatorDisplay)
     case colored(ColoredDisplay)
     case rule(RuleDisplay)
-    case box(BoxDisplay)
-    case stack(StackDisplay)
+    indirect case box(BoxDisplay)
+    indirect case stack(StackDisplay)
 
     public var ascent: CGFloat {
         switch self {
